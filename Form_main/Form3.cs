@@ -14,7 +14,7 @@ namespace Form_main
     public partial class Form3 : Form
     {
         Random rnd = new Random();
-        public static string FileSaver(Form2 form)//возврат 2-х переменных
+        public static string FileSaver(NotificationForm form)//возврат 2-х переменных
         {
                 SaveFileDialog SFD = new SaveFileDialog(); //создание объекта, соответствуюшего диалоговому окну сохранения файла
                 SFD.Title = "Выберите файл для записи"; //название диалогового окна
@@ -90,7 +90,7 @@ namespace Form_main
                 }
             return MatrText;
         }
-        static double[][] MatrixInverse(double[][] matrix,Form2 form)
+        static double[][] MatrixInverse(double[][] matrix,NotificationForm form)
         {
             int n = matrix.Length;
             double[][] result = MatrixDuplicate(matrix);
@@ -156,7 +156,7 @@ namespace Form_main
                     result[i][j] = matrix[i][j];
             return result;
         }
-        static double MatrixDeterminant(double[][] matrix,Form2 form)
+        static double MatrixDeterminant(double[][] matrix,NotificationForm form)
         {
             int[] perm;
             int toggle;
@@ -238,7 +238,7 @@ namespace Form_main
         int dx = 40, dy = 20; // ширина и высота ячейки в MatrText[,]
         double det;
         Form4 form4 = null;   // экземпляр (объект) класса формы Form4
-        Form2 form2 = null;
+        NotificationForm form2 = null;
         private void Button1_Click(object sender, EventArgs e)
         {
             // 1. Чтение размерности матрицы
@@ -452,7 +452,7 @@ namespace Form_main
 
             // 1. Выделение памяти для формы Form2
             form4 = new Form4();
-            form2 = new Form2();
+            form2 = new NotificationForm();
         }
 
         private void Button2_Click(object sender, EventArgs e)

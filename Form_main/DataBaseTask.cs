@@ -16,7 +16,7 @@ namespace Form_main
 {
     public partial class DataBaseTask : Form
     {
-        Form2 form2 = new Form2();
+        NotificationForm form2 = new NotificationForm();
         public DataBaseTask()
         {
             InitializeComponent();

@@ -18,7 +18,7 @@ namespace Form_main
         double x;
         long sum;
         string buffer;
-        Form2 form2 = null;   // экземпляр (объект) класса формы Form2
+        NotificationForm form2 = null;   // экземпляр (объект) класса формы Form2
         private static int GCD(int n1, int n2)
         {
             while (n2 != 0)
@@ -142,7 +142,7 @@ namespace Form_main
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            form2 = new Form2();
+            form2 = new NotificationForm();
         }
 
         private void Button1_Click_1(object sender, EventArgs e)

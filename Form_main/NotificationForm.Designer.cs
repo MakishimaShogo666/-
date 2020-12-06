@@ -1,6 +1,6 @@
 ﻿namespace Form_main
 {
-    partial class Form2
+    partial class NotificationForm
     {
         /// <summary>
         /// Required designer variable.

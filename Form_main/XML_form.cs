@@ -15,7 +15,7 @@ namespace Form_main
     public partial class XML_form : Form
     {
         static int n;
-        Form2 form2 = null;
+        NotificationForm form2 = null;
         static XElement xml_creator(XElement xworkers, int N, List<WORKER> W) //функция создания xml-файла
         {
             WORKER[] workers = new WORKER[N]; //объявление массива работников
@@ -220,7 +220,7 @@ namespace Form_main
 
         private void XML_form_Load(object sender, EventArgs e)
         {
-            form2 = new Form2();
+            form2 = new NotificationForm();
         }
 
         private void Button3_Click(object sender, EventArgs e)
