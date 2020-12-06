@@ -1,6 +1,6 @@
 ﻿namespace Form_main
 {
-    partial class Form3
+    partial class MatrixCalculationForm
     {
         /// <summary>
         /// Required designer variable.

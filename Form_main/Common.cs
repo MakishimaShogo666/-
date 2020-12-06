@@ -13,7 +13,7 @@ namespace Form_main
     public partial class Common : Form
     {
         SimpleNumbersForm simplenumbers = new SimpleNumbersForm();
-        Form3 matrix = new Form3();
+        MatrixCalculationForm matrix = new MatrixCalculationForm();
         XML_form XML = new XML_form();
         DataBaseTask Data = new DataBaseTask();
         public Common()

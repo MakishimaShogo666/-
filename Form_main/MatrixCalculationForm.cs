@@ -11,7 +11,7 @@ using System.IO;
 
 namespace Form_main
 {
-    public partial class Form3 : Form
+    public partial class MatrixCalculationForm : Form
     {
         Random rnd = new Random();
         public static string FileSaver(NotificationForm form)//возврат 2-х переменных
@@ -545,7 +545,7 @@ namespace Form_main
             }
         }
 
-        public Form3()
+        public MatrixCalculationForm()
         {
             InitializeComponent();
         }
