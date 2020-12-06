@@ -1,6 +1,6 @@
 ﻿namespace Form_main
 {
-    partial class Form1
+    partial class SimpleNumbersForm
     {
         /// <summary>
         /// Required designer variable.

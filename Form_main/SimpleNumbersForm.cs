@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace Form_main
 {
-    public partial class Form1 : Form
+    public partial class SimpleNumbersForm : Form
     {
         bool a1 = true, a2 = true;
         int n,n0;
@@ -85,7 +85,7 @@ namespace Form_main
                 }
             }
         }
-        public Form1()
+        public SimpleNumbersForm()
         {
             InitializeComponent();
             this.BackgroundImageLayout = ImageLayout.Stretch;
