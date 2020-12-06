@@ -237,7 +237,7 @@ namespace Form_main
         bool fdet=false; // флажок, который указывает о вводе данных в матрицу Matr2
         int dx = 40, dy = 20; // ширина и высота ячейки в MatrText[,]
         double det;
-        Form4 form4 = null;   // экземпляр (объект) класса формы Form4
+        MatrixCreation form4 = null;   // экземпляр (объект) класса формы Form4
         NotificationForm form2 = null;
         private void Button1_Click(object sender, EventArgs e)
         {
@@ -451,7 +451,7 @@ namespace Form_main
             label2.Text = "Матрица не введена!";
 
             // 1. Выделение памяти для формы Form2
-            form4 = new Form4();
+            form4 = new MatrixCreation();
             form2 = new NotificationForm();
         }
 

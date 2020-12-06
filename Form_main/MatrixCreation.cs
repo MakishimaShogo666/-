@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace Form_main
 {
-    public partial class Form4 : Form
+    public partial class MatrixCreation : Form
     {
-        public Form4()
+        public MatrixCreation()
         {
             InitializeComponent();
         }

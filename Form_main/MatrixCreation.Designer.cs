@@ -1,6 +1,6 @@
 ﻿namespace Form_main
 {
-    partial class Form4
+    partial class MatrixCreation
     {
         /// <summary>
         /// Required designer variable.

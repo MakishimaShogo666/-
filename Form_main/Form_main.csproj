@@ -74,11 +74,11 @@
     <Compile Include="MatrixCalculationForm.Designer.cs">
       <DependentUpon>MatrixCalculationForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Form4.cs">
+    <Compile Include="MatrixCreation.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form4.Designer.cs">
-      <DependentUpon>Form4.cs</DependentUpon>
+    <Compile Include="MatrixCreation.Designer.cs">
+      <DependentUpon>MatrixCreation.cs</DependentUpon>
     </Compile>
     <Compile Include="DataBaseTask.cs">
       <SubType>Form</SubType>
@@ -115,8 +115,8 @@
     <EmbeddedResource Include="MatrixCalculationForm.resx">
       <DependentUpon>MatrixCalculationForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form4.resx">
-      <DependentUpon>Form4.cs</DependentUpon>
+    <EmbeddedResource Include="MatrixCreation.resx">
+      <DependentUpon>MatrixCreation.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Graph.resx">
       <DependentUpon>Graph.cs</DependentUpon>
