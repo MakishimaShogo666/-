@@ -5,29 +5,32 @@ using System.Text.RegularExpressions;
 /// <summary>
 /// Перечисление полов, nd - not defined (неопределённый пол)
 /// </summary>
-public enum GenderList { мужской, женский, nd }
+public enum GenderList
+{
+    //TODO: RSDN +
+    мужской, 
+    женский, 
+    nd
+}
 
 /// <summary>
 /// Класс Person
 /// </summary>
 public class Person
 {
-    // Создание полей класса Person
-    //
-    public string Surname; // Фамилия
+    //TODO: Properties
+    /// <summary>
+    /// Фамилия
+    /// </summary>
+    public string Surname; 
     public string Name; // Имя
     public int Age; // Возраст
     public GenderList Gender; // Пол
-
-    // Конструктор класса Person по умолчанию
-    //
-    public Person()
-    {
-        Surname = "Нет данных";
-        Name = "Нет данных";
-        Age = 0;
-        Gender = GenderList.nd;
-    }
+    
+    /// <summary>
+    /// Конструктор класса Person по умолчанию
+    /// </summary>
+    public Person() : this("Нет данных", "Нет данных", 0, GenderList.nd) { }
 
     // Конструктор класса Person для создания персоны вручную
     //
@@ -47,12 +50,12 @@ public class Person
         Age = RandomNumber.Next(average_age/2 + 1, average_age * 2);
         Gender = GenderInput;
         
-        // Выбор фамилии и имени на основе заданного пола
-        //
+        
         switch (Gender)
         {
             case GenderList.мужской:
-                Surname = PersonLibrary.StandardMaleSurnameLibrary[RandomNumber.Next(PersonLibrary.StandardMaleSurnameCount)]; // Выбор фамилии из библиотеки мужских фамилий
+                // Выбор фамилии из библиотеки мужских фамилий
+                Surname = PersonLibrary.StandardMaleSurnameLibrary[RandomNumber.Next(PersonLibrary.StandardMaleSurnameCount)]; 
                 Name = PersonLibrary.StandardMaleNameLibrary[RandomNumber.Next(PersonLibrary.StandardMaleNameCount)]; // Выбор имени из библиотеки мужских имён
                 break;
             case GenderList.женский:
@@ -69,7 +72,7 @@ public class Person
         Random RandomNumber = new Random();
         Age = AgeInput;
         Gender = (GenderList)RandomNumber.Next(0, 2);
-
+        //TODO: RSDN 
         switch (Gender)
         {
             case GenderList.мужской:
@@ -111,7 +114,8 @@ public class Person
             // то данные клавиши вводятся в консоль
             //
             if (((Regex.IsMatch(keyInfo.KeyChar.ToString(), DigitPattern) == true)
-                &(InputString.Length < 3)) | (keyInfo.Key == ConsoleKey.Backspace))
+                && (InputString.Length < 3)) 
+                || (keyInfo.Key == ConsoleKey.Backspace))
             {
                 if (keyInfo.Key != ConsoleKey.Backspace) // Если введённая клавиша не BackSpace, то осуществляется ввод в консоль и переменную InputString
                 {
@@ -176,7 +180,7 @@ public class Person
             // Если или введены соответствующие шаблону цифры и длина строки в консоли меньше 1-го символа,
             // или нажата клавиша Backspace, то данные клавиши вводятся в консоль
             // (остальное - аналогично InputDigit())
-            //
+            // TODO: Логические операторы
             if (((Regex.IsMatch(keyInfo.KeyChar.ToString(),GenderPattern)==true) &(InputString.Length < 1))|(keyInfo.Key == ConsoleKey.Backspace))
             {
                 if (keyInfo.Key != ConsoleKey.Backspace)
@@ -231,7 +235,7 @@ public class Person
             ConsoleKeyInfo keyInfo = Console.ReadKey(true);
 
             // Если введены соответствующие шаблону цифры или нажата клавиша Backspace, то данные клавиши вводятся в консоль
-            //
+            // TODO: Логические операторы
             if ((Regex.IsMatch(keyInfo.KeyChar.ToString(), NamePattern) == true) | (keyInfo.Key == ConsoleKey.Backspace))
             {
                 if (keyInfo.Key != ConsoleKey.Backspace) // Если нажатая клавиша не Backspace, то данные вводятся в InputString и консоль
@@ -297,36 +301,23 @@ public class Person
         // Ввод пола
         //
         string GenderString = InputGender(PersonTemplate.GenderInputTemplate);
-        int GenderNumber = (int)GenderList.nd; // Объявление переменной GenderNumber для выбора пола в перечислении GenderList
-
+        
         switch (GenderString) // выбор цифры на основе введённого в консоль символа 
         {
             case "м":
-                GenderNumber = 0;
-                break;
             case "М":
-                GenderNumber = 0;
-                break;
             case "M":
-                GenderNumber = 0;
-                break;
             case "m":
-                GenderNumber = 0;
+                Person.Gender = GenderList.мужской;
                 break;
             case "ж":
-                GenderNumber = 1;
-                break;
             case "Ж":
-                GenderNumber = 1;
-                break;
             case "F":
-                GenderNumber = 1;
-                break;
             case "f":
-                GenderNumber = 1;
+                Person.Gender = GenderList.женский;
                 break;
         }
-        Person.Gender = (GenderList)GenderNumber; // задание пола персоны
+
         return Person;
     }
 

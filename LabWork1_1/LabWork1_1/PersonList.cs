@@ -94,13 +94,13 @@ public class PersonList
     /// <summary>
     /// Функция Remove для удаления персоны из списка
     /// </summary>
-    /// <param name="ExceptionPerson"></param>
+    /// <param name="removingPerson"></param>
     /// <returns>
     /// Возвращает список с удалённой персоной
     /// </returns>
-    public List<Person> Remove(PersonList ExceptionPerson)
+    public List<Person> Remove(Person removingPerson)
     {
-        data.RemoveAll(IsNotPerson);
+        data.RemoveAll((value) => value == removingPerson);
         return data;
     }
 
