@@ -30,8 +30,8 @@ namespace LabWork1_1
                 // 
                 for (int j = 0; j < PersonListQuantity; j++)
                 {
-                    People[j] = new PersonList();
                     int PersonQuantity = Person.InputDigit($"Введите число персон в {j+1}-м списке: ");
+                    People[j] = new PersonList(PersonQuantity);
                     for (int i = 0; i < PersonQuantity; i++)
                     {
                         Console.WriteLine($"Ввод данных о {i + 1}-й персоне");
@@ -80,7 +80,7 @@ namespace LabWork1_1
                 Person.PersonWrite(People[ListIndex-1].data[CopyIndexFrom-1]); // Вывод копируемой персоны
                 Console.WriteLine($"Персона из {CopyIndexTo}-го списка:");
                 Person.PersonWrite(People[CopyIndexTo-1].data[People[CopyIndexTo-1].PersonCount()-1]); // Вывод скопированной персоны
-
+                
 
                 int ListRemoveIndex = Person.InputDigit("Введите номер списка для удаления персоны: ");
                 while (ListRemoveIndex > PersonListQuantity) // Ввод номера списка до тех пор, пока не будет получено корректное значение

@@ -9,14 +9,14 @@ public class PersonList
 {
     // Создание полей класса Person
     //
-    public List<Person> data; // список из персон
+    public Person[] data; // список из персон
     public static Person ExceptionPerson; // персона, которую нужно удалять из списка
 
     // Конструктор класса PersonList по умолчанию
     //
-    public PersonList()
+    public PersonList(int numberOfPerson)
 	{
-        data = new List<Person>();
+        data = new Person[numberOfPerson];
 	}
 
     /// <summary>
@@ -38,9 +38,10 @@ public class PersonList
     /// <returns>
     /// Список с добавленной персоной 
     /// </returns>
-    public List<Person> Add(Person person)
+    public Person[] Add(Person person)
     {
-        data.Add(person);
+        Array.Resize(ref data, data.Length + 1);
+        data[data.Length]=person;
         return data;
     }
 
@@ -50,9 +51,9 @@ public class PersonList
     /// <returns>
     /// Возвращает пустой список
     /// </returns>
-    public List<Person> ClearList()
+    public Person[] ClearList()
     {
-        data.Clear();
+        data = Array.Empty<Person>();
         return data;
     }
 
@@ -64,7 +65,7 @@ public class PersonList
     /// </returns>
     public int PersonCount()
     {
-        return data.Count;
+        return data.Length;
     }
 
     /// <summary>
@@ -88,7 +89,7 @@ public class PersonList
     /// </returns>
     public int FindIndex(Person person)
     {
-        return data.IndexOf(person);
+        return Array.IndexOf(data,person);
     }
 
     /// <summary>
@@ -98,22 +99,34 @@ public class PersonList
     /// <returns>
     /// Возвращает список с удалённой персоной
     /// </returns>
-    public List<Person> Remove(Person removingPerson)
+    ///
+    public Person[] Remove(Person removingPerson)
     {
-        data.RemoveAll((value) => value == removingPerson);
+        data = data.Where((value) => value == removingPerson).ToArray();
         return data;
     }
+
+    //public Person[] Remove(Person removingPerson)
+    //{
+    //    while(data.Contains(removingPerson)==true)
+    //    {
+    //        int indexOfRemovingPerson = Array.IndexOf(data, removingPerson);
+
+    //    }
+    //    data = data.Where((value) => value == removingPerson).ToArray();
+    //    return data;
+    //}
 
     /// <summary>
     /// Функция RemoveByIndex для удаления персоны из списка по индексу
     /// </summary>
     /// <param name="ExceptionPerson"></param>
     /// <returns>
-    /// Возвращает список с удалённой персоной
+    /// Cписок с удалённой персоной
     /// </returns>
-    public List<Person> RemoveByIndex(int ExceptionIndex)
+    public Person[] RemoveByIndex(int ExceptionIndex)
     {
-        data.RemoveAt(ExceptionIndex);
-        return data;
+        Person removingPerson = data[ExceptionIndex - 1];
+        return data = Remove(removingPerson);
     }
 }
