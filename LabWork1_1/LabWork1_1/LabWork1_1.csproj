@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="OutputInformation.cs" />
     <Compile Include="Person.cs" />
     <Compile Include="PersonList.cs" />
     <Compile Include="Program.cs" />

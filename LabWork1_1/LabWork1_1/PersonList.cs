@@ -41,7 +41,7 @@ public class PersonList
     public Person[] Add(Person person)
     {
         Array.Resize(ref data, data.Length + 1);
-        data[data.Length]=person;
+        data[data.Length-1]=person;
         return data;
     }
 
@@ -102,7 +102,7 @@ public class PersonList
     ///
     public Person[] Remove(Person removingPerson)
     {
-        data = data.Where((value) => value == removingPerson).ToArray();
+        data = data.Where((value) => value != removingPerson).ToArray();
         return data;
     }
 
@@ -126,7 +126,7 @@ public class PersonList
     /// </returns>
     public Person[] RemoveByIndex(int ExceptionIndex)
     {
-        Person removingPerson = data[ExceptionIndex - 1];
+        Person removingPerson = data[ExceptionIndex];
         return data = Remove(removingPerson);
     }
 }

@@ -85,194 +85,6 @@ public class Person
                 break;
         }
     }
-
-    // Метод PersonWrite для записи информации о персоне в консоль
-    //
-    public static void PersonWrite(Person person)
-    {
-        Console.WriteLine(PersonTemplate.SurnameOutputTemplate + person.Surname);
-        Console.WriteLine(PersonTemplate.NameOutputTemplate + person.Name);
-        Console.WriteLine(PersonTemplate.AgeOutputTemplate + person.Age);
-        Console.WriteLine(PersonTemplate.GenderOutputTemplate + person.Gender);
-    }
-
-    // Функция InputDigit для ввода цифр в консоль с предлагаемым пользователю условием
-    //
-    public static int InputDigit(string condition) 
-    {
-        string InputString = ""; // Инициализация переменной для записи в неё введённых в консоль значений
-        string DigitPattern = @"[0-9]"; // Шаблон для ввода цифр
-        Console.Write(condition);
-
-        // Цикл выполняется до тех пор, пока пользователь не введёт клавишу Enter
-        //
-        while (true)
-        {
-            ConsoleKeyInfo keyInfo = Console.ReadKey(true); // Объясвление и инициализация переменной, соответствующей нажатой клавише без отображения в консоли (true)
-
-            // Если или введена цифра и длина строки в консоли меньше 3-х символов, или нажата клавиша Backspace,
-            // то данные клавиши вводятся в консоль
-            //
-            if (((Regex.IsMatch(keyInfo.KeyChar.ToString(), DigitPattern) == true)
-                && (InputString.Length < 3)) 
-                || (keyInfo.Key == ConsoleKey.Backspace))
-            {
-                if (keyInfo.Key != ConsoleKey.Backspace) // Если введённая клавиша не BackSpace, то осуществляется ввод в консоль и переменную InputString
-                {
-                    InputString = InputString + keyInfo.KeyChar;
-                    if (InputString != "0") // Если переменная InputString не содержит только 0, то вводится значение с клавиатуры
-                    {
-                        Console.Write(keyInfo.KeyChar);
-                    }
-                    else // Иначе в консоль и переменную ничего не записывается
-                    {
-                        InputString = "";
-                        Console.Write("");
-                    }
-                }
-                else // Иначе удаляется предыдущий символ
-                {
-                    if (InputString != "") // Если переменная InputString не пустая, то удаляется один символ
-                    {
-                        Console.Write("\b \b"); // Удаление последнего символа из консоли
-                        InputString = InputString.Substring(0, InputString.Length - 1); // Удаление последнего символа из InputString
-                    }
-                }
-            }
-            if (keyInfo.Key == ConsoleKey.Enter) // Если нажата клавиша Enter, то ввод цифр завершён
-            {
-                break;
-            }
-        }
-
-        Console.WriteLine();
-        
-        // Обработка исключения на случай ввода пустой строки
-        //
-        try
-        {
-            return Int32.Parse(InputString);
-        }
-        catch(FormatException)
-        {
-            InputString = "0";
-            return Int32.Parse(InputString);
-        }
-    }
-
-    /// <summary>
-    /// Функция InputGender для ввода определённых символов в консоль с предлагаемым пользователю условием
-    /// </summary>
-    /// <param name="condition"> - Условие, предъявляемое пользователю</param>
-    /// <returns> 
-    /// Возвращается пол персоны 
-    /// </returns>
-    public static string InputGender(string condition)
-    {
-        string InputString = ""; // Инициализация переменной для записи в неё введённых в консоль значений
-        string GenderPattern = @"[mfMFмжМЖ]"; // Шаблон для ввода цифр
-        Console.Write(condition);
-
-        while (true)
-        {
-            ConsoleKeyInfo keyInfo = Console.ReadKey(true);
-
-            // Если или введены соответствующие шаблону цифры и длина строки в консоли меньше 1-го символа,
-            // или нажата клавиша Backspace, то данные клавиши вводятся в консоль
-            // (остальное - аналогично InputDigit())
-            // TODO: Логические операторы
-            if (((Regex.IsMatch(keyInfo.KeyChar.ToString(),GenderPattern)==true) &(InputString.Length < 1))|(keyInfo.Key == ConsoleKey.Backspace))
-            {
-                if (keyInfo.Key != ConsoleKey.Backspace)
-                {
-                    InputString = InputString + keyInfo.KeyChar;
-                    if (InputString != "0")
-                    {
-                        Console.Write(keyInfo.KeyChar);
-                    }
-                    else
-                    {
-                        InputString = "";
-                        Console.Write("");
-                    }
-                }
-                else
-                {
-                    if (InputString != "")
-                    {
-                        Console.Write("\b \b");
-                        InputString = InputString.Substring(0, InputString.Length - 1);
-                    }
-                }
-            }
-            if (keyInfo.Key == ConsoleKey.Enter)
-            {
-                break;
-            }
-        }
-        Console.WriteLine();
-        return InputString;
-    }
-
-    /// <summary>
-    /// Функция InputName для ввода определённых символов в консоль с предлагаемым пользователю условием
-    /// </summary>
-    /// <param name="condition"> - Условие, предъявляемое пользователю </param>
-    /// <returns> 
-    /// Строка с фамилией или именем 
-    /// </returns>
-    public static string InputName(string condition)
-    {
-        string InputString = ""; // Инициализация переменной для записи в неё введённых в консоль значений
-        string NamePattern = @"([a-zA-Z]|[а-яА-Я]|[ -])"; // Шаблон для ввода текста
-        string NameException = @"(- |  | -|--)"; // Шаблон для исключения повторения разделителей слов
-        char[] Delimiters = new char[] { ' ', '-' }; // Массив символов разделителей слов
-
-        Console.Write(condition);
-
-        while (true)
-        {
-            ConsoleKeyInfo keyInfo = Console.ReadKey(true);
-
-            // Если введены соответствующие шаблону цифры или нажата клавиша Backspace, то данные клавиши вводятся в консоль
-            // TODO: Логические операторы
-            if ((Regex.IsMatch(keyInfo.KeyChar.ToString(), NamePattern) == true) | (keyInfo.Key == ConsoleKey.Backspace))
-            {
-                if (keyInfo.Key != ConsoleKey.Backspace) // Если нажатая клавиша не Backspace, то данные вводятся в InputString и консоль
-                {
-                    InputString = InputString + keyInfo.KeyChar;
-
-                    // Если введён пробел или дефис после пробела или дефиса, то данные не заисываются
-                    //
-                    if (Regex.IsMatch(InputString, NameException) == true)
-                    {
-                        InputString = InputString.Substring(0, InputString.Length - 1);
-                        Console.Write("");
-                    }
-                    else // Иначе - записываются
-                    {
-                        Console.Write(keyInfo.KeyChar);
-                    }
-                }
-                else // Иначе - удаляется последний символ из консоли и InputString
-                {
-                    if ((InputString != "")&(InputString.Length!=0)) // Если InputString - не пустая строка, то последний символ удаляется
-                    {
-                        Console.Write("\b \b");
-                        InputString = InputString.Substring(0, InputString.Length - 1);
-                    }
-                }
-            }
-            if (keyInfo.Key == ConsoleKey.Enter)
-            {
-                break;
-            }
-        }
-        Console.WriteLine();
-        InputString = RegisterChanger(InputString, Delimiters); // Изменение регистра введённых данных
-        return InputString;
-    }
-
     /// <summary>
     /// Функция PersonRead для ввода данных о персоне из консоли
     /// </summary>
@@ -285,22 +97,22 @@ public class Person
         
         // Задание параметров персоны через консоль
         //
-        Person.Surname = InputName(PersonTemplate.SurnameInputTemplate);
-        Person.Name = InputName(PersonTemplate.NameInputTemplate);
+        Person.Surname = OutputInformation.Input(PersonTemplate.SurnameInputTemplate,3);
+        Person.Name = OutputInformation.Input(PersonTemplate.NameInputTemplate,3);
         Person.Age = 0;
-        Person.Age = InputDigit(PersonTemplate.AgeInputTemplate);
+        Person.Age = Int32.Parse(OutputInformation.Input(PersonTemplate.AgeInputTemplate,1));
         
         // Если введённый возраст больше максимально возможного (118), то необходимо ввести возраст заново
         //
         while (Person.Age> PersonLibrary.MaxAge)
         {
             Console.WriteLine($"Введённый возраст больше максимального ({PersonLibrary.MaxAge})!");
-            Person.Age = InputDigit(PersonTemplate.AgeInputTemplate);
+            Person.Age = Int32.Parse(OutputInformation.Input(PersonTemplate.AgeInputTemplate,1));
         }
 
         // Ввод пола
         //
-        string GenderString = InputGender(PersonTemplate.GenderInputTemplate);
+        string GenderString = OutputInformation.Input(PersonTemplate.GenderInputTemplate,2);
         
         switch (GenderString) // выбор цифры на основе введённого в консоль символа 
         {
@@ -336,7 +148,14 @@ public class Person
         {
             string s0 = s;
             s0 = s.ToLower(); // Перевод всего слова в нижний регистр
-            s0 = Char.ToUpper(s0[0]) + s0.Substring(1); // Перевод первого символа слова в верхний регистр
+            try
+            {
+                s0 = Char.ToUpper(s0[0]) + s0.Substring(1); // Перевод первого символа слова в верхний регистр
+            }
+            catch (IndexOutOfRangeException Exception)
+            {
+                OutputInformation.TextWriteLine(Exception.Message);
+            }
             InputString = InputString.Replace(s, s0); // Замена слова в исходной строке
         }
         return InputString;
