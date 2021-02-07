@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Web.RegularExpressions;
 using System.Text.RegularExpressions;
+using System.Diagnostics;
+using System.Threading;
 
 public class OutputInformation
 {
@@ -34,11 +36,15 @@ public class OutputInformation
         TextWriteLine(PersonTemplate.SurnameOutputTemplate + person.Surname);
         TextWriteLine(PersonTemplate.NameOutputTemplate + person.Name);
         TextWriteLine(PersonTemplate.AgeOutputTemplate + person.Age);
-        TextWriteLine(PersonTemplate.GenderOutputTemplate + person.Gender);
-        //Console.WriteLine(PersonTemplate.SurnameOutputTemplate + person.Surname);
-        //Console.WriteLine(PersonTemplate.NameOutputTemplate + person.Name);
-        //Console.WriteLine(PersonTemplate.AgeOutputTemplate + person.Age);
-        //Console.WriteLine(PersonTemplate.GenderOutputTemplate + person.Gender);
+        switch (person.Gender)
+        {
+            case GenderList.Male:
+                TextWriteLine(PersonTemplate.GenderOutputTemplate + "мужской");
+                break;
+            case GenderList.Female:
+                TextWriteLine(PersonTemplate.GenderOutputTemplate + "женский");
+                break;
+        }
     }
     public static void ListWrite(int PersonQuantity,PersonList People)
     {
@@ -50,6 +56,13 @@ public class OutputInformation
             TextWriteLine(null);
         }
     }
+    public static void Timer()
+    {
+        Stopwatch stopwatch = new Stopwatch();
+        stopwatch.Start();
+        Thread.Sleep(5);
+        stopwatch.Stop();
+    }
     public static string Input(string condition, byte type)
     {
         string InputString = ""; // Инициализация переменной для записи в неё введённых в консоль значений
@@ -59,132 +72,132 @@ public class OutputInformation
         string NameException = @"(- |  | -|--)"; // Шаблон для исключения повторения разделителей слов
         char[] Delimiters = new char[] { ' ', '-' }; // Массив символов разделителей слов
         TextWrite(condition);
-            switch (type)
+        switch (type)
+        {
+            case 1:
+            while (true)
             {
-                case 1:
-                while (true)
+                ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+                if (((Regex.IsMatch(keyInfo.KeyChar.ToString(), DigitPattern) == true)
+                   //&& (InputString.Length < 3))
+                   || (keyInfo.Key == ConsoleKey.Backspace)))
                 {
-                    ConsoleKeyInfo keyInfo = Console.ReadKey(true);
-                    if (((Regex.IsMatch(keyInfo.KeyChar.ToString(), DigitPattern) == true)
-                        && (InputString.Length < 3))
-                        || (keyInfo.Key == ConsoleKey.Backspace))
+                    if (keyInfo.Key != ConsoleKey.Backspace) // Если введённая клавиша не BackSpace, то осуществляется ввод в консоль и переменную InputString
                     {
-                        if (keyInfo.Key != ConsoleKey.Backspace) // Если введённая клавиша не BackSpace, то осуществляется ввод в консоль и переменную InputString
+                        InputString = InputString + keyInfo.KeyChar;
+                        if (InputString != "0") // Если переменная InputString не содержит только 0, то вводится значение с клавиатуры
                         {
-                            InputString = InputString + keyInfo.KeyChar;
-                            if (InputString != "0") // Если переменная InputString не содержит только 0, то вводится значение с клавиатуры
-                            {
-                                TextWrite(keyInfo.KeyChar);
-                            }
-                            else // Иначе в консоль и переменную ничего не записывается
-                            {
-                                InputString = "";
-                                TextWrite("");
-                            }
+                            TextWrite(keyInfo.KeyChar);
                         }
-                        else // Иначе удаляется предыдущий символ
+                        else // Иначе в консоль и переменную ничего не записывается
                         {
-                            if (InputString != "") // Если переменная InputString не пустая, то удаляется один символ
-                            {
-                                TextWrite("\b \b"); // Удаление последнего символа из консоли
-                                InputString = InputString.Substring(0, InputString.Length - 1); // Удаление последнего символа из InputString
-                            }
+                            InputString = "";
+                            TextWrite("");
                         }
                     }
-                    if (keyInfo.Key == ConsoleKey.Enter) // Если нажата клавиша Enter, то ввод цифр завершён
+                    else // Иначе удаляется предыдущий символ
                     {
-                        break;
+                        if (InputString != "") // Если переменная InputString не пустая, то удаляется один символ
+                        {
+                            TextWrite("\b \b"); // Удаление последнего символа из консоли
+                            InputString = InputString.Substring(0, InputString.Length - 1); // Удаление последнего символа из InputString
+                        }
                     }
                 }
-                TextWriteLine(null);
-                try
+                if ((keyInfo.Key == ConsoleKey.Enter)&& (InputString != "")) // Если нажата клавиша Enter, то ввод цифр завершён
                 {
-                    return Int32.Parse(InputString).ToString();
+                    break;
                 }
-                    catch (FormatException)
+            }
+            TextWriteLine(null);
+            try
+            {
+                return Int32.Parse(InputString).ToString();
+            }
+            catch (FormatException)
+            {
+                InputString = "0";
+                return Int32.Parse(InputString).ToString();
+            }
+            catch (OverflowException)
+            {
+                InputString = $"{Int32.MaxValue}";
+                return Int32.Parse(InputString).ToString();
+            }
+            case 2:
+            while (true)
+            {
+                ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+                if (((Regex.IsMatch(keyInfo.KeyChar.ToString(), GenderPattern) == true) & (InputString.Length < 1)) | (keyInfo.Key == ConsoleKey.Backspace))
                 {
-                    InputString = "0";
-                    return Int32.Parse(InputString).ToString();
-                }
-                case 2:
-                    while (true)
+                    if (keyInfo.Key != ConsoleKey.Backspace)
                     {
-                        ConsoleKeyInfo keyInfo = Console.ReadKey(true);
-                        if (((Regex.IsMatch(keyInfo.KeyChar.ToString(), GenderPattern) == true) & (InputString.Length < 1)) | (keyInfo.Key == ConsoleKey.Backspace))
+                        InputString = InputString + keyInfo.KeyChar;
+                        if (InputString != "0")
                         {
-                            if (keyInfo.Key != ConsoleKey.Backspace)
-                            {
-                                InputString = InputString + keyInfo.KeyChar;
-                                if (InputString != "0")
-                                {
-                                    TextWrite(keyInfo.KeyChar);
-                                }
-                                else
-                                {
-                                    InputString = "";
-                                    TextWrite("");
-                                }
-                            }
-                            else
-                            {
-                                if (InputString != "")
-                                {
-                                    TextWrite("\b \b");
-                                    InputString = InputString.Substring(0, InputString.Length - 1);
-                                }
-                            }
+                            TextWrite(keyInfo.KeyChar);
                         }
-                        if (keyInfo.Key == ConsoleKey.Enter)
+                        else
                         {
-                            break;
+                            InputString = "";
+                            TextWrite("");
                         }
                     }
-                TextWriteLine(null);
-                return InputString;
-                default:
-                    while (true)
+                    else
                     {
-                        ConsoleKeyInfo keyInfo = Console.ReadKey(true);
-                        if ((Regex.IsMatch(keyInfo.KeyChar.ToString(), NamePattern) == true) | (keyInfo.Key == ConsoleKey.Backspace))
+                        if (InputString != "")
                         {
-                            if (keyInfo.Key != ConsoleKey.Backspace) // Если нажатая клавиша не Backspace, то данные вводятся в InputString и консоль
-                            {
-                                InputString = InputString + keyInfo.KeyChar;
-
-                                // Если введён пробел или дефис после пробела или дефиса, то данные не заисываются
-                                //
-                                if (Regex.IsMatch(InputString, NameException) == true)
-                                {
-                                    InputString = InputString.Substring(0, InputString.Length - 1);
-                                    TextWrite("");
-                                }
-                                else // Иначе - записываются
-                                {
-                                    TextWrite(keyInfo.KeyChar);
-                                }
-                            }
-                            else // Иначе - удаляется последний символ из консоли и InputString
-                            {
-                                if ((InputString != "") & (InputString.Length != 0)) // Если InputString - не пустая строка, то последний символ удаляется
-                                {
-                                    TextWrite("\b \b");
-                                    InputString = InputString.Substring(0, InputString.Length - 1);
-                                }
-                            }
+                            TextWrite("\b \b");
+                            InputString = InputString.Substring(0, InputString.Length - 1);
                         }
-                        if (keyInfo.Key == ConsoleKey.Enter)
-                        {
-                            break;
-                        }
-                        // Изменение регистра введённых данных
                     }
-                if (InputString!="")
-                {
-                    InputString = Person.RegisterChanger(InputString, Delimiters);
                 }
-                //InputString = Person.RegisterChanger(InputString, Delimiters);
-                TextWriteLine(null);
-                return InputString;
-        }
+                if ((keyInfo.Key == ConsoleKey.Enter) && (InputString != ""))
+                    {
+                    break;
+                }
+            }
+            TextWriteLine(null);
+            return InputString;
+            default:
+            while (true)
+            {
+                ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+                if ((Regex.IsMatch(keyInfo.KeyChar.ToString(), NamePattern) == true) | (keyInfo.Key == ConsoleKey.Backspace))
+                {
+                    if (keyInfo.Key != ConsoleKey.Backspace) // Если нажатая клавиша не Backspace, то данные вводятся в InputString и консоль
+                    {
+                        InputString = InputString + keyInfo.KeyChar;
+                        if (Regex.IsMatch(InputString, NameException) == true)
+                        {
+                            InputString = InputString.Substring(0, InputString.Length - 1);
+                            TextWrite("");
+                        }
+                        else // Иначе - записываются
+                        {
+                            TextWrite(keyInfo.KeyChar);
+                        }
+                    }
+                    else // Иначе - удаляется последний символ из консоли и InputString
+                    {
+                        if ((InputString != "") & (InputString.Length != 0)) // Если InputString - не пустая строка, то последний символ удаляется
+                        {
+                            TextWrite("\b \b");
+                            InputString = InputString.Substring(0, InputString.Length - 1);
+                        }
+                    }
+                }
+                if ((keyInfo.Key == ConsoleKey.Enter) && (InputString != ""))
+                {
+                    break;
+                }
+            }
+            if (InputString!="")
+            {
+                InputString = Person.RegisterChanger(InputString, Delimiters);
+            }
+            TextWriteLine(null);
+            return InputString;
         }
     }
+}

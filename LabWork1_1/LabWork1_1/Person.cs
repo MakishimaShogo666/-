@@ -3,14 +3,14 @@ using System.Web.RegularExpressions;
 using System.Text.RegularExpressions;
 
 /// <summary>
-/// Перечисление полов, nd - not defined (неопределённый пол)
+/// Перечисление полов, NotDefined - неопределённый пол
 /// </summary>
 public enum GenderList
 {
     //TODO: RSDN +
-    мужской, 
-    женский, 
-    nd
+    Male, 
+    Female, 
+    NotDefined
 }
 
 /// <summary>
@@ -22,15 +22,15 @@ public class Person
     /// <summary>
     /// Фамилия
     /// </summary>
-    public string Surname; 
-    public string Name; // Имя
-    public int Age; // Возраст
-    public GenderList Gender; // Пол
-    
+    public string Surname { get; private set; }
+    public string Name { get; private set; }
+    public int Age { get; private set; }
+    public GenderList Gender { get; private set; }
+    public static int maxPersonQuantity = 1000;
     /// <summary>
     /// Конструктор класса Person по умолчанию
     /// </summary>
-    public Person() : this("Нет данных", "Нет данных", 0, GenderList.nd) { }
+    public Person() : this("Нет данных", "Нет данных", 0, GenderList.NotDefined) { }
 
     // Конструктор класса Person для создания персоны вручную
     //
@@ -47,18 +47,17 @@ public class Person
     public Person(int average_age, GenderList GenderInput)
     {
         Random RandomNumber = new Random();
-        Age = RandomNumber.Next(average_age/2 + 1, average_age * 2);
+        Age = RandomNumber.Next(average_age/2, average_age + average_age/2 + 1);
         Gender = GenderInput;
         
         
         switch (Gender)
         {
-            case GenderList.мужской:
-                // Выбор фамилии из библиотеки мужских фамилий
+            case GenderList.Male:
                 Surname = PersonLibrary.StandardMaleSurnameLibrary[RandomNumber.Next(PersonLibrary.StandardMaleSurnameCount)]; 
                 Name = PersonLibrary.StandardMaleNameLibrary[RandomNumber.Next(PersonLibrary.StandardMaleNameCount)];
                 break;
-            case GenderList.женский:
+            case GenderList.Female:
                 Surname = PersonLibrary.StandardFemaleSurnameLibrary[RandomNumber.Next(PersonLibrary.StandardFemaleSurnameCount)];
                 Name = PersonLibrary.StandardFemaleNameLibrary[RandomNumber.Next(PersonLibrary.StandardFemaleNameCount)];
                 break;
@@ -75,11 +74,11 @@ public class Person
         //TODO: RSDN 
         switch (Gender)
         {
-            case GenderList.мужской:
+            case GenderList.Male:
                 Surname = PersonLibrary.StandardMaleSurnameLibrary[RandomNumber.Next(PersonLibrary.StandardMaleSurnameCount)];
                 Name = PersonLibrary.StandardMaleNameLibrary[RandomNumber.Next(PersonLibrary.StandardMaleNameCount)];
                 break;
-            case GenderList.женский:
+            case GenderList.Female:
                 Surname = PersonLibrary.StandardMaleSurnameLibrary[RandomNumber.Next(PersonLibrary.StandardFemaleSurnameCount)];
                 Name = PersonLibrary.StandardFemaleNameLibrary[RandomNumber.Next(PersonLibrary.StandardFemaleNameCount)];
                 break;
@@ -120,13 +119,13 @@ public class Person
             case "М":
             case "M":
             case "m":
-                Person.Gender = GenderList.мужской;
+                Person.Gender = GenderList.Male;
                 break;
             case "ж":
             case "Ж":
             case "F":
             case "f":
-                Person.Gender = GenderList.женский;
+                Person.Gender = GenderList.Female;
                 break;
         }
 
@@ -176,11 +175,11 @@ public class Person
 
         switch (Person.Gender) // выбор стандартных фамилии и имени на основе пола
         {
-            case GenderList.мужской:
+            case GenderList.Male:
                 Person.Surname = PersonLibrary.StandardMaleSurnameLibrary[RandomNumber.Next(PersonLibrary.StandardMaleSurnameCount)];
                 Person.Name = PersonLibrary.StandardMaleNameLibrary[RandomNumber.Next(PersonLibrary.StandardMaleSurnameCount)];
                 break;
-            case GenderList.женский:
+            case GenderList.Female:
                 Person.Surname = PersonLibrary.StandardFemaleSurnameLibrary[RandomNumber.Next(PersonLibrary.StandardFemaleSurnameCount)];
                 Person.Name = PersonLibrary.StandardFemaleNameLibrary[RandomNumber.Next(PersonLibrary.StandardFemaleSurnameCount)];
                 break;

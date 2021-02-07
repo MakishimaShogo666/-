@@ -11,7 +11,7 @@ public class PersonList
     //
     public Person[] data; // список из персон
     public static Person ExceptionPerson; // персона, которую нужно удалять из списка
-
+    public static int maxListQuantity = 1000;
     // Конструктор класса PersonList по умолчанию
     //
     public PersonList(int numberOfPerson)
@@ -105,17 +105,6 @@ public class PersonList
         data = data.Where((value) => value != removingPerson).ToArray();
         return data;
     }
-
-    //public Person[] Remove(Person removingPerson)
-    //{
-    //    while(data.Contains(removingPerson)==true)
-    //    {
-    //        int indexOfRemovingPerson = Array.IndexOf(data, removingPerson);
-
-    //    }
-    //    data = data.Where((value) => value == removingPerson).ToArray();
-    //    return data;
-    //}
 
     /// <summary>
     /// Функция RemoveByIndex для удаления персоны из списка по индексу
