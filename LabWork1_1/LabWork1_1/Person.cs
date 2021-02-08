@@ -143,9 +143,9 @@ public class Person
             {
                 s0 = Char.ToUpper(s0[0]) + s0.Substring(1); // Перевод первого символа слова в верхний регистр
             }
-            catch (IndexOutOfRangeException Exception)
+            catch (IndexOutOfRangeException ex)
             {
-                OutputInformation.TextWriteLine(Exception.Message);
+                OutputInformation.TextWriteLine(ex.Message);
             }
             InputString = InputString.Replace(s, s0); // Замена слова в исходной строке
         }
