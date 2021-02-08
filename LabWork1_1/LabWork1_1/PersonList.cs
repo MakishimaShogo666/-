@@ -7,29 +7,13 @@ using System.Linq;
 /// </summary>
 public class PersonList
 {
-    // Создание полей класса Person
-    //
-    public Person[] data; // список из персон
-    public static Person ExceptionPerson; // персона, которую нужно удалять из списка
+    public Person[] data;
     public static int maxListQuantity = 1000;
-    // Конструктор класса PersonList по умолчанию
-    //
+
     public PersonList(int numberOfPerson)
 	{
         data = new Person[numberOfPerson];
 	}
-
-    /// <summary>
-    /// Функция-предикат IsNotPerson, позволяющая выделить все персоны, не являющиеся персоной для удаления
-    /// </summary>
-    /// <param name="Person"></param>
-    /// <returns>
-    /// Значение true, если персона не совпадает с удаляемой, false - если совадает
-    /// </returns>
-    public static bool IsNotPerson(Person Person)
-    {
-        return (Person!=ExceptionPerson);
-    }
 
     /// <summary>
     /// Функция Add для добавления персоны в список
@@ -102,7 +86,7 @@ public class PersonList
     ///
     public Person[] Remove(Person removingPerson)
     {
-        data = data.Where((value) => value != removingPerson).ToArray();
+        data = data.Where((value) => value != removingPerson).ToArray(); //если персона не равна удаляемой персоне, то она остаётся в массиве
         return data;
     }
 

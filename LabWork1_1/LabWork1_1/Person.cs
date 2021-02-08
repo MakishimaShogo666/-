@@ -18,7 +18,7 @@ public enum GenderList
 /// </summary>
 public class Person
 {
-    //TODO: Properties
+    //TODO: Properties +
     /// <summary>
     /// Фамилия
     /// </summary>
@@ -42,14 +42,13 @@ public class Person
         Gender = GenderInput;
     }
 
-    // Конструктор класса Person для создания случайной персоны заданного пола с указанным предпочтительным возрастом (выбирается случайный)
+    // Конструктор класса Person для создания случайной персоны заданного пола с указанным предпочтительным возрастом
     //
     public Person(int average_age, GenderList GenderInput)
     {
         Random RandomNumber = new Random();
         Age = RandomNumber.Next(average_age/2, average_age + average_age/2 + 1);
         Gender = GenderInput;
-        
         
         switch (Gender)
         {
@@ -92,28 +91,21 @@ public class Person
     /// </returns>
     public static Person PersonRead()
     {
-        Person Person = new Person(); // Создание экземпляра класса Person конструктором по умолчанию
+        Person Person = new Person(); 
         
-        // Задание параметров персоны через консоль
-        //
         Person.Surname = OutputInformation.Input(PersonTemplate.SurnameInputTemplate,3);
         Person.Name = OutputInformation.Input(PersonTemplate.NameInputTemplate,3);
-        Person.Age = 0;
         Person.Age = Int32.Parse(OutputInformation.Input(PersonTemplate.AgeInputTemplate,1));
         
-        // Если введённый возраст больше максимально возможного (118), то необходимо ввести возраст заново
-        //
         while (Person.Age> PersonLibrary.MaxAge)
         {
-            Console.WriteLine($"Введённый возраст больше максимального ({PersonLibrary.MaxAge})!");
+            OutputInformation.TextWriteLine($"Введённый возраст больше максимального ({PersonLibrary.MaxAge})!");
             Person.Age = Int32.Parse(OutputInformation.Input(PersonTemplate.AgeInputTemplate,1));
         }
 
-        // Ввод пола
-        //
         string GenderString = OutputInformation.Input(PersonTemplate.GenderInputTemplate,2);
         
-        switch (GenderString) // выбор цифры на основе введённого в консоль символа 
+        switch (GenderString) // выбор пола на основе введённого в консоль символа 
         {
             case "м":
             case "М":
@@ -142,11 +134,11 @@ public class Person
     /// </returns>
     public static string RegisterChanger(string InputString,char[] Delimiters)
     {
-        string[] SplittedInputString = InputString.Split(Delimiters); // Разбиение введённой строки на слова (в случае сложных имени или фамилии)
+        string[] SplittedInputString = InputString.Split(Delimiters); // Разбиение введённой строки на слова
         foreach (string s in SplittedInputString) // Для каждого слова в строке осуществляется изменение регистра
         {
-            string s0 = s;
-            s0 = s.ToLower(); // Перевод всего слова в нижний регистр
+            string s0 = s.ToLower();
+
             try
             {
                 s0 = Char.ToUpper(s0[0]) + s0.Substring(1); // Перевод первого символа слова в верхний регистр
@@ -169,9 +161,9 @@ public class Person
     public static Person GetRandomPerson()
     {
         Person Person = new Person();
-        Random RandomNumber = new Random(); // создание экземппляра объекта класса Random для генерации случайных (псевдослучайных) чисел
-        Person.Age = RandomNumber.Next(PersonLibrary.MaxAge); // задание случайного возраста в диапазоне от 0 до максимально возможного возраста
-        Person.Gender = (GenderList)RandomNumber.Next(0, 2); // задание случайного пола
+        Random RandomNumber = new Random(); 
+        Person.Age = RandomNumber.Next(PersonLibrary.MaxAge); 
+        Person.Gender = (GenderList)RandomNumber.Next(0, 2); 
 
         switch (Person.Gender) // выбор стандартных фамилии и имени на основе пола
         {
@@ -193,15 +185,15 @@ public class Person
 /// </summary>
 public class PersonLibrary
 {
-    public static string[] StandardMaleSurnameLibrary = new string[] { "Иванов", "Петров", "Сидоров", "Сергеев" }; // Мужские фамилии
-    public static string[] StandardFemaleSurnameLibrary = new string[] { "Иванова", "Петрова", "Сидорова", "Сергеева" }; // Женские фамилии
-    public static string[] StandardMaleNameLibrary = new string[] { "Иван", "Андрей", "Александр", "Константин", "Сергей", "Дмитрий" }; // Мужские имена
-    public static string[] StandardFemaleNameLibrary = new string[] { "Татьяна", "Светлана", "Наталья", "Александра", "Элла", "Дарья" }; // Женские имена
+    public static string[] StandardMaleSurnameLibrary = new string[] { "Иванов", "Петров", "Сидоров", "Сергеев" }; 
+    public static string[] StandardFemaleSurnameLibrary = new string[] { "Иванова", "Петрова", "Сидорова", "Сергеева" };
+    public static string[] StandardMaleNameLibrary = new string[] { "Иван", "Андрей", "Александр", "Константин", "Сергей", "Дмитрий" };
+    public static string[] StandardFemaleNameLibrary = new string[] { "Татьяна", "Светлана", "Наталья", "Александра", "Элла", "Дарья" }; 
 
-    public static int StandardMaleNameCount = StandardMaleNameLibrary.Length; // Число стандартных мужских имён
-    public static int StandardMaleSurnameCount = StandardMaleSurnameLibrary.Length; // Число стандартных мужских фамилий
-    public static int StandardFemaleNameCount = StandardFemaleNameLibrary.Length; // Число стандартных женских имён
-    public static int StandardFemaleSurnameCount = StandardFemaleSurnameLibrary.Length; // Число стандартных женских фамилий
+    public static int StandardMaleNameCount = StandardMaleNameLibrary.Length; 
+    public static int StandardMaleSurnameCount = StandardMaleSurnameLibrary.Length; 
+    public static int StandardFemaleNameCount = StandardFemaleNameLibrary.Length; 
+    public static int StandardFemaleSurnameCount = StandardFemaleSurnameLibrary.Length; 
 
     public static int MaxAge = 118; // Максимально возможный возраст персоны
 }
