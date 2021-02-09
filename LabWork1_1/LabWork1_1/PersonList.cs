@@ -8,7 +8,7 @@ using System.Linq;
 public class PersonList
 {
     public Person[] data;
-    public static int maxListQuantity = 1000;
+    public readonly static int maxListQuantity = 1000;
 
     public PersonList(int numberOfPerson)
 	{
