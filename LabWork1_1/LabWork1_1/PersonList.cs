@@ -97,9 +97,9 @@ public class PersonList
     /// <returns>
     /// Cписок с удалённой персоной
     /// </returns>
-    public Person[] RemoveByIndex(int ExceptionIndex)
+    public Person[] RemoveByIndex(int exceptionIndex)
     {
-        Person removingPerson = data[ExceptionIndex];
+        Person removingPerson = data[exceptionIndex];
         return data = Remove(removingPerson);
     }
 }
