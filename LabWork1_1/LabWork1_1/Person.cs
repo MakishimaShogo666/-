@@ -26,7 +26,7 @@ public class Person
     public string Name { get; private set; }
     public int Age { get; private set; }
     public GenderList Gender { get; private set; }
-    public static int maxPersonQuantity = 1000;
+    public static readonly int maxPersonQuantity = 1000;
     /// <summary>
     /// Конструктор класса Person по умолчанию
     /// </summary>
@@ -44,10 +44,10 @@ public class Person
 
     // Конструктор класса Person для создания случайной персоны заданного пола с указанным предпочтительным возрастом
     //
-    public Person(int average_age, GenderList GenderInput)
+    public Person(int averageAge, GenderList GenderInput)
     {
         Random RandomNumber = new Random();
-        Age = RandomNumber.Next(average_age/2, average_age + average_age/2 + 1);
+        Age = RandomNumber.Next(averageAge/2, averageAge + averageAge/2 + 1);
         Gender = GenderInput;
         
         switch (Gender)
@@ -195,7 +195,7 @@ public class PersonLibrary
     public static int StandardFemaleNameCount = StandardFemaleNameLibrary.Length; 
     public static int StandardFemaleSurnameCount = StandardFemaleSurnameLibrary.Length; 
 
-    public static int MaxAge = 118; // Максимально возможный возраст персоны
+    public readonly static int MaxAge = 118; // Максимально возможный возраст персоны
 }
 
 /// <summary>
