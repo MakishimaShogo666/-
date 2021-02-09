@@ -7,7 +7,13 @@ using System.Linq;
 /// </summary>
 public class PersonList
 {
+    /// <summary>
+    /// Поле data - записи в списке персон
+    /// </summary>
     public Person[] data;
+    /// <summary>
+    /// maxListQuantity - максимальное число списков персон (только для чтения)
+    /// </summary>
     public static readonly int maxListQuantity = 1000;
 
     public PersonList(int numberOfPerson)

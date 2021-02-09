@@ -23,8 +23,17 @@ public class Person
     /// Фамилия
     /// </summary>
     public string Surname { get; private set; }
+    /// <summary>
+    /// Имя
+    /// </summary>
     public string Name { get; private set; }
+    /// <summary>
+    /// Возраст
+    /// </summary>
     public int Age { get; private set; }
+    /// <summary>
+    /// Пол
+    /// </summary>
     public GenderList Gender { get; private set; }
     public static readonly int maxPersonQuantity = 1000;
     /// <summary>
@@ -32,8 +41,9 @@ public class Person
     /// </summary>
     public Person() : this("Нет данных", "Нет данных", 0, GenderList.NotDefined) { }
 
-    // Конструктор класса Person для создания персоны вручную
-    //
+    /// <summary>
+    /// Конструктор класса Person для создания персоны вручную
+    /// </summary>
     public Person(string SurnameInput, string NameInput, int AgeInput, GenderList GenderInput)
     {
         Surname = SurnameInput;
@@ -42,8 +52,9 @@ public class Person
         Gender = GenderInput;
     }
 
-    // Конструктор класса Person для создания случайной персоны заданного пола с указанным предпочтительным возрастом
-    //
+    /// <summary>
+    /// Конструктор класса Person для создания случайной персоны заданного пола с указанным предпочтительным возрастом
+    /// </summary>
     public Person(int averageAge, GenderList GenderInput)
     {
         Random RandomNumber = new Random();
@@ -63,8 +74,9 @@ public class Person
         }
     }
 
-    // Конструктор класса Person для создания случайной персоны заданного возраста
-    //
+    /// <summary>
+    /// Конструктор класса Person для создания случайной персоны заданного возраста
+    /// </summary>
     public Person(int AgeInput)
     {
         Random RandomNumber = new Random();
