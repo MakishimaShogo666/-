@@ -87,12 +87,13 @@ public class PersonList
     /// </summary>
     /// <param name="removingPerson"></param>
     /// <returns>
-    /// Возвращает список с удалённой персоной
+    /// Список с удалённой персоной
     /// </returns>
     ///
     public Person[] Remove(Person removingPerson)
     {
-        data = data.Where((value) => value != removingPerson).ToArray(); //если персона не равна удаляемой персоне, то она остаётся в массиве
+        //если персона не равна удаляемой персоне, то она остаётся в массиве
+        data = data.Where((value) => value != removingPerson).ToArray();
         return data;
     }
 
@@ -105,7 +106,8 @@ public class PersonList
     /// </returns>
     public Person[] RemoveByIndex(int exceptionIndex)
     {
-        Person removingPerson = data[exceptionIndex];
-        return data = Remove(removingPerson);
+        //если индекс не равен удаляемому индексу, то персона остаётся в списке
+        data = data.Where((value,index) => index != exceptionIndex).ToArray();
+        return data;
     }
 }

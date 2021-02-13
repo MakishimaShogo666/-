@@ -3,6 +3,17 @@ using System.Web.RegularExpressions;
 using System.Text.RegularExpressions;
 using System.Diagnostics;
 using System.Threading;
+using LabWork1_1;
+
+/// <summary>
+/// Перечисление полов, NotDefined - неопределённый пол
+/// </summary>
+public enum InputType
+{
+    Digit,
+    Gender,
+    Text
+}
 
 public class OutputInformation
 {
@@ -81,16 +92,16 @@ public class OutputInformation
             TextWriteLine(null);
         }
     }
-    /// <summary>
-    /// Метод Timer для отсчёта времени для корректной работы GetRandomPerson
-    /// </summary>
-    public static void Timer()
-    {
-        Stopwatch stopwatch = new Stopwatch();
-        stopwatch.Start();
-        Thread.Sleep(5);
-        stopwatch.Stop();
-    }
+    ///// <summary>
+    ///// Метод Timer для отсчёта времени для корректной работы GetRandomPerson
+    ///// </summary>
+    //public static void Timer()
+    //{
+    //    Stopwatch stopwatch = new Stopwatch();
+    //    stopwatch.Start();
+    //    Thread.Sleep(5);
+    //    stopwatch.Stop();
+    //}
     /// <summary>
     /// Функция Input для ввода данных
     /// </summary>
@@ -99,7 +110,7 @@ public class OutputInformation
     /// <returns>
     /// Возвращается InputString - введённая строка
     /// </returns>
-    public static string Input(string condition, byte type)
+    public static string Input(string condition, InputType inputType)
     {
         string InputString = ""; 
         string DigitPattern = @"[0-9]"; // Шаблон для ввода цифр
@@ -108,9 +119,9 @@ public class OutputInformation
         string NameException = @"(- |  | -|--)"; // Шаблон для исключения повторения разделителей слов
         char[] Delimiters = new char[] { ' ', '-' }; // Массив символов разделителей слов
         TextWrite(condition);
-        switch (type)
+        switch (inputType)
         {
-            case 1:
+            case InputType.Digit:
                 while (true)
                 {
                     ConsoleKeyInfo keyInfo = Console.ReadKey(true);
@@ -169,7 +180,7 @@ public class OutputInformation
                     InputString = $"{Int32.MaxValue}";
                     return Int32.Parse(InputString).ToString();
                 }
-            case 2:
+            case InputType.Gender:
                 while (true)
                 {
                     ConsoleKeyInfo keyInfo = Console.ReadKey(true);

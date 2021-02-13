@@ -25,7 +25,7 @@ namespace LabWork1_1
 
                 // Создание списков персон
                 // 
-                int PersonListQuantity = Int32.Parse(OutputInformation.Input("Введите число списков персон: ",1));
+                int PersonListQuantity = Int32.Parse(OutputInformation.Input("Введите число списков персон: ", InputType.Digit));
                 try
                 {
                     People = new PersonList[PersonListQuantity];
@@ -42,7 +42,7 @@ namespace LabWork1_1
                 // 
                 for (int j = 0; j < PersonListQuantity; j++)
                 {
-                    int PersonQuantity = Int32.Parse(OutputInformation.Input($"Введите число персон в {j+1}-м списке: ",1));
+                    int PersonQuantity = Int32.Parse(OutputInformation.Input($"Введите число персон в {j+1}-м списке: ", InputType.Digit));
                     try 
                     {
                         People[j] = new PersonList(PersonQuantity);
@@ -57,8 +57,8 @@ namespace LabWork1_1
                     {
                         OutputInformation.TextWriteLine($"Ввод данных о {i + 1}-й персоне");
                         OutputInformation.TextWriteLine(null);
-                        OutputInformation.Timer();
-                        person = Person.GetRandomPerson(); 
+                        //Randomizer.Timer();
+                        person = Randomizer.GetRandomPerson(); 
                         People[j].data[i] = person; 
                         OutputInformation.PersonWrite(People[j].data[i]); 
                         OutputInformation.TextWriteLine(null);
@@ -67,12 +67,12 @@ namespace LabWork1_1
 
                 // Добавление персоны в заданный список вручную
                 //
-                int ListIndex = Int32.Parse(OutputInformation.Input("Введите номер списка для добавления персоны: ",1));
+                int ListIndex = Int32.Parse(OutputInformation.Input("Введите номер списка для добавления персоны: ", InputType.Digit));
 
                 while(ListIndex > PersonListQuantity)
                 {
                     OutputInformation.TextWriteLine("Введённый номер списка больше числа списков персон!");
-                    ListIndex = Int32.Parse(OutputInformation.Input("Введите номер списка для добавления персоны: ",1));
+                    ListIndex = Int32.Parse(OutputInformation.Input("Введите номер списка для добавления персоны: ", InputType.Digit));
                 }
 
                 People[ListIndex-1].Add(Person.PersonRead()); // Добавление персоны в заданный список
@@ -81,7 +81,7 @@ namespace LabWork1_1
                 // Копирование заданной персоны в заданный список
                 //
                 int CopyIndexFrom = Int32.Parse(OutputInformation.Input($"Введите номер персоны для копирования из" +
-                    $" {ListIndex}-го списка: ",1)); // Получение номера персоны из ListIndex-го списка
+                    $" {ListIndex}-го списка: ", InputType.Digit)); // Получение номера персоны из ListIndex-го списка
 
                 // Ввод номера персоны до тех пор, пока не будет получено корректное значение 
                 //
@@ -90,16 +90,16 @@ namespace LabWork1_1
                     OutputInformation.TextWriteLine($"Введённый номер персоны для копирования из " +
                         $"{ListIndex}-го списка больше числа персон в {ListIndex}-м списке!");
                     CopyIndexFrom = Int32.Parse(OutputInformation.Input($"Введите номер персоны для " +
-                        $"копирования из {ListIndex}-го списка: ",1));
+                        $"копирования из {ListIndex}-го списка: ", InputType.Digit));
                 }
 
                 int CopyIndexTo = Int32.Parse(OutputInformation.Input($"Введите номер списка персон для " +
-                    $"копирования в него персоны из {ListIndex}-го списка: ",1)); // Получение номера списка для копирования
+                    $"копирования в него персоны из {ListIndex}-го списка: ", InputType.Digit)); // Получение номера списка для копирования
                 while (CopyIndexTo > PersonListQuantity) // Ввод номера списка до тех пор, пока не будет получено корректное значение 
                 {
                    OutputInformation.TextWriteLine($"Введённый списка больше числа списков персон!");
                    CopyIndexTo = Int32.Parse(OutputInformation.Input($"Введите номер списка персон для " +
-                       $"копирования в него персоны из {ListIndex}-го списка: ",1));
+                       $"копирования в него персоны из {ListIndex}-го списка: ", InputType.Digit));
                 }
 
                 People[CopyIndexTo-1].Add(People[ListIndex-1].data[CopyIndexFrom-1]); // Добавление скопированной персоны в заданный список
@@ -112,21 +112,21 @@ namespace LabWork1_1
                 
                 //Удаление заданной персоны
                 //
-                int ListRemoveIndex = Int32.Parse(OutputInformation.Input("Введите номер списка для удаления персоны: ",1));
+                int ListRemoveIndex = Int32.Parse(OutputInformation.Input("Введите номер списка для удаления персоны: ", InputType.Digit));
                 while (ListRemoveIndex > PersonListQuantity) // Ввод номера списка до тех пор, пока не будет получено корректное значение
                 {
                     OutputInformation.TextWriteLine("Введённый номер списка больше числа списков персон!");
-                    ListRemoveIndex = Int32.Parse(OutputInformation.Input("Введите номер списка для удаления персоны: ", 1));
+                    ListRemoveIndex = Int32.Parse(OutputInformation.Input("Введите номер списка для удаления персоны: ", InputType.Digit));
                 }
 
                 int RemoveIndex = Int32.Parse(OutputInformation.Input($"Введите номер персоны для удаления из " +
-                    $"{ListRemoveIndex}-го списка: ",1));
+                    $"{ListRemoveIndex}-го списка: ", InputType.Digit));
                 while (RemoveIndex > People[ListRemoveIndex-1].PersonCount()) 
                 {
                     OutputInformation.TextWriteLine($"Введённый номер персоны для удаления из " +
                         $"{ListRemoveIndex}-го списка больше числа персон в {ListRemoveIndex}-м списке!");
                     RemoveIndex = Int32.Parse(OutputInformation.Input($"Введите номер персоны для " +
-                        $"удаления из {ListRemoveIndex}-го списка: ",1));
+                        $"удаления из {ListRemoveIndex}-го списка: ", InputType.Digit));
                 }
 
                 People[ListRemoveIndex-1].RemoveByIndex(RemoveIndex-1); // Удаление персоны по индексу
@@ -142,11 +142,11 @@ namespace LabWork1_1
                     OutputInformation.ListWrite(PersonQuantity, People[j]);
                 }
 
-                int ClearListIndex = Int32.Parse(OutputInformation.Input($"Введите номер списка персон для удаления: ",1));
+                int ClearListIndex = Int32.Parse(OutputInformation.Input($"Введите номер списка персон для удаления: ", InputType.Digit));
                 while (ClearListIndex > PersonListQuantity) // Ввод номера списка до тех пор, пока не будет получено корректное значение
                 {
                     OutputInformation.TextWriteLine("Введённый номер списка больше числа списков персон!");
-                    ClearListIndex = Int32.Parse(OutputInformation.Input("Введите номер списка для добавления персоны: ",1));
+                    ClearListIndex = Int32.Parse(OutputInformation.Input("Введите номер списка для добавления персоны: ", InputType.Digit));
                 }
 
                 People[ClearListIndex-1].ClearList(); // Очистка заданного списка

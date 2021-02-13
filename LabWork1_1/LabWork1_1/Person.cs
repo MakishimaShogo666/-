@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web.RegularExpressions;
 using System.Text.RegularExpressions;
+using LabWork1_1;
 
 /// <summary>
 /// Перечисление полов, NotDefined - неопределённый пол
@@ -58,13 +59,13 @@ public class Person
     public Person(int averageAge, GenderList GenderInput)
     {
         Random RandomNumber = new Random();
-        Age = RandomNumber.Next(averageAge/2, averageAge + averageAge/2 + 1);
+        Age = RandomNumber.Next(averageAge / 2, averageAge + averageAge / 2 + 1);
         Gender = GenderInput;
-        
+
         switch (Gender)
         {
             case GenderList.Male:
-                Surname = PersonLibrary.StandardMaleSurnameLibrary[RandomNumber.Next(PersonLibrary.StandardMaleSurnameCount)]; 
+                Surname = PersonLibrary.StandardMaleSurnameLibrary[RandomNumber.Next(PersonLibrary.StandardMaleSurnameCount)];
                 Name = PersonLibrary.StandardMaleNameLibrary[RandomNumber.Next(PersonLibrary.StandardMaleNameCount)];
                 break;
             case GenderList.Female:
@@ -103,20 +104,20 @@ public class Person
     /// </returns>
     public static Person PersonRead()
     {
-        Person Person = new Person(); 
-        
-        Person.Surname = OutputInformation.Input(PersonTemplate.SurnameInputTemplate,3);
-        Person.Name = OutputInformation.Input(PersonTemplate.NameInputTemplate,3);
-        Person.Age = Int32.Parse(OutputInformation.Input(PersonTemplate.AgeInputTemplate,1));
-        
-        while (Person.Age> PersonLibrary.MaxAge)
+        Person Person = new Person();
+
+        Person.Surname = OutputInformation.Input(PersonTemplate.SurnameInputTemplate, InputType.Text);
+        Person.Name = OutputInformation.Input(PersonTemplate.NameInputTemplate, InputType.Text);
+        Person.Age = Int32.Parse(OutputInformation.Input(PersonTemplate.AgeInputTemplate, InputType.Digit));
+
+        while (Person.Age > PersonLibrary.MaxAge)
         {
             OutputInformation.TextWriteLine($"Введённый возраст больше максимального ({PersonLibrary.MaxAge})!");
-            Person.Age = Int32.Parse(OutputInformation.Input(PersonTemplate.AgeInputTemplate,1));
+            Person.Age = Int32.Parse(OutputInformation.Input(PersonTemplate.AgeInputTemplate, InputType.Digit));
         }
 
-        string GenderString = OutputInformation.Input(PersonTemplate.GenderInputTemplate,2);
-        
+        string GenderString = OutputInformation.Input(PersonTemplate.GenderInputTemplate, InputType.Gender);
+
         switch (GenderString) // выбор пола на основе введённого в консоль символа 
         {
             case "м":
@@ -144,9 +145,9 @@ public class Person
     /// <returns>
     /// Возвращается строка с изменённым регистром фамилии или имени персоны
     /// </returns>
-    public static string RegisterChanger(string InputString,char[] Delimiters)
+    public static string RegisterChanger(string InputString, char[] Delimiters)
     {
-        string[] SplittedInputString = InputString.Split(Delimiters); // Разбиение введённой строки на слова
+        string[] SplittedInputString = InputString.Split(Delimiters,StringSplitOptions.RemoveEmptyEntries); // Разбиение введённой строки на слова
         foreach (string s in SplittedInputString) // Для каждого слова в строке осуществляется изменение регистра
         {
             string s0 = s.ToLower();
@@ -163,65 +164,4 @@ public class Person
         }
         return InputString;
     }
-
-    /// <summary>
-    /// Функция GetRandomPerson для ввода случайной персоны
-    /// </summary>
-    /// <returns>
-    /// Возвращается случайная персона
-    /// </returns>
-    public static Person GetRandomPerson()
-    {
-        Person Person = new Person();
-        Random RandomNumber = new Random(); 
-        Person.Age = RandomNumber.Next(PersonLibrary.MaxAge); 
-        Person.Gender = (GenderList)RandomNumber.Next(0, 2); 
-
-        switch (Person.Gender) // выбор стандартных фамилии и имени на основе пола
-        {
-            case GenderList.Male:
-                Person.Surname = PersonLibrary.StandardMaleSurnameLibrary[RandomNumber.Next(PersonLibrary.StandardMaleSurnameCount)];
-                Person.Name = PersonLibrary.StandardMaleNameLibrary[RandomNumber.Next(PersonLibrary.StandardMaleSurnameCount)];
-                break;
-            case GenderList.Female:
-                Person.Surname = PersonLibrary.StandardFemaleSurnameLibrary[RandomNumber.Next(PersonLibrary.StandardFemaleSurnameCount)];
-                Person.Name = PersonLibrary.StandardFemaleNameLibrary[RandomNumber.Next(PersonLibrary.StandardFemaleSurnameCount)];
-                break;
-        }
-        return Person;
-    }
-}
-
-/// <summary>
-/// Класс PersonLibrary - библиотека стандартных имён и фамилий
-/// </summary>
-public class PersonLibrary
-{
-    public static string[] StandardMaleSurnameLibrary = new string[] { "Иванов", "Петров", "Сидоров", "Сергеев" }; 
-    public static string[] StandardFemaleSurnameLibrary = new string[] { "Иванова", "Петрова", "Сидорова", "Сергеева" };
-    public static string[] StandardMaleNameLibrary = new string[] { "Иван", "Андрей", "Александр", "Константин", "Сергей", "Дмитрий" };
-    public static string[] StandardFemaleNameLibrary = new string[] { "Татьяна", "Светлана", "Наталья", "Александра", "Элла", "Дарья" }; 
-
-    public static int StandardMaleNameCount = StandardMaleNameLibrary.Length; 
-    public static int StandardMaleSurnameCount = StandardMaleSurnameLibrary.Length; 
-    public static int StandardFemaleNameCount = StandardFemaleNameLibrary.Length; 
-    public static int StandardFemaleSurnameCount = StandardFemaleSurnameLibrary.Length; 
-
-    public readonly static int MaxAge = 118; // Максимально возможный возраст персоны
-}
-
-/// <summary>
-/// Класс PersonTemplate - библиотека шаблонов строк для вывода в консоль информации о персоне
-/// </summary>
-public class PersonTemplate
-{
-    public static string SurnameInputTemplate = "Введите фамилию персоны: ";
-    public static string NameInputTemplate = "Введите имя персоны: ";
-    public static string AgeInputTemplate = "Введите возраст персоны: ";
-    public static string GenderInputTemplate = "Введите пол персоны (м/М/m/M - мужской, ж/Ж/f/F - женский): ";
-
-    public static string SurnameOutputTemplate = "Фамилия: ";
-    public static string NameOutputTemplate = "Имя: ";
-    public static string AgeOutputTemplate = "Возраст: ";
-    public static string GenderOutputTemplate = "Пол: ";
 }
