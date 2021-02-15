@@ -36,6 +36,9 @@ public class Person
     /// Пол
     /// </summary>
     public GenderList Gender { get; private set; }
+    /// <summary>
+    /// Максимальный число персон в списке
+    /// </summary>
     public static readonly int maxPersonQuantity = 1000;
     /// <summary>
     /// Конструктор класса Person по умолчанию
@@ -106,17 +109,17 @@ public class Person
     {
         Person Person = new Person();
 
-        Person.Surname = OutputInformation.Input(PersonTemplate.SurnameInputTemplate, InputType.Text);
-        Person.Name = OutputInformation.Input(PersonTemplate.NameInputTemplate, InputType.Text);
-        Person.Age = Int32.Parse(OutputInformation.Input(PersonTemplate.AgeInputTemplate, InputType.Digit));
+        Person.Surname = InputOutput.Input(PersonTemplate.SurnameInputTemplate, InputType.Text);
+        Person.Name = InputOutput.Input(PersonTemplate.NameInputTemplate, InputType.Text);
+        Person.Age = Int32.Parse(InputOutput.Input(PersonTemplate.AgeInputTemplate, InputType.Digit));
 
         while (Person.Age > PersonLibrary.MaxAge)
         {
-            OutputInformation.TextWriteLine($"Введённый возраст больше максимального ({PersonLibrary.MaxAge})!");
-            Person.Age = Int32.Parse(OutputInformation.Input(PersonTemplate.AgeInputTemplate, InputType.Digit));
+            InputOutput.TextWriteLine($"Введённый возраст больше максимального ({PersonLibrary.MaxAge})!");
+            Person.Age = Int32.Parse(InputOutput.Input(PersonTemplate.AgeInputTemplate, InputType.Digit));
         }
 
-        string GenderString = OutputInformation.Input(PersonTemplate.GenderInputTemplate, InputType.Gender);
+        string GenderString = InputOutput.Input(PersonTemplate.GenderInputTemplate, InputType.Gender);
 
         switch (GenderString) // выбор пола на основе введённого в консоль символа 
         {
@@ -158,7 +161,7 @@ public class Person
             }
             catch (IndexOutOfRangeException ex)
             {
-                OutputInformation.TextWriteLine(ex.Message);
+                InputOutput.TextWriteLine(ex.Message);
             }
             InputString = InputString.Replace(s, s0); // Замена слова в исходной строке
         }

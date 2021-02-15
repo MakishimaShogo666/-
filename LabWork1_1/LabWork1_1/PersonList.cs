@@ -12,7 +12,7 @@ public class PersonList
     /// </summary>
     public Person[] data;
     /// <summary>
-    /// maxListQuantity - максимальное число списков персон (только для чтения)
+    /// Максимальное число списков персон (только для чтения)
     /// </summary>
     public static readonly int maxListQuantity = 1000;
 
@@ -75,7 +75,7 @@ public class PersonList
     /// </summary>
     /// <param name="person"></param>
     /// <returns>
-    /// Индекс персоны person в списке
+    /// Возвращает индекс персоны person в списке
     /// </returns>
     public int FindIndex(Person person)
     {
@@ -87,7 +87,7 @@ public class PersonList
     /// </summary>
     /// <param name="removingPerson"></param>
     /// <returns>
-    /// Список с удалённой персоной
+    /// Возвращает список с удалённой персоной
     /// </returns>
     ///
     public Person[] Remove(Person removingPerson)
@@ -102,7 +102,7 @@ public class PersonList
     /// </summary>
     /// <param name="ExceptionPerson"></param>
     /// <returns>
-    /// Cписок с удалённой персоной
+    /// Возвращает список с удалённой персоной
     /// </returns>
     public Person[] RemoveByIndex(int exceptionIndex)
     {
