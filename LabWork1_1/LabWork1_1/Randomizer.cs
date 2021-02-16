@@ -41,7 +41,13 @@ namespace LabWork1_1
             Person person = new Person(surname,name,age,gender);
             return person;
         }
-
+        /// <summary>
+        /// Функция GetRandomList для вывода списка со случайными персонами
+        /// </summary>
+        /// <param name="personCount"> - число персон в списке </param>
+        /// <returns>
+        /// Возвращается случайная персона
+        /// </returns>
         public static PersonList GetRandomList(int personCount)
         {
             PersonList personList = new PersonList(personCount);

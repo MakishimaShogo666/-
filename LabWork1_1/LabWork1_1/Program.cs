@@ -71,7 +71,7 @@ namespace LabWork1_1
 
                 while(ListIndex > PersonListQuantity)
                 {
-                    InputOutput.TextWriteLine("Введённый номер списка больше числа списков персон!");
+                    InputOutput.TextWriteLine($"Введённый номер списка больше числа списков персон! ({PersonListQuantity})"); ;
                     ListIndex = Int32.Parse(InputOutput.Input("Введите номер списка для добавления персоны: ", InputType.Digit));
                 }
 
