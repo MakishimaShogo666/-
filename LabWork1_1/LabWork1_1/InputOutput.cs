@@ -3,249 +3,276 @@ using System.Web.RegularExpressions;
 using System.Text.RegularExpressions;
 using System.Diagnostics;
 using System.Threading;
-using LabWork1_1;
 
-/// <summary>
-/// Перечисление типов ввода
-/// </summary>
-public enum InputType
-{
-    Digit,
-    Gender,
-    Text
-}
+///// <summary>
+///// Перечисление типов ввода
+///// </summary>
+//public enum InputType
+//{
+//    Digit, //число (цифра)
+//    Gender, //пол
+//    Text //текст
+//}
 
-public class InputOutput
-{
-    /// <summary>
-    /// Метод TextWriteLine для записи в новую строку
-    /// </summary>
-    /// <param name="text"></param>
-    public static void TextWriteLine(object text)
-    {
-        if (text != null)
-        {
-            Console.WriteLine(text);
-        }
-        else Console.WriteLine();
-    }
-    /// <summary>
-    /// Метод TextWrite для записи в текущую строку 
-    /// </summary>
-    /// <param name="text"></param>
-    public static void TextWrite(object text)
-    {
-        if (text != null)
-        {
-            Console.Write(text);
-        }
-        else Console.Write("");
-    }
-    /// <summary>
-    /// Функция QuitOfProgram для выхода из программы 
-    /// </summary>
-    /// <param name="a"></param>
-    /// <returns>
-    /// Возвращается true, если выбран выход из программы
-    /// </returns>
-    public static bool QuitOfProgram(bool a)
-    {
-        TextWriteLine("\n" + "Для продолжения работы программы нажмите Enter, " +
-            "для выхода из программы нажмите любую другую клавишу" + "\n");
-        if (Console.ReadKey().Key != ConsoleKey.Enter)//если нажата не клавиша Enter, то выход из программы
-        {
-            a = true;
-        }
-        return a;
-    }
-    /// <summary>
-    /// Метод PersonWrite для записи персоны 
-    /// </summary>
-    /// <param name="person"></param>
-    public static void PersonWrite(Person person)
-    {
-        TextWriteLine(PersonTemplate.SurnameOutputTemplate + person.Surname);
-        TextWriteLine(PersonTemplate.NameOutputTemplate + person.Name);
-        TextWriteLine(PersonTemplate.AgeOutputTemplate + person.Age);
-        switch (person.Gender)
-        {
-            case GenderList.Male:
-                TextWriteLine(PersonTemplate.GenderOutputTemplate + "мужской");
-                break;
-            case GenderList.Female:
-                TextWriteLine(PersonTemplate.GenderOutputTemplate + "женский");
-                break;
-        }
-    }
-    /// <summary>
-    /// Метод ListWrite для записи списка персон
-    /// </summary>
-    /// <param name="personQuantity"></param>
-    /// <param name="people"></param>
-    public static void ListWrite(int personQuantity, PersonList people)
-    {
-        for (int i = 0; i < personQuantity; i++)
-        {
-            TextWriteLine($"Ввод данных о {i + 1}-й персоне");
-            TextWriteLine(null);
-            PersonWrite(people.data[i]);
-            TextWriteLine(null);
-        }
-    }
-    /// <summary>
-    /// Функция Input для ввода данных
-    /// </summary>
-    /// <param name="condition"></param>
-    /// <param name="type"></param>
-    /// <returns>
-    /// Возвращается inputString - введённая строка
-    /// </returns>
-    public static string Input(string condition, InputType inputType)
-    {
-        string inputString = ""; 
-        string digitPattern = @"[0-9]"; // Шаблон для ввода цифр
-        string genderPattern = @"[mfMFмжМЖ]"; // Шаблон для ввода пола
-        string namePattern = @"([a-zA-Z]|[а-яА-Я]|[ -])"; // Шаблон для ввода текста (имён и фамилий)
-        string nameException = @"(- |  | -|--)"; // Шаблон для исключения повторения разделителей слов
-        char[] delimiters = new char[] { ' ', '-' }; // Массив символов разделителей слов
-        TextWrite(condition);
-        switch (inputType)
-        {
-            case InputType.Digit:
-                while (true)
-                {
-                    ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+///// <summary>
+///// Класс для ввода-вывода данных
+///// </summary>
+//public class InputOutput
+//{
+//    #region Процедуры
+//    /// <summary>
+//    /// Процедура для записи символов в новую строку
+//    /// </summary>
+//    /// <param name="text">Вводимый символ</param>
+//    public static void TextWriteLine(object text, ConsoleColor color)
+//    {
+//        if (text != null)
+//        {
+//            Console.ForegroundColor = color;
+//            Console.WriteLine(text);
+//            Console.ResetColor();
+//        }
+//        else Console.WriteLine();
+//    }
+//    /// <summary>
+//    /// Процедура для записи в текущую строку 
+//    /// </summary>
+//    /// <param name="text">Вводимый символ</param>
+//    public static void TextWrite(object text)
+//    {
+//        if (text != null)
+//        {
+//            Console.Write(text);
+//        }
+//        else Console.Write("");
+//    }
+//    /// <summary>
+//    /// Процедура для вывода персоны
+//    /// </summary>
+//    /// <param name="person">Персона</param>
+//    public static void PersonWrite(string message, Person person)
+//    {
+//        TextWriteLine(message, ConsoleColor.Blue);
+//        TextWriteLine(null, 0);
+//        TextWriteLine(Pattern.SurnameOutputTemplate + person.Surname, ConsoleColor.White);
+//        TextWriteLine(Pattern.NameOutputTemplate + person.Name, ConsoleColor.White);
+//        TextWriteLine(Pattern.AgeOutputTemplate + person.Age, ConsoleColor.White);
+//        switch (person.Gender)
+//        {
+//            case GenderList.Male:
+//                TextWriteLine(Pattern.GenderOutputTemplate + "мужской", ConsoleColor.White);
+//                break;
+//            case GenderList.Female:
+//                TextWriteLine(Pattern.GenderOutputTemplate + "женский", ConsoleColor.White);
+//                break;
+//        }
+//        TextWriteLine(null, 0);
+//    }
+//    /// <summary>
+//    /// Процедура для вывода списка персон
+//    /// </summary>
+//    /// <param name="personQuantity">Число персон в списке</param>
+//    /// <param name="people">Список персон</param>
+//    public static void ListWrite(int personQuantity, PersonList people)
+//    {
+//        for (int i = 0; i < personQuantity; i++)
+//        {
+//            PersonWrite($"Ввод данных о {i + 1}-й персоне", people.data[i]);
+//        }
+//    }
 
-                    //Если вводятся клавиши, удовлетворяющие шаблону или клавиша Backspace
-                    //
-                    if (((Regex.IsMatch(keyInfo.KeyChar.ToString(), digitPattern) == true)
-                       || (keyInfo.Key == ConsoleKey.Backspace)))
-                    {
-                        // Если введённая клавиша не BackSpace, то осуществляется ввод в inputString
-                        //
-                        if (keyInfo.Key != ConsoleKey.Backspace)
-                        {
-                            inputString = inputString + keyInfo.KeyChar;
+//    public static void ListPrint(string message, int personListQuantity, PersonList[] people)
+//    {
+//        TextWriteLine(message, ConsoleColor.DarkCyan);
+//        TextWriteLine(null, 0);
 
-                            // Если переменная inputString не содержит только 0, то вводится значение с клавиатуры
-                            //
-                            if (inputString != "0") 
-                            {
-                                TextWrite(keyInfo.KeyChar);
-                            }
-                            else // Иначе ничего не записывается
-                            {
-                                inputString = "";
-                                TextWrite("");
-                            }
-                        }
-                        else // Иначе удаляется предыдущий символ
-                        {
-                            if (inputString != "") // Если переменная inputString не пустая, то удаляется один символ
-                            {
-                                TextWrite("\b \b"); // Удаление последнего символа из консоли
-                                inputString = inputString.Substring(0, inputString.Length - 1); 
-                            }
-                        }
-                    }
-                    // Если нажата клавиша Enter и строка не пустая, то ввод завершён
-                    //
-                    if ((keyInfo.Key == ConsoleKey.Enter) && (inputString != "")) 
-                    {
-                        break;
-                    }
-                }
-                TextWriteLine(null);
-                try
-                {
-                    return Int32.Parse(inputString).ToString();
-                }
-                catch (FormatException)
-                {
-                    inputString = "0";
-                    return Int32.Parse(inputString).ToString();
-                }
-                catch (OverflowException)
-                {
-                    inputString = $"{Int32.MaxValue}";
-                    return Int32.Parse(inputString).ToString();
-                }
-            case InputType.Gender:
-                while (true)
-                {
-                    ConsoleKeyInfo keyInfo = Console.ReadKey(true);
-                    if (((Regex.IsMatch(keyInfo.KeyChar.ToString(), genderPattern) == true) 
-                       && (inputString.Length < 1)) || (keyInfo.Key == ConsoleKey.Backspace))
-                    {
-                        if (keyInfo.Key != ConsoleKey.Backspace)
-                        {
-                            inputString = inputString + keyInfo.KeyChar;
-                            if (inputString != "0")
-                            {
-                                TextWrite(keyInfo.KeyChar);
-                            }
-                            else
-                            {
-                                inputString = "";
-                                TextWrite("");
-                            }
-                        }
-                        else
-                        {
-                            if (inputString != "")
-                            {
-                                TextWrite("\b \b");
-                                inputString = inputString.Substring(0, inputString.Length - 1);
-                            }
-                        }
-                    }
-                    if ((keyInfo.Key == ConsoleKey.Enter) && (inputString != ""))
-                        {
-                        break;
-                    }
-                }
-                TextWriteLine(null);
-                return inputString;
-            default:
-                while (true)
-                {
-                    ConsoleKeyInfo keyInfo = Console.ReadKey(true);
-                    if ((Regex.IsMatch(keyInfo.KeyChar.ToString(), namePattern) == true) 
-                       || (keyInfo.Key == ConsoleKey.Backspace))
-                    {
-                        if (keyInfo.Key != ConsoleKey.Backspace) 
-                        {
-                            inputString = inputString + keyInfo.KeyChar;
-                            if (Regex.IsMatch(inputString, nameException) == true)
-                            {
-                                inputString = inputString.Substring(0, inputString.Length - 1);
-                                TextWrite("");
-                            }
-                            else
-                            {
-                                TextWrite(keyInfo.KeyChar);
-                            }
-                        }
-                        else
-                        {
-                            if ((inputString != "") & (inputString.Length != 0))
-                            {
-                                TextWrite("\b \b");
-                                inputString = inputString.Substring(0, inputString.Length - 1);
-                            }
-                        }
-                    }
-                    if ((keyInfo.Key == ConsoleKey.Enter) && (inputString != ""))
-                    {
-                        break;
-                    }
-                }
-                if (inputString!="")
-                {
-                    inputString = Person.RegisterChanger(inputString, delimiters);
-                }
-                TextWriteLine(null);
-                return inputString;
-        }
-    }
-}
+//        for (int i = 0; i < personListQuantity; i++)
+//        {
+//            TextWriteLine($"{i + 1}-ый список", ConsoleColor.Green);
+//            TextWriteLine(null, 0);
+//            if (people[i].PersonCount() == 0)
+//            {
+//                TextWriteLine($"{i + 1}-ый список очищен!", ConsoleColor.Red);
+//                TextWriteLine(null, 0);
+//            }
+//            else
+//            {
+//                ListWrite(people[i].PersonCount(), people[i]);
+//            }
+//        }
+//    }
+//    /// <summary>
+//    /// Процедура проверки условий ввода символов
+//    /// </summary>
+//    /// <param name="inputString">Выходная строка ввода</param>
+//    /// <param name="pattern">Шаблон ввода</param>
+//    /// <param name="stringMaxLength">Максимальная длина строки</param>
+//    /// <param name="inputType">Тип ввода</param>
+//    private static void ConditionInput(out string inputString, string pattern, byte stringMaxLength, InputType inputType)
+//    {
+//        inputString = "";
+//        while (true)
+//        {
+//            ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+//            //Если символ клавиши совпадает с шаблоном ввода и число символов в строке меньше максимального
+//            //или нажата клавиша Backspace, то выполняется процедура проверки ввода
+//            //
+//            if (Person.PatternCoincidence(inputString, keyInfo.KeyChar, pattern, stringMaxLength)
+//               || (keyInfo.Key == ConsoleKey.Backspace))
+//            {
+//                // Если введённая клавиша не BackSpace, то осуществляется ввод в inputString
+//                //
+//                if (keyInfo.Key != ConsoleKey.Backspace)
+//                {
+//                    inputString += keyInfo.KeyChar;
+
+//                    // Если вводится не текст, то строка ввода проверяется на наличие 0
+//                    //
+//                    if (inputType != InputType.Text)
+//                    {
+//                        // Если переменная inputString не содержит только 0, то вводится значение с клавиатуры
+//                        //
+//                        if (inputString != "0")
+//                        {
+//                            TextWrite(keyInfo.KeyChar);
+//                        }
+//                        // Иначе ничего не записывается
+//                        //
+//                        else
+//                        {
+//                            inputString = "";
+//                            TextWrite("");
+//                        }
+//                    }
+//                    // Иначе происходит проверка на повторение разделителей слов
+//                    //
+//                    else
+//                    {
+//                        if (Person.ExceptionCoincidence(inputString) == false)
+//                        {
+//                            TextWrite(keyInfo.KeyChar);
+//                        }
+//                        else
+//                        {
+//                            inputString = inputString.Substring(0, inputString.Length - 1);
+//                            TextWrite("");
+//                        }
+//                    }
+//                }
+//                // Иначе удаляется предыдущий символ
+//                //
+//                else
+//                {
+//                    // Если переменная inputString не пустая, то удаляется один символ
+//                    //
+//                    if (inputString != "")
+//                    {
+//                        // Удаление последнего символа из консоли
+//                        //
+//                        TextWrite("\b \b");
+//                        inputString = inputString.Substring(0, inputString.Length - 1);
+//                    }
+//                }
+//            }
+//            // Если нажата клавиша Enter и строка не пустая, то ввод завершён
+//            //
+//            if ((keyInfo.Key == ConsoleKey.Enter) && (inputString != ""))
+//            {
+//                TextWriteLine(null, 0);
+//                break;
+//            }
+//        }
+//    }
+//    #endregion
+
+//    #region Функции
+//    /// <summary>
+//    /// Функция для выхода из программы 
+//    /// </summary>
+//    /// <returns>
+//    /// true, если выбран выход из программы
+//    /// </returns>
+//    public static bool QuitOfProgram()
+//    {
+//        TextWriteLine("\n" + "Для продолжения работы программы нажмите Enter, " +
+//            "для выхода из программы нажмите любую другую клавишу" + "\n", ConsoleColor.Cyan);
+//        return Console.ReadKey().Key == ConsoleKey.Enter;
+//    }
+//    /// <summary>
+//    /// Функция Input для ввода данных
+//    /// </summary>
+//    /// <param name="message">Сообщение для ввода</param>
+//    /// <param name="inputType">Тип ввода</param>
+//    /// <returns>
+//    /// inputString - введённая строка
+//    /// </returns>
+//    public static string Input(string message, InputType inputType)
+//    {
+//        string inputString;
+//        TextWrite(message);
+//        switch (inputType)
+//        {
+//            case InputType.Digit:
+//                ConditionInput(out inputString, Pattern.DigitPattern, byte.MaxValue, InputType.Digit);
+//                return inputString;
+//            case InputType.Gender:
+//                ConditionInput(out inputString, Pattern.GenderPattern, 1, InputType.Gender);
+//                return inputString;
+//            default:
+//                ConditionInput(out inputString, Pattern.TextPattern, byte.MaxValue, InputType.Text);
+//                if (inputString != "")
+//                {
+//                    inputString = Person.RegisterChanger(inputString, Pattern.Delimiters);
+//                }
+//                return inputString;
+//        }
+//    }
+//    /// <summary>
+//    /// Функция проверки ввода
+//    /// </summary>
+//    /// <param name="Template">Шаблон ввода</param>
+//    /// <param name="inputType">Тип ввода</param>
+//    /// <returns>
+//    /// Проверенная введённая строка
+//    /// </returns>
+//    public static object CheckInput(string Template, InputType inputType)
+//    {
+//        if (inputType == InputType.Digit)
+//        {
+//            int varString;
+//            while (true)
+//            {
+//                try
+//                {
+//                    varString = Person.AgeCompare(Input(Template, inputType));
+//                    break;
+//                }
+//                catch (Exception ex)
+//                {
+//                    TextWriteLine(ex.Message, ConsoleColor.Red);
+//                    continue;
+//                }
+//            }
+//            return varString;
+//        }
+//        else
+//        {
+//            string varString;
+//            while (true)
+//            {
+//                try
+//                {
+//                    varString = Input(Template, inputType);
+//                    break;
+//                }
+//                catch (Exception ex)
+//                {
+//                    TextWriteLine(ex.Message, ConsoleColor.Red);
+//                    continue;
+//                }
+//            }
+//            return varString;
+//        }
+//    }
+//    #endregion
+//}

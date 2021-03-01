@@ -3,43 +3,119 @@ using System.Web.RegularExpressions;
 using System.Text.RegularExpressions;
 using LabWork1_1;
 
+#region Перечисление
 /// <summary>
 /// Перечисление полов, NotDefined - неопределённый пол
 /// </summary>
 public enum GenderList
 {
-    //TODO: RSDN +
     Male, 
     Female, 
     NotDefined
 }
+#endregion
 
 /// <summary>
 /// Класс Person
 /// </summary>
 public class Person
 {
-    //TODO: Properties +
+    #region Поля
+
+    #region Непубличные поля
     /// <summary>
     /// Фамилия
     /// </summary>
-    public string Surname { get; private set; }
+    private string _surname;
     /// <summary>
     /// Имя
     /// </summary>
-    public string Name { get; private set; }
-    /// <summary>
-    /// Возраст
-    /// </summary>
-    public int Age { get; private set; }
+    private string _name;
     /// <summary>
     /// Пол
     /// </summary>
-    public GenderList Gender { get; private set; }
+    private GenderList _gender;
     /// <summary>
-    /// Максимальный число персон в списке
+    /// Возраст
     /// </summary>
-    public static readonly int maxPersonQuantity = 1000;
+    private int _age;
+    #endregion
+
+    #region Публичные поля
+    /// <summary>
+    /// Фамилия
+    /// </summary>
+    public string Surname
+    {
+        get
+        {
+            return _surname;
+        }
+        private set
+        {
+            _surname = RegisterChanger(value, Pattern.Delimiters);
+        }
+    }
+    /// <summary>
+    /// Имя
+    /// </summary>
+    public string Name
+    {
+        get
+        {
+            return _name;
+        }
+        private set
+        {
+            _name = RegisterChanger(value, Pattern.Delimiters);
+        }
+    }
+    /// <summary>
+    /// Пол
+    /// </summary>
+    public GenderList Gender
+    {
+        get
+        {
+            return _gender;
+        }
+        private set
+        {
+            _gender = value;
+        }
+    }
+
+    /// <summary>
+    /// Возраст
+    /// </summary>
+    public int Age 
+    {
+        get
+        {
+            return _age;
+        }
+        private set
+        {
+            if (value > PersonLibrary.MaxAge)
+            {
+                throw new OverflowException($"Введённый возраст больше максимального ({PersonLibrary.MaxAge})!");
+            }
+            else 
+            {
+                _age = value;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Максимальное число персон в списке
+    /// </summary>
+    public static readonly int maxPersonQuantity = 200000000;
+    #endregion
+
+    #endregion
+
+    #region Конструктор
     /// <summary>
     /// Конструктор класса Person по умолчанию
     /// </summary>
@@ -48,123 +124,130 @@ public class Person
     /// <summary>
     /// Конструктор класса Person для создания персоны вручную
     /// </summary>
-    public Person(string SurnameInput, string NameInput, int AgeInput, GenderList GenderInput)
+    public Person(string surnameInput, string nameInput, int ageInput, GenderList genderInput)
     {
-        Surname = SurnameInput;
-        Name = NameInput;
-        Age = AgeInput;
-        Gender = GenderInput;
+        Surname = surnameInput;
+        Name = nameInput;
+        Age = ageInput;
+        Gender = genderInput;
     }
+    #endregion
+
+    #region Методы
 
     /// <summary>
-    /// Конструктор класса Person для создания случайной персоны заданного пола с указанным предпочтительным возрастом
+    /// Функция для обнаружения совпадения символа с шаблоном
     /// </summary>
-    public Person(int averageAge, GenderList GenderInput)
-    {
-        Random RandomNumber = new Random();
-        Age = RandomNumber.Next(averageAge / 2, averageAge + averageAge / 2 + 1);
-        Gender = GenderInput;
-
-        switch (Gender)
-        {
-            case GenderList.Male:
-                Surname = PersonLibrary.StandardMaleSurnameLibrary[RandomNumber.Next(PersonLibrary.StandardMaleSurnameCount)];
-                Name = PersonLibrary.StandardMaleNameLibrary[RandomNumber.Next(PersonLibrary.StandardMaleNameCount)];
-                break;
-            case GenderList.Female:
-                Surname = PersonLibrary.StandardFemaleSurnameLibrary[RandomNumber.Next(PersonLibrary.StandardFemaleSurnameCount)];
-                Name = PersonLibrary.StandardFemaleNameLibrary[RandomNumber.Next(PersonLibrary.StandardFemaleNameCount)];
-                break;
-        }
-    }
-
-    /// <summary>
-    /// Конструктор класса Person для создания случайной персоны заданного возраста
-    /// </summary>
-    public Person(int AgeInput)
-    {
-        Random RandomNumber = new Random();
-        Age = AgeInput;
-        Gender = (GenderList)RandomNumber.Next(0, 2);
-        //TODO: RSDN 
-        switch (Gender)
-        {
-            case GenderList.Male:
-                Surname = PersonLibrary.StandardMaleSurnameLibrary[RandomNumber.Next(PersonLibrary.StandardMaleSurnameCount)];
-                Name = PersonLibrary.StandardMaleNameLibrary[RandomNumber.Next(PersonLibrary.StandardMaleNameCount)];
-                break;
-            case GenderList.Female:
-                Surname = PersonLibrary.StandardMaleSurnameLibrary[RandomNumber.Next(PersonLibrary.StandardFemaleSurnameCount)];
-                Name = PersonLibrary.StandardFemaleNameLibrary[RandomNumber.Next(PersonLibrary.StandardFemaleNameCount)];
-                break;
-        }
-    }
-    /// <summary>
-    /// Функция PersonRead для ввода данных о персоне из консоли
-    /// </summary>
+    /// <param name="inputString">Строка ввода</param>
+    /// <param name="keyInfo">Клавиша</param>
+    /// <param name="pattern">Шаблон ввода</param>
+    /// <param name="stringMaxLength">Максимальная длина строки</param>
     /// <returns>
-    /// Возвращается персона с заданными параметрами
+    /// true, если клавиша совпадает с шаблоном и число символов в строке меньше stringMaxLength
     /// </returns>
-    public static Person PersonRead()
+    public static bool PatternCoincidence(string inputString, object keyInfo, string pattern, byte stringMaxLength)
     {
-        Person Person = new Person();
-
-        Person.Surname = InputOutput.Input(PersonTemplate.SurnameInputTemplate, InputType.Text);
-        Person.Name = InputOutput.Input(PersonTemplate.NameInputTemplate, InputType.Text);
-        Person.Age = Int32.Parse(InputOutput.Input(PersonTemplate.AgeInputTemplate, InputType.Digit));
-
-        while (Person.Age > PersonLibrary.MaxAge)
-        {
-            InputOutput.TextWriteLine($"Введённый возраст больше максимального ({PersonLibrary.MaxAge})!");
-            Person.Age = Int32.Parse(InputOutput.Input(PersonTemplate.AgeInputTemplate, InputType.Digit));
-        }
-
-        string GenderString = InputOutput.Input(PersonTemplate.GenderInputTemplate, InputType.Gender);
-
-        switch (GenderString) // выбор пола на основе введённого в консоль символа 
+        return (Regex.IsMatch(keyInfo.ToString(), pattern) == true) && (inputString.Length < stringMaxLength);
+    }
+    /// <summary>
+    /// Функция для обнаружения совпадения строки с шаблоном исключения
+    /// </summary>
+    /// <param name="inputString">Строка ввода</param>
+    /// <returns>
+    /// true, если строка ввода содержит символы из шаблона исключения
+    /// </returns>
+    public static bool ExceptionCoincidence(string inputString)
+    {
+        return Regex.IsMatch(inputString, Pattern.TextException);
+    }
+    /// <summary>
+    /// Функция для задания пола в соответствии с введённым символом
+    /// </summary>
+    /// <param name="genderString">Строка ввода пола</param>
+    /// <returns>
+    /// Пол
+    /// </returns>
+    public static GenderList GenderSetter(string genderString)
+    {
+        // выбор пола на основе введённого в консоль символа
+        switch (genderString)
         {
             case "м":
             case "М":
             case "M":
             case "m":
-                Person.Gender = GenderList.Male;
-                break;
+                return GenderList.Male;
             case "ж":
             case "Ж":
             case "F":
             case "f":
-                Person.Gender = GenderList.Female;
-                break;
+                return GenderList.Female;
         }
-
-        return Person;
+        return GenderList.NotDefined;
     }
-
     /// <summary>
     /// Функция RegisterChanger для изменения регистра введённых фамилии или имени персоны
     /// </summary>
-    /// <param name="InputString"></param>
-    /// <param name="Delimiters"></param>
+    /// <param name="inputString">Строка ввода</param>
+    /// <param name="delimiters">Массив разделителей</param>
     /// <returns>
-    /// Возвращается строка с изменённым регистром фамилии или имени персоны
+    /// Строка с изменённым регистром фамилии или имени персоны
     /// </returns>
-    public static string RegisterChanger(string InputString, char[] Delimiters)
+    public static string RegisterChanger(string inputString, char[] delimiters)
     {
-        string[] SplittedInputString = InputString.Split(Delimiters,StringSplitOptions.RemoveEmptyEntries); // Разбиение введённой строки на слова
-        foreach (string s in SplittedInputString) // Для каждого слова в строке осуществляется изменение регистра
+        if (Regex.IsMatch(inputString, Pattern.DigitPattern) || (Regex.IsMatch(inputString, Pattern.TextPattern) == false))
         {
-            string s0 = s.ToLower();
-
-            try
-            {
-                s0 = Char.ToUpper(s0[0]) + s0.Substring(1); // Перевод первого символа слова в верхний регистр
-            }
-            catch (IndexOutOfRangeException ex)
-            {
-                InputOutput.TextWriteLine(ex.Message);
-            }
-            InputString = InputString.Replace(s, s0); // Замена слова в исходной строке
+            throw new FormatException($"Строка '{inputString}' содержит недопустимые символы!");
         }
-        return InputString;
+        else
+        {
+            // Разбиение введённой строки на слова
+            //
+            string[] SplittedInputString = inputString.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
+
+            // Для каждого слова в строке осуществляется изменение регистра
+            //
+            foreach (string s in SplittedInputString)
+            {
+                string s0 = s.ToLower();
+
+                if (s0.Length < 2)
+                {
+                    s0 = char.ToUpper(s0[0]).ToString();
+                }
+                else
+                {
+                    s0 = char.ToUpper(s0[0]) + s0.Substring(1);
+                }
+                // Замена слова в исходной строке
+                //
+                inputString = inputString.Replace(s, s0);
+            }
+            return inputString;
+        }
     }
+    /// <summary>
+    /// Функция для получения числового значения возраста из введённой строки
+    /// </summary>
+    /// <param name="inAge">Строка ввода возраста</param>
+    /// <returns>
+    /// Числовое значение возраста
+    /// </returns>
+    public static int AgeCompare(string inAge)
+    {
+        if (Regex.IsMatch(inAge, Pattern.TextPattern) == true)
+        {
+            throw new FormatException("При вводе возраста введён недопустимый символ!");
+        }
+        if (int.TryParse(inAge, out int outAge) == false)
+        {
+            throw new OverflowException($"Слишком большое число!");
+        }
+        else if (outAge > PersonLibrary.MaxAge)
+        {
+            throw new OverflowException($"Введённый возраст больше максимального ({PersonLibrary.MaxAge})!");
+        }
+        return outAge;
+    }
+    #endregion
 }

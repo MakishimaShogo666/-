@@ -7,39 +7,43 @@ using System.Linq;
 /// </summary>
 public class PersonList
 {
+    #region Поля
     /// <summary>
-    /// Поле data - записи в списке персон
+    /// Записи в списке персон
     /// </summary>
     public Person[] data;
     /// <summary>
     /// Максимальное число списков персон (только для чтения)
     /// </summary>
-    public static readonly int maxListQuantity = 1000;
+    public static readonly int maxListQuantity = 200000000;
+    #endregion
 
+    #region Конструктор
     public PersonList(int numberOfPerson)
 	{
         data = new Person[numberOfPerson];
 	}
+    #endregion
 
+    #region Методы
     /// <summary>
-    /// Функция Add для добавления персоны в список
+    /// Процедура для добавления персоны в список
     /// </summary>
-    /// <param name="person"></param>
+    /// <param name="person">Персона</param>
     /// <returns>
     /// Список с добавленной персоной 
     /// </returns>
-    public Person[] Add(Person person)
+    public void Add(Person person)
     {
         Array.Resize(ref data, data.Length + 1);
-        data[data.Length-1]=person;
-        return data;
+        data[data.Length-1] = person;
     }
 
     /// <summary>
-    /// Функция ClearList для очистки списка
+    /// Функция для очистки списка
     /// </summary>
     /// <returns>
-    /// Возвращает пустой список
+    /// Пустой список
     /// </returns>
     public Person[] ClearList()
     {
@@ -48,10 +52,10 @@ public class PersonList
     }
 
     /// <summary>
-    /// Функция PersonCount для подсчёта числа персон в списке
+    /// Функция для подсчёта числа персон в списке
     /// </summary>
     /// <returns>
-    /// Возвращает число персон в списке
+    /// Число персон в списке
     /// </returns>
     public int PersonCount()
     {
@@ -59,11 +63,11 @@ public class PersonList
     }
 
     /// <summary>
-    /// Функция FindPerson для поиска персоны в списке по индексу
+    /// Функция для поиска персоны в списке по индексу
     /// </summary>
-    /// <param name="index"></param>
+    /// <param name="index">Номер персоны в списке персон</param>
     /// <returns>
-    /// Возвращает персону в списке с индексом index
+    /// Персона в списке с индексом index
     /// </returns>
     public Person FindPerson(int index)
     {
@@ -71,11 +75,11 @@ public class PersonList
     }
 
     /// <summary>
-    /// Функция FindIndex для поиска индекса по указанной персоне
+    /// Функция для поиска индекса по указанной персоне
     /// </summary>
-    /// <param name="person"></param>
+    /// <param name="person">Персона</param>
     /// <returns>
-    /// Возвращает индекс персоны person в списке
+    /// Индекс персоны person в списке
     /// </returns>
     public int FindIndex(Person person)
     {
@@ -83,16 +87,15 @@ public class PersonList
     }
 
     /// <summary>
-    /// Функция Remove для удаления персоны из списка
+    /// Функция для удаления персоны из списка
     /// </summary>
-    /// <param name="removingPerson"></param>
+    /// <param name="removingPerson">Удаляемая персона</param>
     /// <returns>
-    /// Возвращает список с удалённой персоной
+    /// Список с удалённой персоной
     /// </returns>
     ///
     public Person[] Remove(Person removingPerson)
     {
-        //если персона не равна удаляемой персоне, то она остаётся в массиве
         data = data.Where((value) => value != removingPerson).ToArray();
         return data;
     }
@@ -100,14 +103,14 @@ public class PersonList
     /// <summary>
     /// Функция RemoveByIndex для удаления персоны из списка по индексу
     /// </summary>
-    /// <param name="ExceptionPerson"></param>
+    /// <param name="removingIndex">Индекс удаляемой персоны</param>
     /// <returns>
-    /// Возвращает список с удалённой персоной
+    /// Список с удалённой персоной
     /// </returns>
-    public Person[] RemoveByIndex(int exceptionIndex)
+    public Person[] RemoveByIndex(int removingIndex)
     {
-        //если индекс не равен удаляемому индексу, то персона остаётся в списке
-        data = data.Where((value,index) => index != exceptionIndex).ToArray();
+        data = data.Where((value, index) => index != removingIndex).ToArray();
         return data;
     }
+    #endregion
 }
