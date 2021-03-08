@@ -57,16 +57,16 @@ namespace MainProject
         {
             TextWriteLine(message, ConsoleColor.Blue);
             TextWriteLine(null, 0);
-            TextWriteLine(Pattern.SurnameOutputTemplate + person.Surname, ConsoleColor.White);
-            TextWriteLine(Pattern.NameOutputTemplate + person.Name, ConsoleColor.White);
-            TextWriteLine(Pattern.AgeOutputTemplate + person.Age, ConsoleColor.White);
+            TextWriteLine(Pattern.SurnameOutputMessage + person.Surname, ConsoleColor.White);
+            TextWriteLine(Pattern.NameOutputMessage + person.Name, ConsoleColor.White);
+            TextWriteLine(Pattern.AgeOutputMessage + person.Age, ConsoleColor.White);
             switch (person.Gender)
             {
                 case GenderList.Male:
-                    TextWriteLine(Pattern.GenderOutputTemplate + "мужской", ConsoleColor.White);
+                    TextWriteLine(Pattern.GenderOutputMessage + "мужской", ConsoleColor.White);
                     break;
                 case GenderList.Female:
-                    TextWriteLine(Pattern.GenderOutputTemplate + "женский", ConsoleColor.White);
+                    TextWriteLine(Pattern.GenderOutputMessage + "женский", ConsoleColor.White);
                     break;
             }
             TextWriteLine(null, 0);
@@ -112,7 +112,8 @@ namespace MainProject
         /// <param name="pattern">Шаблон ввода</param>
         /// <param name="stringMaxLength">Максимальная длина строки</param>
         /// <param name="inputType">Тип ввода</param>
-        private static void ConditionInput(out string inputString, string pattern, byte stringMaxLength, InputType inputType)
+        private static void ConditionInput(out string inputString, string pattern,
+        byte stringMaxLength, InputType inputType)
         {
             inputString = "";
             while (true)
@@ -187,6 +188,26 @@ namespace MainProject
                 }
             }
         }
+        /// <summary>
+        /// Процедура PersonRead для проверки ввода свойств
+        /// </summary>
+        /// <param name="action">Функция ввода свойства</param>
+        private static void PersonRead(Action action)
+        {
+            while (true)
+            {
+                try
+                {
+                    action();
+                    break;
+                }
+                catch (Exception ex)
+                {
+                    TextWriteLine(ex.Message, ConsoleColor.Red);
+                    continue;
+                }
+            }
+        }
         #endregion
 
         #region Функции
@@ -224,59 +245,44 @@ namespace MainProject
                     return inputString;
                 default:
                     ConditionInput(out inputString, Pattern.TextPattern, byte.MaxValue, InputType.Text);
-                    if (inputString != "")
-                    {
-                        inputString = Person.RegisterChanger(inputString, Pattern.Delimiters);
-                    }
                     return inputString;
             }
         }
         /// <summary>
-        /// Функция проверки ввода
+        /// Функция InputPerson для ввода персоны
         /// </summary>
-        /// <param name="Template">Шаблон ввода</param>
-        /// <param name="inputType">Тип ввода</param>
-        /// <returns>
-        /// Проверенная введённая строка
-        /// </returns>
-        public static object CheckInput(string Template, InputType inputType)
+        /// <returns>Введённая персона</returns>
+        public static Person InputPerson()
         {
-            if (inputType == InputType.Digit)
+            Person inputPerson = new Person();
+
+            void SurnameInput()
             {
-                int varString;
-                while (true)
-                {
-                    try
-                    {
-                        varString = Person.AgeCompare(Input(Template, inputType));
-                        break;
-                    }
-                    catch (Exception ex)
-                    {
-                        TextWriteLine(ex.Message, ConsoleColor.Red);
-                        continue;
-                    }
-                }
-                return varString;
+                inputPerson.Surname = Input(Pattern.SurnameInputMessage, InputType.Text);
             }
-            else
+
+            void NameInput()
             {
-                string varString;
-                while (true)
-                {
-                    try
-                    {
-                        varString = Input(Template, inputType);
-                        break;
-                    }
-                    catch (Exception ex)
-                    {
-                        TextWriteLine(ex.Message, ConsoleColor.Red);
-                        continue;
-                    }
-                }
-                return varString;
+                inputPerson.Name = Input(Pattern.NameInputMessage, InputType.Text);
             }
+
+            void AgeInput()
+            {
+                inputPerson.Age = int.Parse(Input(Pattern.AgeInputMessage, InputType.Digit));
+            }
+
+            void GenderInput()
+            {
+                inputPerson.Gender = Person.GenderSetter(Input(Pattern.GenderInputMessage,
+                InputType.Gender)); 
+            }
+
+            PersonRead(SurnameInput);
+            PersonRead(NameInput);
+            PersonRead(AgeInput);
+            PersonRead(GenderInput);
+
+            return inputPerson;
         }
         #endregion
     }

@@ -32,12 +32,16 @@ namespace LabWork1_1
             switch (gender) // выбор стандартных фамилии и имени на основе пола
             {
                 case GenderList.Male:
-                    surname = PersonLibrary.StandardMaleSurnameLibrary[_randomNumber.Next(PersonLibrary.StandardMaleSurnameCount)];
-                    name = PersonLibrary.StandardMaleNameLibrary[_randomNumber.Next(PersonLibrary.StandardMaleSurnameCount)];
+                    surname = PersonLibrary.StandardMaleSurnameLibrary
+                    [_randomNumber.Next(PersonLibrary.StandardMaleSurnameCount)];
+                    name = PersonLibrary.StandardMaleNameLibrary
+                    [_randomNumber.Next(PersonLibrary.StandardMaleSurnameCount)];
                     break;
                 case GenderList.Female:
-                    surname = PersonLibrary.StandardFemaleSurnameLibrary[_randomNumber.Next(PersonLibrary.StandardFemaleSurnameCount)];
-                    name = PersonLibrary.StandardFemaleNameLibrary[_randomNumber.Next(PersonLibrary.StandardFemaleSurnameCount)];
+                    surname = PersonLibrary.StandardFemaleSurnameLibrary
+                    [_randomNumber.Next(PersonLibrary.StandardFemaleSurnameCount)];
+                    name = PersonLibrary.StandardFemaleNameLibrary
+                    [_randomNumber.Next(PersonLibrary.StandardFemaleSurnameCount)];
                     break;
             }
 

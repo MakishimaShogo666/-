@@ -11,20 +11,20 @@ namespace LabWork1_1
     /// </summary>
     public static class Pattern
     {
-        public static readonly string DigitPattern = @"[0-9]";
-        public static readonly string GenderPattern = @"[mfMFмжМЖ]";
-        public static readonly string TextPattern = @"([a-zA-Z]|[а-яА-Я]|[ -])";
-        public static readonly string TextException = @"(- |  | -|--)";
+        public const string DigitPattern = @"[0-9]";
+        public const string GenderPattern = @"[mfMFмжМЖ]";
+        public const string TextPattern = @"([a-zA-Z]|[а-яА-Я]|[ -])";
+        public const string TextException = @"(^ |^-|- |  | -|--)";
         public static readonly char[] Delimiters = new char[] { ' ', '-' };
 
-        public static readonly string SurnameInputTemplate = "Введите фамилию персоны: ";
-        public static readonly string NameInputTemplate = "Введите имя персоны: ";
-        public static readonly string AgeInputTemplate = "Введите возраст персоны: ";
-        public static readonly string GenderInputTemplate = "Введите пол персоны (м/М/m/M - мужской, ж/Ж/f/F - женский): ";
+        public const string SurnameInputMessage = "Введите фамилию персоны: ";
+        public const string NameInputMessage = "Введите имя персоны: ";
+        public const string AgeInputMessage = "Введите возраст персоны: ";
+        public const string GenderInputMessage = "Введите пол персоны (м/М/m/M - мужской, ж/Ж/f/F - женский): ";
 
-        public static readonly string SurnameOutputTemplate = "Фамилия: ";
-        public static readonly string NameOutputTemplate = "Имя: ";
-        public static readonly string AgeOutputTemplate = "Возраст: ";
-        public static readonly string GenderOutputTemplate = "Пол: ";
+        public const string SurnameOutputMessage = "Фамилия: ";
+        public const string NameOutputMessage = "Имя: ";
+        public const string AgeOutputMessage = "Возраст: ";
+        public const string GenderOutputMessage = "Пол: ";
     }
 }

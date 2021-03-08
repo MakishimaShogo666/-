@@ -9,7 +9,7 @@ namespace LabWork1_1
     /// <summary>
     /// Библиотека стандартных имён и фамилий, а также стандартных свойств персон
     /// </summary>
-    public class PersonLibrary
+    public static class PersonLibrary
     {
         public static readonly string[] StandardMaleSurnameLibrary = new string[] 
         { 
@@ -49,6 +49,6 @@ namespace LabWork1_1
         public static readonly int StandardFemaleNameCount = StandardFemaleNameLibrary.Length;
         public static readonly int StandardFemaleSurnameCount = StandardFemaleSurnameLibrary.Length;
 
-        public static readonly int MaxAge = 118; // Максимально возможный возраст персоны
+        public const int MaxAge = 118; // Максимально возможный возраст персоны
     }
 }

@@ -51,9 +51,16 @@ public class Person
         {
             return _surname;
         }
-        private set
+        set
         {
-            _surname = RegisterChanger(value, Pattern.Delimiters);
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                throw new ArgumentException("Фамилия не может быть пустой!");
+            }
+            else
+            {
+                _surname = RegisterChanger(value, Pattern.Delimiters);
+            }
         }
     }
     /// <summary>
@@ -65,9 +72,42 @@ public class Person
         {
             return _name;
         }
-        private set
+        set
         {
-            _name = RegisterChanger(value, Pattern.Delimiters);
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                throw new ArgumentException("Имя не может быть пустым!");
+            }
+            else
+            {
+                _name = RegisterChanger(value, Pattern.Delimiters);
+            }
+        }
+    }
+    /// <summary>
+    /// Возраст
+    /// </summary>
+    public int Age
+    {
+        get
+        {
+            return _age;
+        }
+        set
+        {
+            if (value > PersonLibrary.MaxAge)
+            {
+                throw new OverflowException($"Введённый возраст больше максимального" +
+                $" ({PersonLibrary.MaxAge})!");
+            }
+            else if (value < 0)
+            {
+                throw new ArgumentOutOfRangeException("Возраст не может быть меньше 0!");
+            }
+            else
+            {
+                _age = value;
+            }
         }
     }
     /// <summary>
@@ -79,34 +119,11 @@ public class Person
         {
             return _gender;
         }
-        private set
+        set
         {
             _gender = value;
         }
     }
-
-    /// <summary>
-    /// Возраст
-    /// </summary>
-    public int Age 
-    {
-        get
-        {
-            return _age;
-        }
-        private set
-        {
-            if (value > PersonLibrary.MaxAge)
-            {
-                throw new OverflowException($"Введённый возраст больше максимального ({PersonLibrary.MaxAge})!");
-            }
-            else 
-            {
-                _age = value;
-            }
-        }
-    }
-
     /// <summary>
     /// Максимальное число персон в списке
     /// </summary>
@@ -145,9 +162,11 @@ public class Person
     /// <returns>
     /// true, если клавиша совпадает с шаблоном и число символов в строке меньше stringMaxLength
     /// </returns>
-    public static bool PatternCoincidence(string inputString, object keyInfo, string pattern, byte stringMaxLength)
+    public static bool PatternCoincidence(string inputString, object keyInfo,
+    string pattern, byte stringMaxLength)
     {
-        return (Regex.IsMatch(keyInfo.ToString(), pattern) == true) && (inputString.Length < stringMaxLength);
+        return (Regex.IsMatch(keyInfo.ToString(), pattern) == true)
+        && (inputString.Length < stringMaxLength);
     }
     /// <summary>
     /// Функция для обнаружения совпадения строки с шаблоном исключения
@@ -195,7 +214,8 @@ public class Person
     /// </returns>
     public static string RegisterChanger(string inputString, char[] delimiters)
     {
-        if (Regex.IsMatch(inputString, Pattern.DigitPattern) || (Regex.IsMatch(inputString, Pattern.TextPattern) == false))
+        if (Regex.IsMatch(inputString, Pattern.DigitPattern)
+        || (Regex.IsMatch(inputString, Pattern.TextPattern) == false))
         {
             throw new FormatException($"Строка '{inputString}' содержит недопустимые символы!");
         }
@@ -203,7 +223,8 @@ public class Person
         {
             // Разбиение введённой строки на слова
             //
-            string[] SplittedInputString = inputString.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
+            string[] SplittedInputString = inputString.Split(delimiters,
+            StringSplitOptions.RemoveEmptyEntries);
 
             // Для каждого слова в строке осуществляется изменение регистра
             //
@@ -229,25 +250,26 @@ public class Person
     /// <summary>
     /// Функция для получения числового значения возраста из введённой строки
     /// </summary>
-    /// <param name="inAge">Строка ввода возраста</param>
+    /// <param name="inputAge">Строка ввода возраста</param>
     /// <returns>
-    /// Числовое значение возраста
+    /// Числовое значение возраста, прошедшее проверки
     /// </returns>
-    public static int AgeCompare(string inAge)
+    public static int AgeCheck(string inputAge)
     {
-        if (Regex.IsMatch(inAge, Pattern.TextPattern) == true)
+        if (Regex.IsMatch(inputAge, Pattern.TextPattern) == true)
         {
             throw new FormatException("При вводе возраста введён недопустимый символ!");
         }
-        if (int.TryParse(inAge, out int outAge) == false)
+        if (int.TryParse(inputAge, out int outputAge) == false)
         {
-            throw new OverflowException($"Слишком большое число!");
+            throw new OverflowException("Слишком большое число!");
         }
-        else if (outAge > PersonLibrary.MaxAge)
+        else if (outputAge > PersonLibrary.MaxAge)
         {
-            throw new OverflowException($"Введённый возраст больше максимального ({PersonLibrary.MaxAge})!");
+            throw new OverflowException($"Введённый возраст больше максимального" +
+            $" ({PersonLibrary.MaxAge})!");
         }
-        return outAge;
+        return outputAge;
     }
-    #endregion
+        #endregion
 }

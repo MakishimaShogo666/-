@@ -65,19 +65,13 @@ namespace MainProject
                     $"Введённый номер списка больше числа списков персон! ({personListQuantity})",
                     "Введите номер списка для добавления персоны: ");
 
-                string surname = (string)InputOutput.CheckInput
-                (Pattern.SurnameInputTemplate, InputType.Text);
-                string name = (string)InputOutput.CheckInput
-                (Pattern.NameInputTemplate, InputType.Text);
-                int age = (int)InputOutput.CheckInput
-                (Pattern.AgeInputTemplate, InputType.Digit);
-                GenderList gender = Person.GenderSetter((string)
-                InputOutput.CheckInput(Pattern.GenderInputTemplate, InputType.Gender));
 
-                people[listIndex - 1].Add(new Person(surname, name, age, gender));
+                Person person = InputOutput.InputPerson();
+
+                people[listIndex - 1].Add(person);
 
                 InputOutput.PersonWrite($"Ввод данных о добавленной персоне:",
-                    people[listIndex - 1].data[people[listIndex - 1].PersonCount() - 1]);
+                people[listIndex - 1].data[people[listIndex - 1].PersonCount() - 1]);
 
                 // Копирование заданной персоны в заданный список
                 //
@@ -114,7 +108,7 @@ namespace MainProject
                 $"Введите номер персоны для удаления из {listRemoveIndex}-го списка: ");
 
                 people[listRemoveIndex - 1].RemoveByIndex(removeIndex - 1);
-
+                
                 InputOutput.ListPrint("Просмотр списков персон", personListQuantity, people);
 
                 int clearlistIndex = CheckCount(personListQuantity,
