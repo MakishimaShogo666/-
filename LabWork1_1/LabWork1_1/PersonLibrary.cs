@@ -18,6 +18,7 @@ namespace LabWork1_1
             "Сидоров",
             "Сергеев"
         };
+
         public static readonly string[] StandardFemaleSurnameLibrary = new string[]
         {
             "Иванова", 
@@ -25,6 +26,7 @@ namespace LabWork1_1
             "Сидорова", 
             "Сергеева" 
         };
+
         public static readonly string[] StandardMaleNameLibrary = new string[] 
         {
             "Иван", 
@@ -34,6 +36,7 @@ namespace LabWork1_1
             "Сергей", 
             "Дмитрий"
         };
+        
         public static readonly string[] StandardFemaleNameLibrary = new string[]
         {
             "Татьяна",
@@ -44,11 +47,47 @@ namespace LabWork1_1
             "Дарья"
         };
 
+        public static readonly string[] StandardEducationCenterNameLibrary = new string[]
+        {
+            "Школа №1",
+            "Школа №2",
+            "Школа №8",
+            "Лицей №15",
+            "Школа №16",
+            "Лицей №17",
+            "Детский сад \"Рябинка\"",
+            "Центр дошкольного развития \"Тормозок\"",
+            "Центр развития детей \"Дети солнца\"",
+            "Детский сад \"Берёзка\"",
+            "Центр дошкольного развития \"Dawn\"",
+            "Детский сад №1"
+        };
+
+        public static readonly string[] StandardJobNameLibrary = new string[]
+        {
+            "ООО \"Берёзовские электрические сети\"",
+            "АО \"Системный оператор Единой энергетической системы\"",
+            "Кемеровское РДУ",
+            "ОДУ Сибири",
+            "Горводоканал",
+            "ОГАУЗ \"Межвузовская поликлиника\""
+        };
+
         public static readonly int StandardMaleNameCount = StandardMaleNameLibrary.Length;
         public static readonly int StandardMaleSurnameCount = StandardMaleSurnameLibrary.Length;
         public static readonly int StandardFemaleNameCount = StandardFemaleNameLibrary.Length;
         public static readonly int StandardFemaleSurnameCount = StandardFemaleSurnameLibrary.Length;
+        public static readonly int StandardEducationCenterNameCount = StandardEducationCenterNameLibrary.Length;
+        public static readonly int StandardJobNameCount = StandardJobNameLibrary.Length;
 
-        public const int MaxAge = 118; // Максимально возможный возраст персоны
+        public const int MaxAge = 118; 
+        public const int PassportAge = 14; 
+        public const int PassportLength = 10;
+
+        public const string MaleGender = "мужской";
+        public const string FemaleGender = "женский";
+        public const string MaleMarriageStatus = "женат";
+        public const string FemaleMarriageStatus = "замужем";
+        public const string Negation = "не";
     }
 }

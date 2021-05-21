@@ -8,10 +8,27 @@ using System.Linq;
 public class PersonList
 {
     #region Поля
+
     /// <summary>
     /// Записи в списке персон
     /// </summary>
-    public Person[] data;
+    private PersonBase[] _data;
+
+    /// <summary>
+    /// Записи в списке персон
+    /// </summary>
+    public PersonBase[] Data
+    {
+        get
+        {
+            return _data;
+        }
+        set
+        {
+            _data = value;
+        }
+    }
+
     /// <summary>
     /// Максимальное число списков персон (только для чтения)
     /// </summary>
@@ -19,10 +36,23 @@ public class PersonList
     #endregion
 
     #region Конструктор
+
+    /// <summary>
+    /// Конструктор списка персон по умолчанию
+    /// </summary>
+    /// <param name="numberOfPerson">Число персон</param>
     public PersonList(int numberOfPerson)
 	{
-        data = new Person[numberOfPerson];
+        if (numberOfPerson < 0)
+        {
+            throw new ArgumentOutOfRangeException("Число персон в списке не может быть отрицательным!");
+        }
+        else
+        {
+            _data = new PersonBase[numberOfPerson];
+        }
 	}
+
     #endregion
 
     #region Методы
@@ -30,25 +60,19 @@ public class PersonList
     /// Процедура для добавления персоны в список
     /// </summary>
     /// <param name="person">Персона</param>
-    /// <returns>
-    /// Список с добавленной персоной 
-    /// </returns>
-    public void Add(Person person)
+    public void Add(PersonBase person)
     {
-        Array.Resize(ref data, data.Length + 1);
-        data[data.Length-1] = person;
+        Array.Resize(ref _data, _data.Length + 1);
+        _data[_data.Length-1] = person;
     }
 
+
     /// <summary>
-    /// Функция для очистки списка
+    /// Процедура очистки списка
     /// </summary>
-    /// <returns>
-    /// Пустой список
-    /// </returns>
-    public Person[] ClearList()
+    public void Clear()
     {
-        data = Array.Empty<Person>();
-        return data;
+        _data = Array.Empty<PersonBase>();
     }
 
     /// <summary>
@@ -59,7 +83,7 @@ public class PersonList
     /// </returns>
     public int PersonCount()
     {
-        return data.Length;
+        return _data.Length;
     }
 
     /// <summary>
@@ -69,9 +93,9 @@ public class PersonList
     /// <returns>
     /// Персона в списке с индексом index
     /// </returns>
-    public Person FindPerson(int index)
+    public PersonBase FindPerson(int index)
     {
-        return data[index];
+        return _data[index];
     }
 
     /// <summary>
@@ -81,36 +105,28 @@ public class PersonList
     /// <returns>
     /// Индекс персоны person в списке
     /// </returns>
-    public int FindIndex(Person person)
+    public int FindIndex(PersonBase person)
     {
-        return Array.IndexOf(data,person);
+        return Array.IndexOf(_data,person);
     }
 
     /// <summary>
-    /// Функция для удаления персоны из списка
+    /// Процедура удаления персоны из списка
     /// </summary>
     /// <param name="removingPerson">Удаляемая персона</param>
-    /// <returns>
-    /// Список с удалённой персоной
-    /// </returns>
-    ///
-    public Person[] Remove(Person removingPerson)
+    public void Remove(PersonBase removingPerson)
     {
-        data = data.Where((value) => value != removingPerson).ToArray();
-        return data;
+        _data = _data.Where(value => value != removingPerson).ToArray();
     }
 
     /// <summary>
-    /// Функция RemoveByIndex для удаления персоны из списка по индексу
+    /// Процедура удаления персоны из списка по индексу
     /// </summary>
     /// <param name="removingIndex">Индекс удаляемой персоны</param>
-    /// <returns>
-    /// Список с удалённой персоной
-    /// </returns>
-    public Person[] RemoveByIndex(int removingIndex)
+    public void RemoveByIndex(int removingIndex)
     {
-        data = data.Where((value, index) => index != removingIndex).ToArray();
-        return data;
+        _data = _data.Where((value, index) => index != removingIndex).ToArray();
     }
+    
     #endregion
 }

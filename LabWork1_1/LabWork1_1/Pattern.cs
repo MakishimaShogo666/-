@@ -26,5 +26,13 @@ namespace LabWork1_1
         public const string NameOutputMessage = "Имя: ";
         public const string AgeOutputMessage = "Возраст: ";
         public const string GenderOutputMessage = "Пол: ";
+
+        public const string PassportOutputMessage = "Паспортные данные: ";
+        public const string SpouseOutputMessage = "Супруг(а): ";
+        public const string JobOutputMessage = "Место работы: ";
+
+        public const string MotherOutputMessage = "Мать: ";
+        public const string FatherOutputMessage = "Отец: ";
+        public const string EducationCenterOutputMessage = "Образовательное учреждение: ";
     }
 }

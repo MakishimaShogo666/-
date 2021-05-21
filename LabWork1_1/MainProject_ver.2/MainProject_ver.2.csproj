@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{498D4DFF-A035-4137-8F76-0F621478168B}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <RootNamespace>LabWork1_1</RootNamespace>
-    <AssemblyName>LabWork1_1</AssemblyName>
+    <ProjectGuid>{6A0AF3E3-6A91-4657-A972-80E0CF947C39}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>MainProject_ver._2</RootNamespace>
+    <AssemblyName>MainProject_ver.2</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -32,14 +32,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.Linq" />
-    <Reference Include="System.Web.RegularExpressions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,14 +43,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Adult.cs" />
-    <Compile Include="Child.cs" />
-    <Compile Include="PersonBase.cs" />
-    <Compile Include="PersonLibrary.cs" />
-    <Compile Include="PersonList.cs" />
-    <Compile Include="Pattern.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Randomizer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LabWork1_1\PersonProject.csproj">
+      <Project>{498d4dff-a035-4137-8f76-0f621478168b}</Project>
+      <Name>PersonProject</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MainProject\MainProject.csproj">
+      <Project>{eaf526b4-43ef-4fbb-b591-809a43a3e71e}</Project>
+      <Name>MainProject</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

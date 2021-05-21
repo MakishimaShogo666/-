@@ -4,44 +4,52 @@ using System.Text.RegularExpressions;
 using LabWork1_1;
 
 #region Перечисление
+
 /// <summary>
 /// Перечисление полов, NotDefined - неопределённый пол
 /// </summary>
-public enum GenderList
+public enum GenderEnum
 {
     Male, 
     Female, 
     NotDefined
 }
+
 #endregion
 
 /// <summary>
-/// Класс Person
+/// Базовый абстрактный класс PersonBase
 /// </summary>
-public class Person
+public abstract class PersonBase
 {
     #region Поля
 
     #region Непубличные поля
+
     /// <summary>
     /// Фамилия
     /// </summary>
     private string _surname;
+
     /// <summary>
     /// Имя
     /// </summary>
     private string _name;
+
     /// <summary>
     /// Пол
     /// </summary>
-    private GenderList _gender;
+    private GenderEnum _gender;
+
     /// <summary>
     /// Возраст
     /// </summary>
     private int _age;
+
     #endregion
 
     #region Публичные поля
+
     /// <summary>
     /// Фамилия
     /// </summary>
@@ -63,6 +71,7 @@ public class Person
             }
         }
     }
+
     /// <summary>
     /// Имя
     /// </summary>
@@ -84,10 +93,11 @@ public class Person
             }
         }
     }
+
     /// <summary>
     /// Возраст
     /// </summary>
-    public int Age
+    public virtual int Age
     {
         get
         {
@@ -110,10 +120,11 @@ public class Person
             }
         }
     }
+
     /// <summary>
     /// Пол
     /// </summary>
-    public GenderList Gender
+    public GenderEnum Gender
     {
         get
         {
@@ -124,10 +135,12 @@ public class Person
             _gender = value;
         }
     }
+
     /// <summary>
     /// Максимальное число персон в списке
     /// </summary>
-    public static readonly int maxPersonQuantity = 200000000;
+    public const int maxPersonQuantity = 200000000;
+
     #endregion
 
     #endregion
@@ -136,12 +149,12 @@ public class Person
     /// <summary>
     /// Конструктор класса Person по умолчанию
     /// </summary>
-    public Person() : this("Нет данных", "Нет данных", 0, GenderList.NotDefined) { }
+    public PersonBase() : this("Нет данных", "Нет данных", 0, GenderEnum.NotDefined) { }
 
     /// <summary>
     /// Конструктор класса Person для создания персоны вручную
     /// </summary>
-    public Person(string surnameInput, string nameInput, int ageInput, GenderList genderInput)
+    public PersonBase(string surnameInput, string nameInput, int ageInput, GenderEnum genderInput)
     {
         Surname = surnameInput;
         Name = nameInput;
@@ -163,11 +176,12 @@ public class Person
     /// true, если клавиша совпадает с шаблоном и число символов в строке меньше stringMaxLength
     /// </returns>
     public static bool PatternCoincidence(string inputString, object keyInfo,
-    string pattern, byte stringMaxLength)
+        string pattern, byte stringMaxLength)
     {
         return (Regex.IsMatch(keyInfo.ToString(), pattern) == true)
-        && (inputString.Length < stringMaxLength);
+            && (inputString.Length < stringMaxLength);
     }
+
     /// <summary>
     /// Функция для обнаружения совпадения строки с шаблоном исключения
     /// </summary>
@@ -179,31 +193,7 @@ public class Person
     {
         return Regex.IsMatch(inputString, Pattern.TextException);
     }
-    /// <summary>
-    /// Функция для задания пола в соответствии с введённым символом
-    /// </summary>
-    /// <param name="genderString">Строка ввода пола</param>
-    /// <returns>
-    /// Пол
-    /// </returns>
-    public static GenderList GenderSetter(string genderString)
-    {
-        // выбор пола на основе введённого в консоль символа
-        switch (genderString)
-        {
-            case "м":
-            case "М":
-            case "M":
-            case "m":
-                return GenderList.Male;
-            case "ж":
-            case "Ж":
-            case "F":
-            case "f":
-                return GenderList.Female;
-        }
-        return GenderList.NotDefined;
-    }
+
     /// <summary>
     /// Функция RegisterChanger для изменения регистра введённых фамилии или имени персоны
     /// </summary>
@@ -215,7 +205,7 @@ public class Person
     public static string RegisterChanger(string inputString, char[] delimiters)
     {
         if (Regex.IsMatch(inputString, Pattern.DigitPattern)
-        || (Regex.IsMatch(inputString, Pattern.TextPattern) == false))
+            || (Regex.IsMatch(inputString, Pattern.TextPattern) == false))
         {
             throw new FormatException($"Строка '{inputString}' содержит недопустимые символы!");
         }
@@ -223,26 +213,26 @@ public class Person
         {
             // Разбиение введённой строки на слова
             //
-            string[] SplittedInputString = inputString.Split(delimiters,
-            StringSplitOptions.RemoveEmptyEntries);
+            string[] splittedInputString = inputString.Split(delimiters,
+                StringSplitOptions.RemoveEmptyEntries);
 
             // Для каждого слова в строке осуществляется изменение регистра
             //
-            foreach (string s in SplittedInputString)
+            foreach (string splitString in splittedInputString)
             {
-                string s0 = s.ToLower();
+                string lowerSplitString = splitString.ToLower();
 
-                if (s0.Length < 2)
+                if (lowerSplitString.Length < 2)
                 {
-                    s0 = char.ToUpper(s0[0]).ToString();
+                    lowerSplitString = char.ToUpper(lowerSplitString[0]).ToString();
                 }
                 else
                 {
-                    s0 = char.ToUpper(s0[0]) + s0.Substring(1);
+                    lowerSplitString = char.ToUpper(lowerSplitString[0]) + lowerSplitString.Substring(1);
                 }
                 // Замена слова в исходной строке
                 //
-                inputString = inputString.Replace(s, s0);
+                inputString = inputString.Replace(splitString, lowerSplitString);
             }
             return inputString;
         }
@@ -271,5 +261,33 @@ public class Person
         }
         return outputAge;
     }
-        #endregion
+
+    /// <summary>
+    /// Абстрактный метод для получения информации о персоне
+    /// </summary>
+    /// <returns>Строка с информацией о персоне</returns>
+    public abstract string GetPersonInfo();
+
+    /// <summary>
+    /// Функция выбора строки, описывающей пол персоны в какой-либо ситуации
+    /// </summary>
+    /// <param name="gender">Пол персоны</param>
+    /// <param name="maleString">Строка, характеризующая персону как мужчину</param>
+    /// <param name="femaleString">Строка, характеризующая персону как женщину</param>
+    /// <returns>Строка, описывающая пол персоны в какой-либо ситуации</returns>
+    public static string GenderChoice(GenderEnum gender, string maleString, string femaleString)
+    {
+        string genderString = null;
+        switch (gender)
+        {
+            case GenderEnum.Male:
+                genderString = maleString;
+                break;
+            case GenderEnum.Female:
+                genderString = femaleString;
+                break;
+        }
+        return genderString;
+    }
+    #endregion
 }

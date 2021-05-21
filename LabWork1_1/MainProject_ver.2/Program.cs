@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LabWork1_1;
+using MainProject;
 
-namespace MainProject
+namespace MainProject_ver._2
 {
     /// <summary>
     /// Основная программа
@@ -15,47 +16,42 @@ namespace MainProject
         /// <summary>
         /// Точка входа в программу
         /// </summary>
-        internal static void Main()
+        /// <param name="args"></param>
+        internal static void Main(string[] args)
         {
             while (true)
             {
-                InputOutput.TextWriteLine("Первые списки для экономии " +
+                InputOutput.TextWriteLine("Списки для экономии " +
                     "времени заполняются случайным образом!", ConsoleColor.DarkCyan);
                 InputOutput.TextWriteLine(null, 0);
 
-                PersonList[] people = new PersonList[GetQuantity("Введите число списков персон: ", 
+                PersonList[] people = new PersonList[GetQuantity("Введите число списков персон: ",
                     $"Создано {PersonList.maxListQuantity} " + $"списков персон.")];
                 int personListQuantity = people.Length;
                 GetPersonList(people);
 
-                int listIndex = GetListIndex(personListQuantity, "добавления персоны");
-                PersonBase person = InputOutput.InputAdult();
-                people[listIndex - 1].Add(person);
-                InputOutput.PersonWrite($"Ввод данных о добавленной персоне:",
-                    people[listIndex - 1].Data[people[listIndex - 1].PersonCount() - 1]);
+                int listIndex = GetListIndex(personListQuantity, "выбора персоны");
+                int personIndex = GetPersonIndex(people[listIndex-1].PersonCount(), listIndex, "выбора персоны");
+                PersonBase person = people[listIndex-1].Data[personIndex-1];
 
-                int copyIndexListFrom = GetListIndex(personListQuantity, "копирования персоны");
-                int personCount = people[copyIndexListFrom - 1].PersonCount();
-                int copyIndexFrom = GetPersonIndex(personCount, copyIndexListFrom, "копирования персоны");
-                int copyIndexListTo = GetListIndex(personListQuantity, "копирования в него персоны");
-                people[copyIndexListTo - 1].Add(people[copyIndexListFrom - 1].Data[copyIndexFrom - 1]);
-                InputOutput.AllListWrite("Результат копирования", people);
-
-                int listRemoveIndex = GetListIndex(personListQuantity, "удаления персоны");
-                int quantityInListRemove = people[listRemoveIndex - 1].PersonCount();
-                int removeIndex = GetPersonIndex(quantityInListRemove, listRemoveIndex, "удаления персоны");
-                people[listRemoveIndex - 1].RemoveByIndex(removeIndex - 1);               
-                InputOutput.AllListWrite("Просмотр списков персон", people);
-
-                int clearlistIndex = GetListIndex(personListQuantity, "удаления");
-                people[clearlistIndex - 1].Clear();
-                InputOutput.AllListWrite("Просмотр списков персон", people);
+                switch (person)
+                {
+                    case Adult adult:
+                        InputOutput.TextWriteLine("И в эфире программа \"Давай поженимся!\"!",ConsoleColor.Red);
+                        InputOutput.TextWriteLine(adult.AdultMarriage(), ConsoleColor.Green);
+                        break;
+                    case Child child:
+                        InputOutput.TextWriteLine("И в эфире программа \"Жди меня\"!", ConsoleColor.Red);
+                        InputOutput.TextWriteLine(child.AdoptionStatus(), ConsoleColor.Green);
+                        break;
+                }
 
                 InputOutput.TextWriteLine(null, 0);
 
                 if (InputOutput.QuitOfProgram()) return;
             }
         }
+
         /// <summary>
         /// Получение индекса списка персон
         /// </summary>
@@ -84,6 +80,7 @@ namespace MainProject
                     $"({personQuantity})",
                     $"Введите номер персоны для {operation} из {listIndex}-го списка: ");
         }
+
         /// <summary>
         /// Функция проверки величины введённого числа
         /// </summary>
@@ -97,7 +94,7 @@ namespace MainProject
         {
             int primeVar;
 
-            while (!int.TryParse(InputOutput.Input(inputMessage, InputTypeEnum.Digit), out primeVar) 
+            while (!int.TryParse(InputOutput.Input(inputMessage, InputTypeEnum.Digit), out primeVar)
                     || primeVar > comparedVar)
             {
                 InputOutput.TextWriteLine(awareMessage, ConsoleColor.Red);
@@ -116,11 +113,10 @@ namespace MainProject
             {
                 return int.Parse(InputOutput.Input(inputMessage, InputTypeEnum.Digit));
             }
-
             catch (Exception)
             {
                 InputOutput.TextWriteLine(awareMessage, ConsoleColor.DarkYellow);
-                return PersonList.maxListQuantity;                
+                return PersonList.maxListQuantity;
             }
         }
 
