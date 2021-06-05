@@ -20,8 +20,8 @@ namespace VehicleModel
     }
     public abstract class VehicleBase
     {
-        private const double gravityAcceleration = 9.8;
-        private const double horseForceToWatt = 735.5;
+        private const double _gravityAcceleration = 9.8;
+        private const double _horseForceToWatt = 735.5;
         private string _name;
         private double _weight;
         private protected double _waste;
@@ -103,7 +103,7 @@ namespace VehicleModel
 
         public double Acceleration()
         {
-            return (_power * horseForceToWatt) / ((_weight / 1000) * gravityAcceleration);
+            return (_power * _horseForceToWatt) / ((_weight / 1000) * _gravityAcceleration);
         }
         
         public double Velocity(double startValue, double timeInSecond)
@@ -147,7 +147,7 @@ namespace VehicleModel
                     break;
                 }
                 default:
-                    throw new FormatException("Строка имела не допустимый формат!");
+                    throw new FormatException("Значение имеет недопустимый формат!");
             }
         }
         public static bool PatternCoincidence(string inputString, object keyInfo,

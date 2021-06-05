@@ -15,9 +15,9 @@ namespace ConsoleRead
             while (true)
             {
                 Type[] typeList = Assembly.GetAssembly(typeof(VehicleBase)).GetTypes()
-               .Where(type => type.Namespace == "VehicleModel" && type.Name != "VehicleBase").ToArray();
+                    .Where(type => type.Namespace == "VehicleModel" && type.Name != "VehicleBase").ToArray();
                 Console.WriteLine("Создайте транспорт!");
-                int number = CheckCount(byte.MaxValue, "Введите число типов транспорта: ",
+                int number = CheckCount(byte.MaxValue, "Введите число объектов транспорта: ",
                     $"Введено нецелое число или число, превыщающее максимальное значение! ({byte.MaxValue})");
 
                 List<VehicleBase> vehicleList = new List<VehicleBase>();
@@ -67,16 +67,21 @@ namespace ConsoleRead
                 
                 foreach (VehicleBase vehicle in vehicleList)
                 {
-                    double distance = double.Parse(InputOutput.Input("Введите пройденную дистанцию: ", InputOutput.InputTypeEnum.Digit));
-                    InputOutput.TextWriteLine($"Потребление на {distance} км: " + vehicle.Consumption(distance) + " л", ConsoleColor.White);
+                    double distance = double.Parse(InputOutput.Input("Введите пройденную дистанцию: ", 
+                        InputOutput.InputTypeEnum.Digit));
+                    InputOutput.TextWriteLine($"Потребление на {distance} км: " + 
+                        vehicle.Consumption(distance) + " л", ConsoleColor.White);
                 }
 
                 foreach (VehicleBase vehicle in vehicleList)
                 {
-                    double velocity = double.Parse(InputOutput.Input("Введите начальную скорость (км/ч): ", InputOutput.InputTypeEnum.Digit));
-                    double time = double.Parse(InputOutput.Input("Введите время движения, с: ", InputOutput.InputTypeEnum.Digit));
+                    double velocity = double.Parse(InputOutput.Input("Введите начальную скорость (км/ч): ", 
+                        InputOutput.InputTypeEnum.Digit));
+                    double time = double.Parse(InputOutput.Input("Введите время движения, с: ", 
+                        InputOutput.InputTypeEnum.Digit));
                     double distance = vehicle.Distance(velocity, time);
-                    InputOutput.TextWriteLine($"Потребление на {distance} км: " + vehicle.Consumption(distance) + " л", ConsoleColor.White);
+                    InputOutput.TextWriteLine($"Потребление на {distance} км: " 
+                        + vehicle.Consumption(distance) + " л", ConsoleColor.White);
                 }
 
                 if (InputOutput.QuitOfProgram()) return;
