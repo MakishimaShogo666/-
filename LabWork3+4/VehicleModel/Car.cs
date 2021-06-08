@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace VehicleModel
 {
+    //TODO: XML комментарии?
     public class Car : VehicleBase 
     {
+        //TODO: XML комментарии?
         public override FuelEnum Fuel
         {
             get

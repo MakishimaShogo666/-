@@ -264,8 +264,9 @@ namespace ConsoleRead
         /// </summary>
         /// <param name="inputVehicle">Вводимый транспорт</param>
         /// <returns>Транспорт с введённой информацией</returns>
-        public static object InputVehicle(VehicleBase inputVehicle)
+        public static VehicleBase InputVehicle(VehicleBase inputVehicle)
         {
+            
             VehicleRead(inputString => inputVehicle.Name = inputString,
                 "Имя: ", InputTypeEnum.Mix);
             VehicleRead(inputString => inputVehicle.Weight = double.Parse(inputString),

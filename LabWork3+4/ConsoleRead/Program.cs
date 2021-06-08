@@ -127,31 +127,18 @@ namespace ConsoleRead
             }
         }
 
-        /// <summary>
-        /// Метод ввода параметров объектов в списке объектов транспорта vehicleList
+        /// <summai        /// Метод ввода параметров объектов в списке отов транспорта vehicleList
         /// </summary>
         /// <param name="dictionaryInfo">Словарь типов транспорта</param>
         /// <param name="vehicleList">Список объектов транспорта</param>
         private static void VehicleListInput(Dictionary<Type, string> dictionaryInfo, List<VehicleBase> vehicleList)
         {
-            int index = 1;
-            foreach (VehicleBase vehicle in vehicleList)
+            for (var index = 0; index < vehicleList.Count; index++)
             {
-                InputOutput.TextWriteLine($"{index}-й транспорт: " 
-                    + dictionaryInfo[vehicle.GetType()], ConsoleColor.Yellow);
-                switch (vehicle)
-                {
-                    case Car car:
-                        car = (Car)InputOutput.InputVehicle(vehicle);
-                        break;
-                    case HybridCar hybrid:
-                        hybrid = (HybridCar)InputOutput.InputVehicle(vehicle);
-                        break;
-                    case Helicopter helicopter:
-                        helicopter = (Helicopter)InputOutput.InputVehicle(vehicle);
-                        break;
-                }
-                index++;
+                var vehicle = vehicleList[index];
+                InputOutput.TextWriteLine($"{index + 1}-й транспорт: "
+                                          + dictionaryInfo[vehicle.GetType()], ConsoleColor.Yellow);
+                InputOutput.InputVehicle(vehicle);
             }
         }
 
@@ -163,10 +150,11 @@ namespace ConsoleRead
         {
             for (int i = 0; i < vehicleList.Count(); i++)
             {
-                double distance = double.Parse(InputOutput.Input($"Введите пройденную дистанцию {i + 1}-го транспорта: ",
+                double distance = double.Parse(InputOutput.Input(
+                    $"Введите пройденную дистанцию {i + 1}-го транспорта: ",
                     InputOutput.InputTypeEnum.Digit));
                 InputOutput.TextWriteLine($"Потребление {i + 1}-го транспорта на {distance} км: " +
-                    string.Format("{0:0.###}",vehicleList[i].Consumption(distance)) + " л", ConsoleColor.White);
+                                          $"{vehicleList[i].Consumption(distance):0.###}" + " л", ConsoleColor.White);
             }
         }
 

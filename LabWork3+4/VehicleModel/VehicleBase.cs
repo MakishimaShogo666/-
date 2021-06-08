@@ -37,7 +37,6 @@ namespace VehicleModel
         /// </summary>
         private const double _horseForceToWatt = 735.5;
 
-        //TODO: protected
         /// <summary>
         /// Имя
         /// </summary>
@@ -75,7 +74,8 @@ namespace VehicleModel
             set
             {
                 PropertyCheck(value);
-                _ = (value > 0) ? _weight = value
+                _weight = value > 0 
+                    ? value
                     : throw new Exception("Транспорт должен иметь вес!");
             }
         }
@@ -163,7 +163,7 @@ namespace VehicleModel
         public double Distance(double startVelocity, double timeInSecond)
         {
             return (Velocity(startVelocity, timeInSecond) * timeInSecond - 
-                Acceleration() * (timeInSecond * timeInSecond) / 2)/1000;///1000;
+                Acceleration() * (timeInSecond * timeInSecond) / 2)/1000;
         }
 
         /// <summary>
@@ -224,7 +224,7 @@ namespace VehicleModel
         public static bool PatternCoincidence(string inputString, object keyInfo,
             string pattern, byte stringMaxLength)
         {
-            return (Regex.IsMatch(keyInfo.ToString(), pattern) == true)
+            return Regex.IsMatch(keyInfo.ToString(), pattern)
                 && (inputString.Length < stringMaxLength);
         }
     }
