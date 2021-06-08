@@ -7,6 +7,9 @@ using System.Text.RegularExpressions;
 
 namespace VehicleModel
 {
+    /// <summary>
+    /// Перечисление видов топлива
+    /// </summary>
     public enum FuelEnum
     {
         NotDefined,
@@ -18,16 +21,51 @@ namespace VehicleModel
         Electricity,
         Count
     }
+
+    /// <summary>
+    /// Базовый класс VehicleBase
+    /// </summary>
     public abstract class VehicleBase
     {
+        /// <summary>
+        /// Ускорение свободного падения
+        /// </summary>
         private const double _gravityAcceleration = 9.8;
-        private const double _horseForceToWatt = 735.5;
-        private string _name;
-        private double _weight;
-        private protected double _waste;
-        private double _power;
-        private protected FuelEnum _fuel;
 
+        /// <summary>
+        /// Коэффициент приведения лошадиных сил к ваттам
+        /// </summary>
+        private const double _horseForceToWatt = 735.5;
+
+        //TODO: protected
+        /// <summary>
+        /// Имя
+        /// </summary>
+        private string _name;
+
+        /// <summary>
+        /// Вес (в тоннах)
+        /// </summary>
+        private double _weight;
+
+        /// <summary>
+        /// Расход топлива (в л/км)
+        /// </summary>
+        protected double _waste;
+
+        /// <summary>
+        /// Мощность (в л.с.)
+        /// </summary>
+        private double _power;
+
+        /// <summary>
+        /// Тип топлива
+        /// </summary>
+        protected FuelEnum _fuel;
+
+        /// <summary>
+        /// Вес
+        /// </summary>
         public double Weight
         {
             get
@@ -37,9 +75,14 @@ namespace VehicleModel
             set
             {
                 PropertyCheck(value);
-                _weight = value;
+                _ = (value > 0) ? _weight = value
+                    : throw new Exception("Транспорт должен иметь вес!");
             }
         }
+
+        /// <summary>
+        /// Расход топлива (в л/км)
+        /// </summary>
         public virtual double Waste
         {
             get
@@ -52,6 +95,10 @@ namespace VehicleModel
                 _waste = value;
             }
         }
+
+        /// <summary>
+        /// Мощность (в л.с.)
+        /// </summary>
         public double Power
         {
             get
@@ -64,6 +111,10 @@ namespace VehicleModel
                 _power = value;
             }
         }
+
+        /// <summary>
+        /// Имя
+        /// </summary>
         public string Name
         {
             get
@@ -76,48 +127,59 @@ namespace VehicleModel
                 _name = value;
             }
         }
-        public virtual FuelEnum Fuel
-        {
-            get
-            {
-                return _fuel;
-            }
-            set
-            {
-                PropertyCheck(value);
-                _fuel = value;
-            }
-        }
-        public VehicleBase()
-        {
 
-        }
-        public VehicleBase(string name, double weight, double power, FuelEnum fuel, double waste)
-        { 
-            Name = name;
-            Weight = weight;
-            Power = power;
-            Fuel = fuel;
-            Waste = waste;
-        }
+        /// <summary>
+        /// Тип топлива
+        /// </summary>
+        public abstract FuelEnum Fuel { get; set; }
 
+
+        /// <summary>
+        /// Метод расчёта ускорения
+        /// </summary>
+        /// <returns></returns>
         public double Acceleration()
         {
-            return (_power * _horseForceToWatt) / ((_weight / 1000) * _gravityAcceleration);
+            return (_power * _horseForceToWatt) / ((_weight * 1000) * _gravityAcceleration);
         }
-        
+
+        /// <summary>
+        /// Метод расчёта скорости
+        /// </summary>
+        /// <param name="startValue">Начальная скорость, км/ч</param>
+        /// <param name="timeInSecond">Время движения, с</param>
+        /// <returns></returns>
         public double Velocity(double startValue, double timeInSecond)
         {
             return (startValue/3.6) + Acceleration() * timeInSecond;
         }
+
+        /// <summary>
+        /// Метод расчёта пройденного пути
+        /// </summary>
+        /// <param name="startVelocity">Начальная скорость, км/ч</param>
+        /// <param name="timeInSecond">Время движения, с</param>
+        /// <returns></returns>
         public double Distance(double startVelocity, double timeInSecond)
         {
-            return Velocity(startVelocity, timeInSecond) * timeInSecond - Acceleration() * (timeInSecond / 2);
+            return (Velocity(startVelocity, timeInSecond) * timeInSecond - 
+                Acceleration() * (timeInSecond * timeInSecond) / 2)/1000;///1000;
         }
+
+        /// <summary>
+        /// Метод расчёта потребления топлива
+        /// </summary>
+        /// <param name="distance">Пройденный путь, км</param>
+        /// <returns></returns>
         public virtual double Consumption(double distance)
         {
             return distance * _waste;
         }
+
+        /// <summary>
+        /// Метод проверки величины value
+        /// </summary>
+        /// <param name="value">Проверяемая величина</param>
         protected void PropertyCheck(object value)
         {
             switch(value)
@@ -150,6 +212,15 @@ namespace VehicleModel
                     throw new FormatException("Значение имеет недопустимый формат!");
             }
         }
+
+        /// <summary>
+        /// Метод определения совпадения введённой строки с шаблоном
+        /// </summary>
+        /// <param name="inputString">Введённая строка</param>
+        /// <param name="keyInfo">Нажатая клавиша</param>
+        /// <param name="pattern">Шаблон</param>
+        /// <param name="stringMaxLength">Максимальная длина строки</param>
+        /// <returns></returns>
         public static bool PatternCoincidence(string inputString, object keyInfo,
             string pattern, byte stringMaxLength)
         {

@@ -6,8 +6,14 @@ using System.Threading.Tasks;
 
 namespace VehicleModel
 {
+    /// <summary>
+    /// Класс Helicopter - Вертолёт
+    /// </summary>
     public class Helicopter : VehicleBase
     {
+        /// <summary>
+        /// Топливо вертолёта
+        /// </summary>
         public override FuelEnum Fuel
         {
             get
@@ -25,14 +31,6 @@ namespace VehicleModel
                         throw new Exception("Вертолёт работает только от керосина!");
                 }
             }
-        }
-        public Helicopter(string name, double weight, double power, FuelEnum fuel, double waste) : base(name, weight, power, fuel, waste)
-        {
-
-        }
-        public Helicopter()
-        {
-
         }
     }
 }

@@ -6,10 +6,19 @@ using System.Threading.Tasks;
 
 namespace VehicleModel
 {
+    /// <summary>
+    /// Класс HybridCar - гибридная машина
+    /// </summary>
     public class HybridCar : VehicleBase
     {
+        /// <summary>
+        /// Коэффициент гибридности (снижение потребления топлива)
+        /// </summary>
         private double _hybridCoefficient;
 
+        /// <summary>
+        /// Коэффициент гибридности (снижение потребления топлива)
+        /// </summary>
         public double HybridCoefficient
         {
             get
@@ -17,11 +26,11 @@ namespace VehicleModel
                 switch (Fuel)
                 {
                     case FuelEnum.Electricity:
-                        return 0.5;
+                        return 0;
                     case FuelEnum.Hydrogen:
-                        return 0.75;
+                        return 0.5;
                     case FuelEnum.Mixed:
-                        return 0.9;
+                        return 0.75;
                     default:
                         throw new Exception("Гибрид работает только от электричества, водорода или смешанного топлива!");
                 }
@@ -31,6 +40,10 @@ namespace VehicleModel
                 _hybridCoefficient = value;
             }
         }
+
+        /// <summary>
+        /// Топливо гибрида
+        /// </summary>
         public override FuelEnum Fuel 
         {
             get
@@ -51,6 +64,10 @@ namespace VehicleModel
                 }
             }
         }
+
+        /// <summary>
+        /// Расход топлива у гибрида
+        /// </summary>
         public override double Waste
         {
             get
@@ -76,14 +93,12 @@ namespace VehicleModel
                 }
             }
         }
-        public HybridCar()
-        {
 
-        }
-        public HybridCar(string name, double weight, double power, FuelEnum fuel, double waste) : base(name, weight, power, fuel, waste)
-        {
-
-        }
+        /// <summary>
+        /// Потребление (в л) топлива гибрида
+        /// </summary>
+        /// <param name="distance">Пройденный гибридом путь, км</param>
+        /// <returns></returns>
         public override double Consumption(double distance)
         {
             return base.Consumption(distance) * HybridCoefficient;

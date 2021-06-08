@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31112.23
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Model\Model.csproj", "{7DE1169E-5663-4D56-9F44-8FBD67DE0FB3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F45A1801-9C93-457B-A2F3-B2DE461BECE1}"
+	ProjectSection(SolutionItems) = preProject
+		Model\Transport\Car.cs = Model\Transport\Car.cs
+		Model\Transport\Helicopter.cs = Model\Transport\Helicopter.cs
+		Model\Transport\Hybrid.cs = Model\Transport\Hybrid.cs
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7DE1169E-5663-4D56-9F44-8FBD67DE0FB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DE1169E-5663-4D56-9F44-8FBD67DE0FB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DE1169E-5663-4D56-9F44-8FBD67DE0FB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DE1169E-5663-4D56-9F44-8FBD67DE0FB3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5E7FE5B1-1441-4D0A-A963-64C5A1E8F82C}
+	EndGlobalSection
+EndGlobal

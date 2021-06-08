@@ -10,19 +10,34 @@ using VehicleModel;
 
 namespace ConsoleRead
 {
+    /// <summary>
+    /// Класс InputOutput для ввода-вывода информации
+    /// </summary>
     public class InputOutput
     {
-        private const string _allPattern = @".";
-        private const string _intDigitPattern = @"\d";
+        /// <summary>
+        /// Перечисление типов ввода
+        /// </summary>
         public enum InputTypeEnum
         {
-            Digit, //число (цифра)
-            Integer,
-            Fuel, //текст
-            Mix //ввод всего
+            Digit, // число (цифра, могут вводиться десятичные дроби)
+            Integer, // натуральное число
+            Fuel, // ввод типа топлива
+            Mix // ввод всего
         }
+
         /// <summary>
-        /// Процедура для записи символов в новую строку
+        /// Шаблон для ввода любых символов
+        /// </summary>
+        private const string _allPattern = @".";
+
+        /// <summary>
+        /// Шаблон для ввода цифр
+        /// </summary>
+        private const string _intDigitPattern = @"\d";
+
+        /// <summary>
+        /// Метод для записи символов в новую строку
         /// </summary>
         /// <param name="text">Вводимый символ</param>
         public static void TextWriteLine(object text, ConsoleColor color)
@@ -40,7 +55,7 @@ namespace ConsoleRead
         }
 
         /// <summary>
-        /// Процедура для записи в текущую строку 
+        /// Метод для записи в текущую строку 
         /// </summary>
         /// <param name="text">Вводимый символ</param>
         public static void TextWrite(object text)
@@ -57,9 +72,10 @@ namespace ConsoleRead
         }
 
         /// <summary>
-        /// Процедура для вывода персоны
+        /// Метод вывода информации о транспорте
         /// </summary>
-        /// <param name="person">Персона</param>
+        /// <param name="message">Сообщение перед выводом транспорта</param>
+        /// <param name="vehicle">Выводимый транспорт</param>
         public static void VehicleWrite(string message, VehicleBase vehicle)
         {
             TextWriteLine(message, ConsoleColor.Blue);
@@ -73,32 +89,10 @@ namespace ConsoleRead
         }
 
         /// <summary>
-        /// Процедура для вывода персоны
+        /// Метод преобразования типа топлива в строку
         /// </summary>
-        /// <param name="person">Персона</param>
-        public static void VehicleReadFromConsole(string message, VehicleBase vehicle)
-        {
-            TextWriteLine(message, ConsoleColor.Blue);
-            TextWriteLine(null, 0);
-            vehicle.Name = Input("Имя: ", InputTypeEnum.Mix);
-            vehicle.Weight = Double.Parse(Input("Вес: ", InputTypeEnum.Digit));
-            vehicle.Power = Double.Parse(Input("Мощность: ",InputTypeEnum.Digit));
-            string fuelInfo = "Тип топлива" + "\n";
-            Array fuelArray = Enum.GetValues(typeof(FuelEnum));
-            for (int i = 1; i < (int)FuelEnum.Count; i++)
-            {
-                fuelInfo += $"{i} - " + FuelToString((FuelEnum)fuelArray.GetValue(i)) + "\n";
-            }
-            vehicle.Fuel = FuelSetter(int.Parse(Input(fuelInfo, InputTypeEnum.Fuel)));
-            vehicle.Waste = Double.Parse(Input("Расход топлива: ", InputTypeEnum.Digit));
-        }
-
-        //TODO: XML+
-        /// <summary>
-        /// Функция преобразования пола в строковую переменную
-        /// </summary>
-        /// <param name="gender">Пол</param>
-        /// <returns>Строка, соответствующая полу</returns>
+        /// <param name="fuel">Тип топлива</param>
+        /// <returns>Строка, соответствующая типу топлива</returns>
         public static string FuelToString(FuelEnum fuel)
         {
             switch (fuel)
@@ -134,13 +128,12 @@ namespace ConsoleRead
             }
             throw new ArgumentException("Такого топлива нет!");
         }
+
         /// <summary>
-        /// Функция для задания пола в соответствии с введённым символом
+        /// Метод задания типа топлива в соответствии с введённой цифрой
         /// </summary>
-        /// <param name="genderString">Строка ввода пола</param>
-        /// <returns>
-        /// Пол
-        /// </returns>
+        /// <param name="fuelNumber">Введённая цифра</param>
+        /// <returns>Тип топлива</returns>
         public static FuelEnum FuelSetter(int fuelNumber)
         {
             switch (fuelNumber)
@@ -160,6 +153,14 @@ namespace ConsoleRead
             }
             return FuelEnum.NotDefined;
         }
+
+        /// <summary>
+        /// Метод ввода символа после нажатия клавишы
+        /// </summary>
+        /// <param name="condition">Условие ввода</param>
+        /// <param name="inputString">Вводимая строка</param>
+        /// <param name="keyInfo">Нажатая клавиша</param>
+        /// <returns>Строка после нажатия клавишы</returns>
         public static string KeyWrite(bool condition, string inputString, ConsoleKeyInfo keyInfo)
         {
             if (condition)
@@ -172,6 +173,7 @@ namespace ConsoleRead
                 return inputString.Substring(0, inputString.Length - 1);
             }
         }
+
         /// <summary>
         /// Процедура проверки условий ввода символов
         /// </summary>
@@ -233,10 +235,11 @@ namespace ConsoleRead
             }
             return inputString;
         }
+
         /// <summary>
-        /// Процедура PersonRead для проверки ввода свойств
+        /// Метод для проверки ввода свойств
         /// </summary>
-        /// <param name="action">Метод ввода свойства персоны</param>
+        /// <param name="action">Метод ввода свойства транспорта</param>
         /// <param name="message">Сообщение перед вводом</param>
         /// <param name="inputType">Тип ввода</param>
         private static void VehicleRead(Action<string> action, string message, InputTypeEnum inputType)
@@ -255,16 +258,21 @@ namespace ConsoleRead
                 }
             }
         }
+
+        /// <summary>
+        /// Метод ввода транспорта
+        /// </summary>
+        /// <param name="inputVehicle">Вводимый транспорт</param>
+        /// <returns>Транспорт с введённой информацией</returns>
         public static object InputVehicle(VehicleBase inputVehicle)
         {
-            TextWriteLine(inputVehicle.GetType().Name, ConsoleColor.Yellow);
             VehicleRead(inputString => inputVehicle.Name = inputString,
                 "Имя: ", InputTypeEnum.Mix);
             VehicleRead(inputString => inputVehicle.Weight = double.Parse(inputString),
-                "Вес: ", InputTypeEnum.Digit);
+                "Вес, т: ", InputTypeEnum.Digit);
             VehicleRead(inputString => inputVehicle.Power = double.Parse(inputString),
-                "Мощность: ", InputTypeEnum.Digit);
-            string fuelInfo = "Тип топлива" + "\n";
+                "Мощность, л.с.: ", InputTypeEnum.Digit);
+            string fuelInfo = "Тип топлива:" + "\n";
             Array fuelArray = Enum.GetValues(typeof(FuelEnum));
             for (int i = 1; i < (int)FuelEnum.Count; i++)
             {
@@ -272,29 +280,11 @@ namespace ConsoleRead
             }
             VehicleRead(inputString => inputVehicle.Fuel = FuelSetter(int.Parse(inputString)), fuelInfo, InputTypeEnum.Fuel);
             VehicleRead(inputString => inputVehicle.Waste = double.Parse(inputString),
-                "Расход топлива: ", InputTypeEnum.Digit);
+                "Расход топлива, л/км: ", InputTypeEnum.Digit);
 
             return inputVehicle;
         }
-        public static Type VehicleTypeChoice(int vehicleType)
-        {
-            Type[] typeList = Assembly.GetAssembly(typeof(VehicleBase)).GetTypes()
-                .Where(type => type.Namespace == "VehicleModel" && type.Name != "VehicleBase").ToArray();
-            string vehicleInfo = "";
-            for (int i = 0; i < typeList.Length; i++)
-            {
-                vehicleInfo += $"{i + 1} - " + typeList[i].Name + "\n";
-            }
-            TextWriteLine(vehicleInfo, ConsoleColor.Yellow);
-            try
-            {
-                return typeList[vehicleType];
-            }
-            catch
-            {
-                throw new Exception($"Введённое число превышает число известных типов транспорта! ({typeList.Length - 2})");
-            }
-        }
+
         /// <summary>
         /// Функция для выхода из программы 
         /// </summary>
@@ -307,13 +297,14 @@ namespace ConsoleRead
                 "для выхода из программы нажмите любую другую клавишу" + "\n", ConsoleColor.Cyan);
             return Console.ReadKey().Key != ConsoleKey.Enter;
         }
+
         /// <summary>
-        /// Функция Input для ввода данных
+        /// Метод для ввода данных
         /// </summary>
         /// <param name="message">Сообщение для ввода</param>
         /// <param name="inputType">Тип ввода</param>
         /// <returns>
-        /// inputString - введённая строка
+        /// Введённая строка
         /// </returns>
         public static string Input(string message, InputTypeEnum inputType)
         {

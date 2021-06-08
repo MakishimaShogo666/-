@@ -27,13 +27,5 @@ namespace VehicleModel
                 }
             }
         }
-        public Car()
-        {
-
-        }
-        public Car(string name, double weight, double power, FuelEnum fuel, double waste) : base(name, weight, power, fuel, waste)
-        {
-
-        }
     }
 }
