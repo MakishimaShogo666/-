@@ -40,6 +40,7 @@ namespace ConsoleRead
         /// Метод для записи символов в новую строку
         /// </summary>
         /// <param name="text">Вводимый символ</param>
+        /// <param name="color"></param>
         public static void TextWriteLine(object text, ConsoleColor color)
         {
             if (text != null)
@@ -64,7 +65,6 @@ namespace ConsoleRead
             {
                 Console.Write(text);
             }
-
             else
             {
                 Console.Write("");
@@ -98,33 +98,29 @@ namespace ConsoleRead
             switch (fuel)
             {
                 case FuelEnum.Diesel:
-                    {
-                        return "дизель";
-                    }
+                {
+                    return "дизель";
+                }
                 case FuelEnum.Electricity:
-                    {
-                        return "электричество";
-                    }
+                {
+                    return "электричество";
+                }
                 case FuelEnum.Hydrogen:
-                    {
-                        return "водород";
-                    }
+                {
+                    return "водород";
+                }
                 case FuelEnum.Kerosene:
-                    {
-                        return "керосин";
-                    }
+                {
+                    return "керосин";
+                }
                 case FuelEnum.Mixed:
-                    {
-                        return "смешанное топливо";
-                    }
+                {
+                    return "смешанное топливо";
+                }
                 case FuelEnum.Petrol:
-                    {
-                        return "бензин";
-                    }
-               default:
-                    {
-                        return "не определён";
-                    }
+                {
+                    return "бензин";
+                }
             }
             throw new ArgumentException("Такого топлива нет!");
         }

@@ -38,8 +38,6 @@ namespace ConsoleRead
 
                 MethodHandler(() => VehicleListAdd(number, typeList, dictionaryInfo, vehicleList));
                 MethodHandler(() => VehicleListWrite(dictionaryInfo, vehicleList));
-                //MethodHandler(() => VehicleConsumption(vehicleList));
-                //MethodHandler(() => VehicleConsumptionByTime(vehicleList));
 
                 if (InputOutput.QuitOfProgram()) return;
             }
@@ -119,35 +117,22 @@ namespace ConsoleRead
         /// <summary>
         /// Метод печати списка объектов транспорта
         /// </summary>
+        /// <param name="dictionaryInfo"></param>
         /// <param name="vehicleList">Список объектов транспорта</param>
         private static void VehicleListWrite(Dictionary<Type, string> dictionaryInfo, List<VehicleBase> vehicleList)
         {
             for (int i = 0; i < vehicleList.Count; i++)
             {
-                InputOutput.VehicleWrite($"{i+1}-транспорт: {dictionaryInfo[vehicleList[i].GetType()]}", vehicleList[i]);
+                InputOutput.VehicleWrite($"{i+1}-транспорт: " +
+                                         $"{dictionaryInfo[vehicleList[i].GetType()]}", 
+                                            vehicleList[i]);
             }
         }
 
         /// <summary>
         /// Метод вывода информации о потреблении топлива в зависимости от расстояния для всего списка объектов транспорта
         /// </summary>
-        /// <param name="vehicleList">Список объектов транспорта</param>
-        private static void VehicleConsumption(List<VehicleBase> vehicleList)
-        {
-            for (int i = 0; i < vehicleList.Count(); i++)
-            {
-                double distance = double.Parse(InputOutput.Input(
-                    $"Введите пройденную дистанцию {i + 1}-го транспорта: ",
-                    InputOutput.InputTypeEnum.Digit));
-                InputOutput.TextWriteLine($"Потребление {i + 1}-го транспорта на {distance} км: " +
-                                          $"{vehicleList[i].Consumption(distance):0.###}" + " л", ConsoleColor.White);
-            }
-        }
-
-        /// <summary>
-        /// Метод вывода информации о потреблении топлива в зависимости от расстояния для всего списка объектов транспорта
-        /// </summary>
-        /// <param name="vehicleList">Список объектов транспорта</param>
+        /// <param name="vehicle">Список объектов транспорта</param>
         private static void VehicleConsumption(VehicleBase vehicle)
         {
                 double distance = double.Parse(InputOutput.Input(
@@ -156,27 +141,7 @@ namespace ConsoleRead
                 InputOutput.TextWriteLine($"Потребление транспорта на {distance} км: " +
                                           $"{vehicle.Consumption(distance):0.###}" + " л", ConsoleColor.White);
         }
-
-        /// <summary>
-        /// Метод вывода информации о потреблении топлива в зависимости 
-        /// от начальной скорости и времени движения для всего списка объектов транспорта
-        /// </summary>
-        /// <param name="vehicleList">Список объектов транспорта</param>
-        private static void VehicleConsumptionByTime(List<VehicleBase> vehicleList)
-        {
-            for (int i = 0; i < vehicleList.Count(); i++)
-            {
-                double velocity = double.Parse(InputOutput.Input($"Введите начальную скорость {i + 1}-го транспорта (км/ч): ",
-                    InputOutput.InputTypeEnum.Digit));
-                double time = double.Parse(InputOutput.Input($"Введите время движения {i + 1}-го транспорта, с: ",
-                    InputOutput.InputTypeEnum.Digit));
-                double distance = vehicleList[i].Distance(velocity, time);
-                InputOutput.TextWriteLine($"Потребление {i + 1}-го транспорта с начальной скоростью "
-                    + $"{velocity} км/ч за {time} c: "
-                    + $"{vehicleList[i].Consumption(distance):0.###}" + " л", ConsoleColor.White);
-            }
-        }
-
+        
         /// <summary>
         /// Метод вывода информации о потреблении топлива в зависимости 
         /// от начальной скорости и времени движения для всего списка объектов транспорта
@@ -184,14 +149,14 @@ namespace ConsoleRead
         /// <param name="vehicle">Транспорт</param>
         private static void VehicleConsumptionByTime(VehicleBase vehicle)
         {
-                double velocity = double.Parse(InputOutput.Input($"Введите начальную скорость транспорта (км/ч): ",
-                    InputOutput.InputTypeEnum.Digit));
-                double time = double.Parse(InputOutput.Input($"Введите время движения транспорта, с: ",
-                    InputOutput.InputTypeEnum.Digit));
-                double distance = vehicle.Distance(velocity, time);
-                InputOutput.TextWriteLine($"Потребление транспорта с начальной скоростью "
-                    + $"{velocity} км/ч за {time} c: "
-                    + $"{vehicle.Consumption(distance):0.###}" + " л", ConsoleColor.White);
+            double velocity = double.Parse(InputOutput.Input($"Введите начальную скорость транспорта (км/ч): ",
+                InputOutput.InputTypeEnum.Digit));
+            double time = double.Parse(InputOutput.Input($"Введите время движения транспорта, с: ",
+                InputOutput.InputTypeEnum.Digit));
+            double distance = vehicle.Distance(velocity, time);
+            InputOutput.TextWriteLine($"Потребление транспорта с начальной скоростью "
+                + $"{velocity} км/ч за {time} c: "
+                + $"{vehicle.Consumption(distance):0.###}" + " л", ConsoleColor.White);
         }
 
         /// <summary>
