@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Model;
+using VehicleModel;
 using System.Xml.Serialization;
 using System.IO;
 
@@ -19,19 +19,31 @@ namespace GUI
     public partial class MainForm : Form
     {
         /// <summary>
-        /// Лист транспорта
+        /// Словарь соответствия типа топлива его текстовому названию
         /// </summary>
-        private List<TransportBase> _transportList = new List<TransportBase>();
+        public Dictionary<FuelEnum, string> dictionaryFuelInfo = new Dictionary<FuelEnum, string>
+        {
+            { FuelEnum.Petrol, "Бензин" },
+            { FuelEnum.Diesel, "Дизель" },
+            { FuelEnum.Kerosene, "Керосин" },
+            { FuelEnum.Mixed, "Смешанное топливо" },
+            { FuelEnum.Hydrogen, "Водород" },
+            { FuelEnum.Electricity, "Электричество" },
+        };
+        /// <summary>
+        /// Список транспорта
+        /// </summary>
+        private List<VehicleBase> _vehicleList = new List<VehicleBase>();
 
         /// <summary>
-        /// Лист фильтрованного трансорта
+        /// Список отфильтрованного трансорта
         /// </summary>
-        private readonly List<TransportBase> _listForSearch = new List<TransportBase>();
+        private readonly List<VehicleBase> _listForSearch = new List<VehicleBase>();
 
         /// <summary>
-        /// На будующее
+        /// Сериалайзер
         /// </summary>
-        private readonly XmlSerializer _serializer = new XmlSerializer(typeof(List<TransportBase>));
+        private readonly XmlSerializer _serializer = new XmlSerializer(typeof(List<VehicleBase>));
 
         /// <summary>
         /// Инициализация компонентов
@@ -39,7 +51,7 @@ namespace GUI
         public MainForm()
         {
             InitializeComponent();
-
+            DataGridVehicle.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             ClearButton.Visible = false;
         }
 
@@ -50,7 +62,7 @@ namespace GUI
         /// <param name="e"></param>
         public void AddTransport_Click(object sender, EventArgs e)
         {
-            var addTransportForm = new AddTransportForm();
+            var addTransportForm = new AddVehicleForm();
             addTransportForm.SendDataFromFormEvent += AddTransportEvent;
             addTransportForm.ShowDialog();
         }
@@ -62,35 +74,46 @@ namespace GUI
         /// <param name="e"></param>
         private void RemoveTransport_Click(object sender, EventArgs e)
         {
-            if (DataGridTransport.RowCount < 1) return;
+            if (DataGridVehicle.RowCount < 1)
+            {
+                _vehicleList.Clear();
+                return;
+            }
 
-            var transportRemoval = DataGridTransport.CurrentRow.DataBoundItem;
-            _transportList.Remove((TransportBase)transportRemoval);
-            ShowList(_transportList);
+            var vehicleRemoval = DataGridVehicle.SelectedRows;
+            foreach (DataGridViewRow row in vehicleRemoval)
+            {
+                int index = row.Index;
+                _vehicleList.RemoveAt(index);
+            }
+            ShowList(_vehicleList);
         }
 
         /// <summary>
-        /// Обработчик события получения даннх из формы добавления
+        /// Обработчик события получения данных из формы добавления
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void AddTransportEvent(object sender, TransportEventArgs e)
+        private void AddTransportEvent(object sender, VehicleEventArgs e)
         {
-            _transportList.Add(e.SendingTransport);
-            ShowList(_transportList);
+            _vehicleList.Add(e.SendingVehicle);
+            ShowList(_vehicleList);
         }
 
-        //TODO: RSDN+
         /// <summary>
         /// Вывод листа в DataGrid
         /// </summary>
         /// <param name="listToShow">Лист для вывода на форму</param>
-        private void ShowList(List<TransportBase> listToShow)
+        private void ShowList(List<VehicleBase> listToShow)
         {
-            DataGridTransport.DataSource = null;
-            DataGridTransport.DataSource = listToShow;
-            DataGridTransport.Columns[0].HeaderText = "Наименование транспорта";
-            DataGridTransport.Columns[1].HeaderText = "Затраченное топливо";
+            DataGridVehicle.DataSource = null;
+            DataGridVehicle.DataSource = listToShow.Select(vehicle => new
+            { Column1 = vehicle.Name, Column2 = dictionaryFuelInfo[vehicle.Fuel],
+              Column3 = vehicle.Distance, Column4 = vehicle.Consumption()}).ToList();
+            DataGridVehicle.Columns[0].HeaderText = "Название транспорта";
+            DataGridVehicle.Columns[1].HeaderText = "Тип топлива";
+            DataGridVehicle.Columns[2].HeaderText = "Дистанция, км";
+            DataGridVehicle.Columns[3].HeaderText = "Затраченное топливо, л";
         }
 
         /// <summary>
@@ -98,9 +121,9 @@ namespace GUI
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void AddSearchTransportEvent(object sender, TransportEventArgs e)
+        public void AddSearchTransportEvent(object sender, VehicleEventArgs e)
         {
-            _listForSearch.Add(e.SendingTransport);
+            _listForSearch.Add(e.SendingVehicle);
             ShowList(_listForSearch);
         }
 
@@ -111,7 +134,7 @@ namespace GUI
         /// <param name="e"></param>
         private void SearchButton_Click(object sender, EventArgs e)
         {
-            SearchForm searchForm = new SearchForm(_transportList);
+            SearchForm searchForm = new SearchForm(_vehicleList);
             searchForm.FormClosed += VisibleButton;
             searchForm.SendDataFromFormEvent += AddSearchTransportEvent;
             searchForm.ShowDialog();
@@ -125,7 +148,7 @@ namespace GUI
         private void ClearButton_Click(object sender, EventArgs e)
         {
             _listForSearch.Clear();
-            DataGridTransport.DataSource = null;
+            DataGridVehicle.DataSource = null;
             ClearButton.Visible = false;
         }
 
@@ -150,7 +173,7 @@ namespace GUI
         {
             var openFileDialog = new OpenFileDialog
             {
-                Filter = "Файлы (*.aas)|*.aas|Все файлы (*.*)|*.*",
+                Filter = "Файлы (*.zak)|*.zak|Все файлы (*.*)|*.*",
             };
 
             if (openFileDialog.ShowDialog() != DialogResult.OK) return;
@@ -161,15 +184,24 @@ namespace GUI
                 using (FileStream fileStream = new FileStream(path, 
                     FileMode.OpenOrCreate))
                 {
-                    _transportList = (List<TransportBase>)_serializer.
-                        Deserialize(fileStream);
+                    _vehicleList = (List<VehicleBase>)_serializer.Deserialize(fileStream);
                 }
-                DataGridTransport.DataSource = _transportList;
-                DataGridTransport.CurrentCell = null;
+                DataGridVehicle.DataSource = _vehicleList.Select(vehicle => new
+                {
+                    Column1 = vehicle.Name,
+                    Column2 = dictionaryFuelInfo[vehicle.Fuel],
+                    Column3 = vehicle.Distance,
+                    Column4 = vehicle.Consumption()
+                }).ToList();
+                DataGridVehicle.Columns[0].HeaderText = "Название транспорта";
+                DataGridVehicle.Columns[1].HeaderText = "Тип топлива";
+                DataGridVehicle.Columns[2].HeaderText = "Дистанция, км";
+                DataGridVehicle.Columns[3].HeaderText = "Затраченное топливо, л"; 
+                DataGridVehicle.CurrentCell = null;
                 MessageBox.Show("Файл успешно загружен.", "Загрузка завершена",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            catch(Exception)
+            catch (Exception)
             {
                 MessageBox.Show("Файл повреждён или не соответствует формату.",
                     "Ошибка",
@@ -184,7 +216,7 @@ namespace GUI
         /// <param name="e"></param>
         private void SaveButton_Click(object sender, EventArgs e)
         {
-            if (_transportList.Count == 0)
+            if (_vehicleList.Count == 0)
             {
                 MessageBox.Show("Отсутствуют данные для сохранения.",
                     "Данные не сохранены",
@@ -194,18 +226,18 @@ namespace GUI
 
             var saveFileDialog = new SaveFileDialog
             {
-                Filter = "Файлы (*.aas)|*.aas|Все файлы (*.*)|*.*",
+                Filter = "Файлы (*.zak)|*.zak|Все файлы (*.*)|*.*",
                 AddExtension = true,
-                DefaultExt = ".aas"
+                DefaultExt = ".zak"
             };
 
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 var path = saveFileDialog.FileName.ToString();
                 using (FileStream fileStream = new FileStream(path,
-                    FileMode.OpenOrCreate))
+                    FileMode.Create))
                 {
-                    _serializer.Serialize(fileStream, _transportList);
+                    _serializer.Serialize(fileStream, _vehicleList);
                 }
             }
 

@@ -44,6 +44,7 @@
     <Compile Include="Car.cs" />
     <Compile Include="Helicopter.cs" />
     <Compile Include="HybridCar.cs" />
+    <Compile Include="VehicleRandomizer.cs" />
     <Compile Include="VehicleBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

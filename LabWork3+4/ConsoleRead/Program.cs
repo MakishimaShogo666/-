@@ -139,7 +139,7 @@ namespace ConsoleRead
                     $"Введите пройденную дистанцию транспорта: ",
                     InputOutput.InputTypeEnum.Digit));
                 InputOutput.TextWriteLine($"Потребление транспорта на {distance} км: " +
-                                          $"{vehicle.Consumption(distance):0.###}" + " л", ConsoleColor.White);
+                                          $"{vehicle.Consumption():0.###}" + " л", ConsoleColor.White);
         }
         
         /// <summary>
@@ -153,10 +153,10 @@ namespace ConsoleRead
                 InputOutput.InputTypeEnum.Digit));
             double time = double.Parse(InputOutput.Input($"Введите время движения транспорта, с: ",
                 InputOutput.InputTypeEnum.Digit));
-            double distance = vehicle.Distance(velocity, time);
+            double distance = vehicle.Distance;
             InputOutput.TextWriteLine($"Потребление транспорта с начальной скоростью "
                 + $"{velocity} км/ч за {time} c: "
-                + $"{vehicle.Consumption(distance):0.###}" + " л", ConsoleColor.White);
+                + $"{vehicle.Consumption():0.###}" + " л", ConsoleColor.White);
         }
 
         /// <summary>

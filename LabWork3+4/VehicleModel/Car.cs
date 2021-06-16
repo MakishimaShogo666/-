@@ -6,10 +6,15 @@ using System.Threading.Tasks;
 
 namespace VehicleModel
 {
-    //TODO: XML комментарии?
+    /// <summary>
+    /// Класс Car - Машина
+    /// </summary>
+    [Serializable]
     public class Car : VehicleBase 
     {
-        //TODO: XML комментарии?
+        /// <summary>
+        /// Тип топлива
+        /// </summary>
         public override FuelEnum Fuel
         {
             get

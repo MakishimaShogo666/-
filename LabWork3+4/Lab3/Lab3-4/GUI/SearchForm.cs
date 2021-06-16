@@ -7,8 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Model;
-using Model.Transport;
+using VehicleModel;
 using System.Text.RegularExpressions;
 
 namespace GUI
@@ -19,19 +18,19 @@ namespace GUI
     public partial class SearchForm : Form
     {
         /// <summary>
-        /// Ивент для передачи данных 
+        /// Событие для передачи данных 
         /// </summary>
-        public event EventHandler<TransportEventArgs> SendDataFromFormEvent;
+        public event EventHandler<VehicleEventArgs> SendDataFromFormEvent;
 
         /// <summary>
         /// Лист фильтрованных транспортных средств
         /// </summary>
-        private static List<TransportBase> _listForSearch = new List<TransportBase>();
+        private readonly List<VehicleBase> _listForSearch = new List<VehicleBase>();
 
         /// <summary>
         /// Конструктор формы
         /// </summary>
-        public SearchForm(List<TransportBase> transportList)
+        public SearchForm(List<VehicleBase> transportList)
         {
             InitializeComponent();
             _listForSearch = transportList;
@@ -47,31 +46,37 @@ namespace GUI
             if (CheckCarBox.Checked == false &&
                 CheckHybridCarBox.Checked == false &&
                 CheckHelicopterBox.Checked == false &&
-                CheckFuelBox.Checked == false) return;
+                CheckFuelLessBox.Checked == false &&
+                CheckFuelMoreBox.Checked == false) return;
 
-            foreach (TransportBase transportBase in _listForSearch)
+            foreach (VehicleBase vehicleBase in _listForSearch)
             {
-                switch (transportBase)
+                switch (vehicleBase)
                 {
                     case Car _ when CheckCarBox.Checked:
                     case HybridCar _ when CheckHybridCarBox.Checked:
                     case Helicopter _ when CheckHelicopterBox.Checked:
                     {   
-                        SendDataFromFormEvent?.Invoke(this, new TransportEventArgs(transportBase));
+                        SendDataFromFormEvent?.Invoke(this, new VehicleEventArgs(vehicleBase));
                         break;    
                     }
                 }
 
-                if (CheckFuelBox.Checked && transportBase.FuelQuantity.ToString().
-                    Contains(FuelBox.Text))
+                var fuelFind = double.TryParse(FuelBox.Text, out _) 
+                                        ? Double.Parse(FuelBox.Text) 
+                                        : 0;
+
+                if (CheckFuelLessBox.Checked && vehicleBase.Consumption() <= fuelFind)
+                { 
+                    SendDataFromFormEvent?.Invoke(this, new VehicleEventArgs(vehicleBase));
+                }
+                else if (CheckFuelMoreBox.Checked && vehicleBase.Consumption() >= fuelFind)
                 {
-                    SendDataFromFormEvent?.Invoke(this, new TransportEventArgs(transportBase));
+                    SendDataFromFormEvent?.Invoke(this, new VehicleEventArgs(vehicleBase));
                 }
             }
             Close();
-
         }
-
 
         /// <summary>
         /// Обработка ввода числа
@@ -80,11 +85,11 @@ namespace GUI
         /// <param name="e"></param>
         private void NumberBox_KeyPress(object sender, KeyPressEventArgs e)
         {
-            const string letterPattern = @"[^0-9]";
+            const string letterPattern = @"[^0-9.,]";
             Regex letterRegex = new Regex(letterPattern);
 
-            if (!letterRegex.IsMatch(e.KeyChar.ToString())
-                || e.KeyChar == (char)Keys.Back) return;
+            if (double.TryParse(FuelBox.Text, out _)||(!letterRegex.IsMatch(e.KeyChar.ToString())
+                || e.KeyChar == (char)Keys.Back)) return;
 
             e.Handled = true;
         }

@@ -9,6 +9,7 @@ namespace VehicleModel
     /// <summary>
     /// Класс Helicopter - Вертолёт
     /// </summary>
+    [Serializable]
     public class Helicopter : VehicleBase
     {
         /// <summary>

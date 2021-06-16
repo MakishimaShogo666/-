@@ -46,13 +46,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AddTransportForm.cs">
+    <Compile Include="AddVehicleForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AddTransportForm.Designer.cs">
-      <DependentUpon>AddTransportForm.cs</DependentUpon>
+    <Compile Include="AddVehicleForm.Designer.cs">
+      <DependentUpon>AddVehicleForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="TransportEventArgs.cs" />
+    <Compile Include="VehicleEventArgs.cs" />
     <Compile Include="SearchForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -67,8 +67,8 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="AddTransportForm.resx">
-      <DependentUpon>AddTransportForm.cs</DependentUpon>
+    <EmbeddedResource Include="AddVehicleForm.resx">
+      <DependentUpon>AddVehicleForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -99,9 +99,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Model\Model\Model.csproj">
-      <Project>{7de1169e-5663-4d56-9f44-8fbd67de0fb3}</Project>
-      <Name>Model</Name>
+    <ProjectReference Include="..\..\..\VehicleModel\VehicleModel.csproj">
+      <Project>{ca167b56-1a4c-46dd-a9b8-fb1cde8df73f}</Project>
+      <Name>VehicleModel</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

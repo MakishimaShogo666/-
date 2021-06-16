@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
+using System.Xml.Serialization;
 
 namespace VehicleModel
 {
@@ -21,10 +22,13 @@ namespace VehicleModel
         Electricity,
         Count
     }
-
     /// <summary>
     /// Базовый класс VehicleBase
     /// </summary>
+    //[Serializable]
+    [XmlInclude(typeof(Car))]
+    [XmlInclude(typeof(HybridCar))]
+    [XmlInclude(typeof(Helicopter))]
     public abstract class VehicleBase
     {
         /// <summary>
@@ -63,18 +67,44 @@ namespace VehicleModel
         protected FuelEnum _fuel;
 
         /// <summary>
+        /// Дистанция
+        /// </summary>
+        private double _distance;
+
+        /// <summary>
+        /// Имя
+        /// </summary>
+        public string Name
+        {
+            get
+            {
+                return _name;
+            }
+            set
+            {
+                PropertyCheck(value);
+                _name = value;
+            }
+        }
+
+        /// <summary>
+        /// Тип топлива
+        /// </summary>
+        public abstract FuelEnum Fuel { get; set; }
+
+        /// <summary>
         /// Вес
         /// </summary>
         public double Weight
         {
             get
             {
-                return _weight;            
+                return _weight;
             }
             set
             {
                 PropertyCheck(value);
-                _weight = value > 0 
+                _weight = value > 0
                     ? value
                     : throw new Exception("Транспорт должен иметь вес!");
             }
@@ -113,26 +143,20 @@ namespace VehicleModel
         }
 
         /// <summary>
-        /// Имя
+        /// Расход топлива (в л/км)
         /// </summary>
-        public string Name
+        public virtual double Distance
         {
             get
             {
-                return _name;
+                return _distance;
             }
             set
             {
                 PropertyCheck(value);
-                _name = value;
+                _distance = value;
             }
         }
-
-        /// <summary>
-        /// Тип топлива
-        /// </summary>
-        public abstract FuelEnum Fuel { get; set; }
-
 
         /// <summary>
         /// Метод расчёта ускорения
@@ -154,26 +178,26 @@ namespace VehicleModel
             return (startValue/3.6) + Acceleration() * timeInSecond;
         }
 
-        /// <summary>
-        /// Метод расчёта пройденного пути
-        /// </summary>
-        /// <param name="startVelocity">Начальная скорость, км/ч</param>
-        /// <param name="timeInSecond">Время движения, с</param>
-        /// <returns></returns>
-        public double Distance(double startVelocity, double timeInSecond)
-        {
-            return (Velocity(startVelocity, timeInSecond) * timeInSecond - 
-                Acceleration() * (timeInSecond * timeInSecond) / 2)/1000;
-        }
+        ///// <summary>
+        ///// Метод расчёта пройденного пути
+        ///// </summary>
+        ///// <param name="startVelocity">Начальная скорость, км/ч</param>
+        ///// <param name="timeInSecond">Время движения, с</param>
+        ///// <returns></returns>
+        //public double Distance(double startVelocity, double timeInSecond)
+        //{
+        //    return (Velocity(startVelocity, timeInSecond) * timeInSecond - 
+        //        Acceleration() * (timeInSecond * timeInSecond) / 2)/1000;
+        //}
 
         /// <summary>
         /// Метод расчёта потребления топлива
         /// </summary>
         /// <param name="distance">Пройденный путь, км</param>
         /// <returns></returns>
-        public virtual double Consumption(double distance)
+        public virtual double Consumption()
         {
-            return distance * _waste;
+            return Distance * Waste;
         }
 
         /// <summary>

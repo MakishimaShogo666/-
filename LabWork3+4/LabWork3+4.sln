@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleRead", "ConsoleRead\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VehicleModel", "VehicleModel\VehicleModel.csproj", "{CA167B56-1A4C-46DD-A9B8-FB1CDE8DF73F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GUI", "Lab3\Lab3-4\GUI\GUI.csproj", "{952EA451-1747-4B75-B838-C858083F0DEE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{CA167B56-1A4C-46DD-A9B8-FB1CDE8DF73F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA167B56-1A4C-46DD-A9B8-FB1CDE8DF73F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CA167B56-1A4C-46DD-A9B8-FB1CDE8DF73F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{952EA451-1747-4B75-B838-C858083F0DEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{952EA451-1747-4B75-B838-C858083F0DEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{952EA451-1747-4B75-B838-C858083F0DEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{952EA451-1747-4B75-B838-C858083F0DEE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

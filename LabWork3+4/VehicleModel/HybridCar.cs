@@ -9,6 +9,7 @@ namespace VehicleModel
     /// <summary>
     /// Класс HybridCar - гибридная машина
     /// </summary>
+    [Serializable]
     public class HybridCar : VehicleBase
     {
         /// <summary>
@@ -19,7 +20,7 @@ namespace VehicleModel
         /// <summary>
         /// Коэффициент гибридности (снижение потребления топлива)
         /// </summary>
-        public double HybridCoefficient
+        private double HybridCoefficient
         {
             get
             {
@@ -35,7 +36,7 @@ namespace VehicleModel
                         throw new Exception("Гибрид работает только от электричества, водорода или смешанного топлива!");
                 }
             }
-            private set
+            set
             {
                 _hybridCoefficient = value;
             }
@@ -97,11 +98,10 @@ namespace VehicleModel
         /// <summary>
         /// Потребление (в л) топлива гибрида
         /// </summary>
-        /// <param name="distance">Пройденный гибридом путь, км</param>
-        /// <returns></returns>
-        public override double Consumption(double distance)
+        /// <returns>Объём потреблённого топлива</returns>
+        public override double Consumption()
         {
-            return base.Consumption(distance) * HybridCoefficient;
+            return base.Consumption() * HybridCoefficient;
         }
     }
 }
