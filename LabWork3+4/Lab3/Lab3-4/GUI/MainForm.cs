@@ -18,6 +18,7 @@ namespace GUI
     /// </summary>
     public partial class MainForm : Form
     {
+        //TODO: duplication
         /// <summary>
         /// Словарь соответствия типа топлива его текстовому названию
         /// </summary>
@@ -30,6 +31,7 @@ namespace GUI
             { FuelEnum.Hydrogen, "Водород" },
             { FuelEnum.Electricity, "Электричество" },
         };
+
         /// <summary>
         /// Список транспорта
         /// </summary>
@@ -110,6 +112,7 @@ namespace GUI
             DataGridVehicle.DataSource = listToShow.Select(vehicle => new
             { Column1 = vehicle.Name, Column2 = dictionaryFuelInfo[vehicle.Fuel],
               Column3 = vehicle.Distance, Column4 = vehicle.Consumption()}).ToList();
+            //TODO: duplication
             DataGridVehicle.Columns[0].HeaderText = "Название транспорта";
             DataGridVehicle.Columns[1].HeaderText = "Тип топлива";
             DataGridVehicle.Columns[2].HeaderText = "Дистанция, км";
@@ -193,6 +196,7 @@ namespace GUI
                     Column3 = vehicle.Distance,
                     Column4 = vehicle.Consumption()
                 }).ToList();
+                //TODO: duplication
                 DataGridVehicle.Columns[0].HeaderText = "Название транспорта";
                 DataGridVehicle.Columns[1].HeaderText = "Тип топлива";
                 DataGridVehicle.Columns[2].HeaderText = "Дистанция, км";
