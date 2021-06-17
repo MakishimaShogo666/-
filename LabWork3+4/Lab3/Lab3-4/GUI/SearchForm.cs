@@ -85,11 +85,8 @@ namespace GUI
         /// <param name="e"></param>
         private void NumberBox_KeyPress(object sender, KeyPressEventArgs e)
         {
-            const string letterPattern = @"[^0-9.,]";
-            Regex letterRegex = new Regex(letterPattern);
-
-            if (double.TryParse(FuelBox.Text, out _)||(!letterRegex.IsMatch(e.KeyChar.ToString())
-                || e.KeyChar == (char)Keys.Back)) return;
+            if (double.TryParse(FuelBox.Text + e.KeyChar, out _)
+                || e.KeyChar == (char)Keys.Back) return;
 
             e.Handled = true;
         }

@@ -149,6 +149,7 @@ namespace GUI
             this.DistanceTextBox.Name = "DistanceTextBox";
             this.DistanceTextBox.Size = new System.Drawing.Size(51, 20);
             this.DistanceTextBox.TabIndex = 7;
+            this.DistanceTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.NumberBox_KeyPress);
             this.DistanceTextBox.TextChanged += new System.EventHandler(this.DistanceTextBox_TextChanged);
             // 
             // DistanceLabel

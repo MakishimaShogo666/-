@@ -80,50 +80,59 @@ namespace GUI
         /// <param name="e"></param>
         private void Add_Click(object sender, EventArgs e)
         {
-            switch (TypeOfTransportBox.Text)
+            try
             {
-                case CarItem:
+                switch (TypeOfTransportBox.Text)
                 {
-                    var car = new Car
+                    case CarItem:
                     {
-                        Name = NameBox.Text,
-                        Waste = Double.Parse(WasteBox.Text),
-                        Fuel = FuelSet(TypeOfFuelBox),
-                        Weight = Double.Parse(WeightBox.Text),
-                        Power = Double.Parse(PowerBox.Text),
-                        Distance = Double.Parse(DistanceTextBox.Text)
-                    };
-                    SendDataFromFormEvent?.Invoke(this, new VehicleEventArgs(car));
-                    break;                    
-                }        
-                case HybridCarItem:
-                {    
-                    var hybridCar = new HybridCar        
+                        var car = new Car
+                        {
+                            Name = NameBox.Text,
+                            Waste = Double.Parse(WasteBox.Text),
+                            Fuel = FuelSet(TypeOfFuelBox),
+                            Weight = Double.Parse(WeightBox.Text),
+                            Power = Double.Parse(PowerBox.Text),
+                            Distance = Double.Parse(DistanceTextBox.Text)
+                        };
+                        SendDataFromFormEvent?.Invoke(this, new VehicleEventArgs(car));
+                        break;
+                    }
+                    case HybridCarItem:
                     {
-                        Name = NameBox.Text,
-                        Waste = Double.Parse(WasteBox.Text),
-                        Fuel = FuelSet(TypeOfFuelBox),
-                        Weight = Double.Parse(WeightBox.Text),
-                        Power = Double.Parse(PowerBox.Text),
-                        Distance = Double.Parse(DistanceTextBox.Text)
-                    };
-                    SendDataFromFormEvent?.Invoke(this, new VehicleEventArgs(hybridCar));
-                    break;        
-                }    
-                case HelicopterItem:
-                {    
-                    var helicopter = new Helicopter        
+                        var hybridCar = new HybridCar
+                        {
+                            Name = NameBox.Text,
+                            Waste = Double.Parse(WasteBox.Text),
+                            Fuel = FuelSet(TypeOfFuelBox),
+                            Weight = Double.Parse(WeightBox.Text),
+                            Power = Double.Parse(PowerBox.Text),
+                            Distance = Double.Parse(DistanceTextBox.Text)
+                        };
+                        SendDataFromFormEvent?.Invoke(this, new VehicleEventArgs(hybridCar));
+                        break;
+                    }
+                    case HelicopterItem:
                     {
-                        Name = NameBox.Text,
-                        Waste = Double.Parse(WasteBox.Text),
-                        Fuel = FuelSet(TypeOfFuelBox),
-                        Weight = Double.Parse(WeightBox.Text),
-                        Power = Double.Parse(PowerBox.Text),
-                        Distance = Double.Parse(DistanceTextBox.Text)
-                    };
-                    SendDataFromFormEvent?.Invoke(this, new VehicleEventArgs(helicopter));
-                    break;        
-                }    
+                        var helicopter = new Helicopter
+                        {
+                            Name = NameBox.Text,
+                            Waste = Double.Parse(WasteBox.Text),
+                            Fuel = FuelSet(TypeOfFuelBox),
+                            Weight = Double.Parse(WeightBox.Text),
+                            Power = Double.Parse(PowerBox.Text),
+                            Distance = Double.Parse(DistanceTextBox.Text)
+                        };
+                        SendDataFromFormEvent?.Invoke(this, new VehicleEventArgs(helicopter));
+                        break;
+                    }
+                }
+            }
+            catch(Exception)
+            {
+                MessageBox.Show("Введено некорректное значение, проверьте данные!",
+                    "Ошибка",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -176,11 +185,8 @@ namespace GUI
         /// <param name="e"></param>
         private void NumberBox_KeyPress(object sender, KeyPressEventArgs e)
         {
-            //TODO: duplication
-            const string letterPattern = @"[^0-9.,]";
-            Regex letterRegex = new Regex(letterPattern);
-
-            if (!letterRegex.IsMatch(e.KeyChar.ToString())
+            //TODO: duplication +/-
+            if (double.TryParse(((TextBox)sender).Text + e.KeyChar, out _)
                 || e.KeyChar == (char)Keys.Back) return;
 
             e.Handled = true;
@@ -193,7 +199,7 @@ namespace GUI
         /// <param name="e"></param>
         private void NameBox_KeyPress(object sender, KeyPressEventArgs e)
         {
-            //TODO: duplication
+            //TODO: duplication +/-
             const string letterPattern = @"\W\s";
             Regex letterRegex = new Regex(letterPattern);
 
