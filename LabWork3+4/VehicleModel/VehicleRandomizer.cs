@@ -49,7 +49,7 @@ namespace VehicleModel
         /// <summary>
         /// Присвоение случайного наименования
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Случайное наименование</returns>
         public static string GetRandomName(string vehicleString)
         {
             if (vehicleString == "Вертолёт")
@@ -65,9 +65,8 @@ namespace VehicleModel
         /// <summary>
         /// Создание случайного числа
         /// </summary>
-        /// <param name="minValue">Минимальное значение</param>
         /// <param name="maxValue">Максимальное значение</param>
-        /// <returns></returns>
+        /// <returns>Случайное число</returns>
         public static double GetRandomNumber(int maxValue)
         {
             return _random.NextDouble() * maxValue;
