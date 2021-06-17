@@ -219,7 +219,7 @@ namespace VehicleModel
         /// <param name="keyInfo">Нажатая клавиша</param>
         /// <param name="pattern">Шаблон</param>
         /// <param name="stringMaxLength">Максимальная длина строки</param>
-        /// <returns></returns>
+        /// <returns>true - если совпадает, иначе - false</returns>
         public static bool PatternCoincidence(string inputString, object keyInfo,
             string pattern, byte stringMaxLength)
         {

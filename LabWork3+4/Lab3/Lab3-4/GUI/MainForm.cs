@@ -232,7 +232,9 @@ namespace GUI
                     MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Information);
             }
         }
-
+        /// <summary>
+        /// Метод построения заголовков DataGrid
+        /// </summary>
         private void ColumnHeaderMaker()
         {
             DataGridVehicle.Columns[0].HeaderText = "Название транспорта";
@@ -240,6 +242,10 @@ namespace GUI
             DataGridVehicle.Columns[2].HeaderText = "Дистанция, км";
             DataGridVehicle.Columns[3].HeaderText = "Затраченное топливо, л";
         }
+        /// <summary>
+        /// Метод задания источника данных в DataGrid
+        /// </summary>
+        /// <param name="vehicleList">Список единиц транспорта</param>
         private void DataSourceSet(List<VehicleBase> vehicleList)
         {
             DataGridVehicle.DataSource = vehicleList.Select(vehicle => new

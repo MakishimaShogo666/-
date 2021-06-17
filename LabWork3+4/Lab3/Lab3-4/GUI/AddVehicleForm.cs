@@ -357,12 +357,22 @@ namespace GUI
                 WasteBox.Enabled = true;
             }
         }
+        /// <summary>
+        /// Метод задания значения свойства по данным в textBox
+        /// </summary>
+        /// <param name="textBox"></param>
+        /// <returns>Значение свойства</returns>
         private double PropertyValueSet(TextBox textBox)
         {
             return (textBox.Text.Length > 0)
                             ? Double.Parse(textBox.Text)
                             : 0;
         }
+        /// <summary>
+        /// Метод задания типа топлива по значению в comboBox
+        /// </summary>
+        /// <param name="comboBox"></param>
+        /// <returns>Тип топлива</returns>
         private FuelEnum FuelSet(ComboBox comboBox)
         {
             return VehicleBase.FuelToStringDictionary.FirstOrDefault(x => x.Value == comboBox.Text).Key;
