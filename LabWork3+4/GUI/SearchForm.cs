@@ -95,6 +95,11 @@ namespace GUI
             e.Handled = true;
         }
 
+        /// <summary>
+        /// Метод проверки объёма топлива для поиска транспорта
+        /// </summary>
+        /// <param name="vehicleBase">Транспорт</param>
+        /// <param name="fuelFind">Значение, относительно которого проверяется топливо</param>
         private void FindVehicleCondition(VehicleBase vehicleBase, double fuelFind)
         {
             if (CheckFuelLessBox.Checked && vehicleBase.Consumption() < fuelFind)
