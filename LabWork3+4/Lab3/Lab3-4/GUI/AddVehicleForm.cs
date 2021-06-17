@@ -17,6 +17,7 @@ namespace GUI
     /// </summary>
     public partial class AddVehicleForm : Form
     {
+        //TODO: доступ, именование, неизменяемость коллекции.
         /// <summary>
         /// Словарь соответствия названия топлива с его типом
         /// </summary>
@@ -59,9 +60,7 @@ namespace GUI
             TypeOfTransportBox.Items.Add(CarItem);
             TypeOfTransportBox.Items.Add(HybridCarItem);
             TypeOfTransportBox.Items.Add(HelicopterItem);
-
-
-
+            
             TypeOfTransportBox.SelectedIndexChanged += FormElementChange;
 
             ButtonAdd.Enabled = false;
@@ -145,6 +144,7 @@ namespace GUI
             {
                 case CarItem:
                 {
+                    //TODO: Использовать словарь
                     TypeOfFuelBox.Items.Clear();
                     TypeOfFuelBox.Items.Add("Бензин");
                     TypeOfFuelBox.Items.Add("Дизель");
@@ -152,12 +152,14 @@ namespace GUI
                 }
                 case HelicopterItem:
                 {
-                    TypeOfFuelBox.Items.Clear();
+                    //TODO: Использовать словарь
+                        TypeOfFuelBox.Items.Clear();
                     TypeOfFuelBox.Items.Add("Керосин");
                     break;
                 }
                 case HybridCarItem:
                 {
+                    //TODO: Использовать словарь
                     TypeOfFuelBox.Items.Clear();
                     TypeOfFuelBox.Items.Add("Смешанное топливо");
                     TypeOfFuelBox.Items.Add("Водород");
@@ -174,6 +176,7 @@ namespace GUI
         /// <param name="e"></param>
         private void NumberBox_KeyPress(object sender, KeyPressEventArgs e)
         {
+            //TODO: duplication
             const string letterPattern = @"[^0-9.,]";
             Regex letterRegex = new Regex(letterPattern);
 
@@ -190,6 +193,7 @@ namespace GUI
         /// <param name="e"></param>
         private void NameBox_KeyPress(object sender, KeyPressEventArgs e)
         {
+            //TODO: duplication
             const string letterPattern = @"\W\s";
             Regex letterRegex = new Regex(letterPattern);
 
@@ -293,9 +297,11 @@ namespace GUI
                     var car = new Car
                     {
                         Fuel = dictionaryFuelInfo[TypeOfFuelBox.Text],
+                        //TODO: duplication
                         Waste = (WasteBox.Text.Length > 0)
                             ? Double.Parse(WasteBox.Text)
                             : 0,
+                        //TODO: duplication
                         Distance = (DistanceTextBox.Text.Length > 0)
                             ? Double.Parse(DistanceTextBox.Text)
                             : 0
@@ -308,9 +314,11 @@ namespace GUI
                     var hybridCar = new HybridCar
                     {
                         Fuel = dictionaryFuelInfo[TypeOfFuelBox.Text],
+                        //TODO: duplication
                         Waste = (WasteBox.Text.Length > 0)
                             ? Double.Parse(WasteBox.Text)
                             :0,
+                        //TODO: duplication
                         Distance = (DistanceTextBox.Text.Length>0)
                             ?Double.Parse(DistanceTextBox.Text)
                             :0
@@ -323,9 +331,11 @@ namespace GUI
                     var helicopter = new Helicopter
                     {
                         Fuel = dictionaryFuelInfo[TypeOfFuelBox.Text],
+                        //TODO: duplication
                         Waste = (WasteBox.Text.Length > 0)
                             ? Double.Parse(WasteBox.Text)
                             : 0,
+                        //TODO: duplication
                         Distance = (DistanceTextBox.Text.Length > 0)
                             ? Double.Parse(DistanceTextBox.Text)
                             : 0

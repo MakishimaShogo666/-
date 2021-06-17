@@ -25,7 +25,7 @@ namespace GUI
         /// <summary>
         /// Лист фильтрованных транспортных средств
         /// </summary>
-        private readonly List<VehicleBase> _listForSearch = new List<VehicleBase>();
+        private readonly List<VehicleBase> _listForSearch;
 
         /// <summary>
         /// Конструктор формы
