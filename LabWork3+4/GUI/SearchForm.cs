@@ -51,28 +51,32 @@ namespace GUI
 
             foreach (VehicleBase vehicleBase in _listForSearch)
             {
+                double fuelFind = double.TryParse(FuelBox.Text, out _)
+                            ? Double.Parse(FuelBox.Text)
+                            : 0;
+
                 switch (vehicleBase)
                 {
                     case Car _ when CheckCarBox.Checked:
                     case HybridCar _ when CheckHybridCarBox.Checked:
                     case Helicopter _ when CheckHelicopterBox.Checked:
-                    {   
-                        SendDataFromFormEvent?.Invoke(this, new VehicleEventArgs(vehicleBase));
-                        break;    
+                    {
+                        if (!(CheckFuelLessBox.Checked || CheckFuelMoreBox.Checked))
+                        {
+                            SendDataFromFormEvent?.Invoke(this, new VehicleEventArgs(vehicleBase));
+                            break;
+                        }
+                        else
+                        {
+                            FindVehicleCondition(vehicleBase, fuelFind);
+                            break;
+                        }
                     }
                 }
-
-                var fuelFind = double.TryParse(FuelBox.Text, out _) 
-                                        ? Double.Parse(FuelBox.Text) 
-                                        : 0;
-
-                if (CheckFuelLessBox.Checked && vehicleBase.Consumption() <= fuelFind)
-                { 
-                    SendDataFromFormEvent?.Invoke(this, new VehicleEventArgs(vehicleBase));
-                }
-                else if (CheckFuelMoreBox.Checked && vehicleBase.Consumption() >= fuelFind)
+                if (!(CheckCarBox.Checked || CheckHybridCarBox.Checked || CheckHelicopterBox.Checked))
                 {
-                    SendDataFromFormEvent?.Invoke(this, new VehicleEventArgs(vehicleBase));
+                    FindVehicleCondition(vehicleBase, fuelFind);
+                    break;
                 }
             }
             Close();
@@ -89,6 +93,18 @@ namespace GUI
                 || e.KeyChar == (char)Keys.Back) return;
 
             e.Handled = true;
+        }
+
+        private void FindVehicleCondition(VehicleBase vehicleBase, double fuelFind)
+        {
+            if (CheckFuelLessBox.Checked && vehicleBase.Consumption() < fuelFind)
+            {
+                SendDataFromFormEvent?.Invoke(this, new VehicleEventArgs(vehicleBase));
+            }
+            else if (CheckFuelMoreBox.Checked && vehicleBase.Consumption() > fuelFind)
+            {
+                SendDataFromFormEvent?.Invoke(this, new VehicleEventArgs(vehicleBase));
+            }
         }
     }
 }
