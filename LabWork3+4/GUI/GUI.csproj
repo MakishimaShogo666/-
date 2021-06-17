@@ -99,7 +99,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\VehicleModel\VehicleModel.csproj">
+    <ProjectReference Include="..\VehicleModel\VehicleModel.csproj">
       <Project>{ca167b56-1a4c-46dd-a9b8-fb1cde8df73f}</Project>
       <Name>VehicleModel</Name>
     </ProjectReference>

@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleRead", "ConsoleRead\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VehicleModel", "VehicleModel\VehicleModel.csproj", "{CA167B56-1A4C-46DD-A9B8-FB1CDE8DF73F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GUI", "Lab3\Lab3-4\GUI\GUI.csproj", "{952EA451-1747-4B75-B838-C858083F0DEE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GUI", "GUI\GUI.csproj", "{952EA451-1747-4B75-B838-C858083F0DEE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
