@@ -165,8 +165,7 @@ namespace VehicleModel
         /// <summary>
         /// Метод расчёта потребления топлива
         /// </summary>
-        /// <param name="distance">Пройденный путь, км</param>
-        /// <returns></returns>
+        /// <returns>Объём потребления топлива, л</returns>
         public virtual double Consumption()
         {
             return Distance * Waste;
