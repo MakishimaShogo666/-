@@ -110,7 +110,6 @@ namespace ConsoleRead
                 string vehicleInfo = $"Введите тип {i + 1}-го транспорта: ";
                 MethodHandler(() => VehicleAdd(typeList, vehicleInfo, dictionaryInfo, vehicleList));
                 MethodHandler(() => VehicleConsumption(vehicleList[i]));
-                MethodHandler(() => VehicleConsumptionByTime(vehicleList[i]));
             }
         }
 
@@ -142,23 +141,6 @@ namespace ConsoleRead
                                           $"{vehicle.Consumption():0.###}" + " л", ConsoleColor.White);
         }
         
-        /// <summary>
-        /// Метод вывода информации о потреблении топлива в зависимости 
-        /// от начальной скорости и времени движения для всего списка объектов транспорта
-        /// </summary>
-        /// <param name="vehicle">Транспорт</param>
-        private static void VehicleConsumptionByTime(VehicleBase vehicle)
-        {
-            double velocity = double.Parse(InputOutput.Input($"Введите начальную скорость транспорта (км/ч): ",
-                InputOutput.InputTypeEnum.Digit));
-            double time = double.Parse(InputOutput.Input($"Введите время движения транспорта, с: ",
-                InputOutput.InputTypeEnum.Digit));
-            double distance = vehicle.Distance;
-            InputOutput.TextWriteLine($"Потребление транспорта с начальной скоростью "
-                + $"{velocity} км/ч за {time} c: "
-                + $"{vehicle.Consumption():0.###}" + " л", ConsoleColor.White);
-        }
-
         /// <summary>
         /// Метод для обработки исключений
         /// </summary>

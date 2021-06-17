@@ -17,19 +17,19 @@ namespace GUI
     /// </summary>
     public partial class AddVehicleForm : Form
     {
-        //TODO: доступ, именование, неизменяемость коллекции.
-        /// <summary>
-        /// Словарь соответствия названия топлива с его типом
-        /// </summary>
-        public Dictionary<string, FuelEnum> dictionaryFuelInfo = new Dictionary<string, FuelEnum>
-        {
-            { "Бензин", FuelEnum.Petrol },
-            { "Дизель", FuelEnum.Diesel },
-            { "Керосин", FuelEnum.Kerosene },
-            { "Смешанное топливо", FuelEnum.Mixed },
-            { "Водород", FuelEnum.Hydrogen },
-            { "Электричество", FuelEnum.Electricity },
-        };
+        //TODO: доступ, именование, неизменяемость коллекции.+/-
+        ///// <summary>
+        ///// Словарь соответствия названия топлива с его типом
+        ///// </summary>
+        //public Dictionary<string, FuelEnum> dictionaryFuelInfo = new Dictionary<string, FuelEnum>
+        //{
+        //    { "Бензин", FuelEnum.Petrol },
+        //    { "Дизель", FuelEnum.Diesel },
+        //    { "Керосин", FuelEnum.Kerosene },
+        //    { "Смешанное топливо", FuelEnum.Mixed },
+        //    { "Водород", FuelEnum.Hydrogen },
+        //    { "Электричество", FuelEnum.Electricity },
+        //};
 
         /// <summary>
         /// Событие передачи данных
@@ -88,7 +88,7 @@ namespace GUI
                     {
                         Name = NameBox.Text,
                         Waste = Double.Parse(WasteBox.Text),
-                        Fuel = dictionaryFuelInfo[TypeOfFuelBox.Text],
+                        Fuel = FuelSet(TypeOfFuelBox),
                         Weight = Double.Parse(WeightBox.Text),
                         Power = Double.Parse(PowerBox.Text),
                         Distance = Double.Parse(DistanceTextBox.Text)
@@ -102,7 +102,7 @@ namespace GUI
                     {
                         Name = NameBox.Text,
                         Waste = Double.Parse(WasteBox.Text),
-                        Fuel = dictionaryFuelInfo[TypeOfFuelBox.Text],
+                        Fuel = FuelSet(TypeOfFuelBox),
                         Weight = Double.Parse(WeightBox.Text),
                         Power = Double.Parse(PowerBox.Text),
                         Distance = Double.Parse(DistanceTextBox.Text)
@@ -116,7 +116,7 @@ namespace GUI
                     {
                         Name = NameBox.Text,
                         Waste = Double.Parse(WasteBox.Text),
-                        Fuel = dictionaryFuelInfo[TypeOfFuelBox.Text],
+                        Fuel = FuelSet(TypeOfFuelBox),
                         Weight = Double.Parse(WeightBox.Text),
                         Power = Double.Parse(PowerBox.Text),
                         Distance = Double.Parse(DistanceTextBox.Text)
@@ -144,26 +144,26 @@ namespace GUI
             {
                 case CarItem:
                 {
-                    //TODO: Использовать словарь
+                    //TODO: Использовать словарь+
                     TypeOfFuelBox.Items.Clear();
-                    TypeOfFuelBox.Items.Add("Бензин");
-                    TypeOfFuelBox.Items.Add("Дизель");
+                    TypeOfFuelBox.Items.Add(VehicleBase.FuelToStringDictionary[FuelEnum.Petrol]);
+                    TypeOfFuelBox.Items.Add(VehicleBase.FuelToStringDictionary[FuelEnum.Diesel]);
                     break;
                 }
                 case HelicopterItem:
                 {
-                    //TODO: Использовать словарь
-                        TypeOfFuelBox.Items.Clear();
-                    TypeOfFuelBox.Items.Add("Керосин");
+                    //TODO: Использовать словарь+
+                    TypeOfFuelBox.Items.Clear();
+                    TypeOfFuelBox.Items.Add(VehicleBase.FuelToStringDictionary[FuelEnum.Kerosene]);
                     break;
                 }
                 case HybridCarItem:
                 {
-                    //TODO: Использовать словарь
+                    //TODO: Использовать словарь+
                     TypeOfFuelBox.Items.Clear();
-                    TypeOfFuelBox.Items.Add("Смешанное топливо");
-                    TypeOfFuelBox.Items.Add("Водород");
-                    TypeOfFuelBox.Items.Add("Электричество");
+                    TypeOfFuelBox.Items.Add(VehicleBase.FuelToStringDictionary[FuelEnum.Mixed]);
+                    TypeOfFuelBox.Items.Add(VehicleBase.FuelToStringDictionary[FuelEnum.Hydrogen]);
+                    TypeOfFuelBox.Items.Add(VehicleBase.FuelToStringDictionary[FuelEnum.Electricity]);
                     break;
                 }
             }
@@ -249,7 +249,7 @@ namespace GUI
                 case HybridCarItem:
                 {
                     NameBox.Text = VehicleRandomizer.GetRandomName(HybridCarItem);
-                    if (TypeOfFuelBox.Text == "Электричество")
+                    if (TypeOfFuelBox.Text == VehicleBase.FuelToStringDictionary[FuelEnum.Electricity])
                     {
                         WasteBox.Text = "0";
                         WasteBox.Enabled = false;
@@ -296,15 +296,11 @@ namespace GUI
                 {
                     var car = new Car
                     {
-                        Fuel = dictionaryFuelInfo[TypeOfFuelBox.Text],
-                        //TODO: duplication
-                        Waste = (WasteBox.Text.Length > 0)
-                            ? Double.Parse(WasteBox.Text)
-                            : 0,
-                        //TODO: duplication
-                        Distance = (DistanceTextBox.Text.Length > 0)
-                            ? Double.Parse(DistanceTextBox.Text)
-                            : 0
+                        Fuel = FuelSet(TypeOfFuelBox),
+                        //TODO: duplication+
+                        Waste = PropertyValueSet(WasteBox),
+                        //TODO: duplication+
+                        Distance = PropertyValueSet(DistanceTextBox)
                     };
                     ConsumptionTextBox.Text = car.Consumption().ToString("#.000");
                     break;
@@ -313,15 +309,11 @@ namespace GUI
                 {
                     var hybridCar = new HybridCar
                     {
-                        Fuel = dictionaryFuelInfo[TypeOfFuelBox.Text],
-                        //TODO: duplication
-                        Waste = (WasteBox.Text.Length > 0)
-                            ? Double.Parse(WasteBox.Text)
-                            :0,
-                        //TODO: duplication
-                        Distance = (DistanceTextBox.Text.Length>0)
-                            ?Double.Parse(DistanceTextBox.Text)
-                            :0
+                        Fuel = FuelSet(TypeOfFuelBox),
+                        //TODO: duplication+
+                        Waste = PropertyValueSet(WasteBox),
+                        //TODO: duplication+
+                        Distance = PropertyValueSet(DistanceTextBox)
                     };
                     ConsumptionTextBox.Text = hybridCar.Consumption().ToString("#.000");
                     break;
@@ -330,15 +322,11 @@ namespace GUI
                 {
                     var helicopter = new Helicopter
                     {
-                        Fuel = dictionaryFuelInfo[TypeOfFuelBox.Text],
-                        //TODO: duplication
-                        Waste = (WasteBox.Text.Length > 0)
-                            ? Double.Parse(WasteBox.Text)
-                            : 0,
-                        //TODO: duplication
-                        Distance = (DistanceTextBox.Text.Length > 0)
-                            ? Double.Parse(DistanceTextBox.Text)
-                            : 0
+                        Fuel = FuelSet(TypeOfFuelBox),
+                        //TODO: duplication+
+                        Waste = PropertyValueSet(WasteBox),
+                        //TODO: duplication+
+                        Distance = PropertyValueSet(DistanceTextBox)
                     };
                     ConsumptionTextBox.Text = helicopter.Consumption().ToString("#.000");
                     break;
@@ -353,7 +341,7 @@ namespace GUI
         /// <param name="e"></param>
         private void TypeOfFuelBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (TypeOfFuelBox.Text == "Электричество")
+            if (TypeOfFuelBox.Text == VehicleBase.FuelToStringDictionary[FuelEnum.Electricity])
             {
                 WasteBox.Text = "0";
                 WasteBox.Enabled = false;
@@ -362,6 +350,16 @@ namespace GUI
             {
                 WasteBox.Enabled = true;
             }
+        }
+        private double PropertyValueSet(TextBox textBox)
+        {
+            return (textBox.Text.Length > 0)
+                            ? Double.Parse(textBox.Text)
+                            : 0;
+        }
+        private FuelEnum FuelSet(ComboBox comboBox)
+        {
+            return VehicleBase.FuelToStringDictionary.FirstOrDefault(x => x.Value == comboBox.Text).Key;
         }
     }
 }

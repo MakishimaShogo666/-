@@ -18,20 +18,6 @@ namespace GUI
     /// </summary>
     public partial class MainForm : Form
     {
-        //TODO: duplication
-        /// <summary>
-        /// Словарь соответствия типа топлива его текстовому названию
-        /// </summary>
-        public Dictionary<FuelEnum, string> dictionaryFuelInfo = new Dictionary<FuelEnum, string>
-        {
-            { FuelEnum.Petrol, "Бензин" },
-            { FuelEnum.Diesel, "Дизель" },
-            { FuelEnum.Kerosene, "Керосин" },
-            { FuelEnum.Mixed, "Смешанное топливо" },
-            { FuelEnum.Hydrogen, "Водород" },
-            { FuelEnum.Electricity, "Электричество" },
-        };
-
         /// <summary>
         /// Список транспорта
         /// </summary>
@@ -83,10 +69,18 @@ namespace GUI
             }
 
             var vehicleRemoval = DataGridVehicle.SelectedRows;
-            foreach (DataGridViewRow row in vehicleRemoval)
+            var vehicleRemovalCount = vehicleRemoval.Count;
+            List<int> listRemovalIndex = new List<int>();
+
+            for (int i = 0; i < vehicleRemovalCount; i++)
             {
-                int index = row.Index;
-                _vehicleList.RemoveAt(index);
+                listRemovalIndex.Add(vehicleRemoval[i].Index);
+            }
+
+            var sortedListRemoval = listRemovalIndex.OrderByDescending(x => x).ToList();
+            for (int i = 0; i < vehicleRemovalCount; i++)
+            {
+                _vehicleList.RemoveAt(sortedListRemoval[i]);
             }
             ShowList(_vehicleList);
         }
@@ -109,14 +103,8 @@ namespace GUI
         private void ShowList(List<VehicleBase> listToShow)
         {
             DataGridVehicle.DataSource = null;
-            DataGridVehicle.DataSource = listToShow.Select(vehicle => new
-            { Column1 = vehicle.Name, Column2 = dictionaryFuelInfo[vehicle.Fuel],
-              Column3 = vehicle.Distance, Column4 = vehicle.Consumption()}).ToList();
-            //TODO: duplication
-            DataGridVehicle.Columns[0].HeaderText = "Название транспорта";
-            DataGridVehicle.Columns[1].HeaderText = "Тип топлива";
-            DataGridVehicle.Columns[2].HeaderText = "Дистанция, км";
-            DataGridVehicle.Columns[3].HeaderText = "Затраченное топливо, л";
+            DataSourceSet(listToShow);
+            ColumnHeaderMaker();
         }
 
         /// <summary>
@@ -151,7 +139,7 @@ namespace GUI
         private void ClearButton_Click(object sender, EventArgs e)
         {
             _listForSearch.Clear();
-            DataGridVehicle.DataSource = null;
+            DataSourceSet(_vehicleList);
             ClearButton.Visible = false;
         }
 
@@ -189,18 +177,10 @@ namespace GUI
                 {
                     _vehicleList = (List<VehicleBase>)_serializer.Deserialize(fileStream);
                 }
-                DataGridVehicle.DataSource = _vehicleList.Select(vehicle => new
-                {
-                    Column1 = vehicle.Name,
-                    Column2 = dictionaryFuelInfo[vehicle.Fuel],
-                    Column3 = vehicle.Distance,
-                    Column4 = vehicle.Consumption()
-                }).ToList();
-                //TODO: duplication
-                DataGridVehicle.Columns[0].HeaderText = "Название транспорта";
-                DataGridVehicle.Columns[1].HeaderText = "Тип топлива";
-                DataGridVehicle.Columns[2].HeaderText = "Дистанция, км";
-                DataGridVehicle.Columns[3].HeaderText = "Затраченное топливо, л"; 
+                DataSourceSet(_vehicleList);
+
+                //TODO: duplication+
+                ColumnHeaderMaker();
                 DataGridVehicle.CurrentCell = null;
                 MessageBox.Show("Файл успешно загружен.", "Загрузка завершена",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -243,10 +223,32 @@ namespace GUI
                 {
                     _serializer.Serialize(fileStream, _vehicleList);
                 }
+                MessageBox.Show("Файл успешно сохранён.", "Сохранение завершено",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+            else
+            {
+                MessageBox.Show("Файл не сохранён", "Сохранение отменено",
+                    MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Information);
+            }
+        }
 
-            MessageBox.Show("Файл успешно сохранён.", "Сохранение завершено",
-                MessageBoxButtons.OK, MessageBoxIcon.Information);
+        private void ColumnHeaderMaker()
+        {
+            DataGridVehicle.Columns[0].HeaderText = "Название транспорта";
+            DataGridVehicle.Columns[1].HeaderText = "Тип топлива";
+            DataGridVehicle.Columns[2].HeaderText = "Дистанция, км";
+            DataGridVehicle.Columns[3].HeaderText = "Затраченное топливо, л";
+        }
+        private void DataSourceSet(List<VehicleBase> vehicleList)
+        {
+            DataGridVehicle.DataSource = vehicleList.Select(vehicle => new
+            {
+                Column1 = vehicle.Name,
+                Column2 = VehicleBase.FuelToStringDictionary[vehicle.Fuel],
+                Column3 = vehicle.Distance,
+                Column4 = vehicle.Consumption()
+            }).ToList();
         }
     }
 }

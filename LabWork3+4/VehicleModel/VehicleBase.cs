@@ -22,24 +22,28 @@ namespace VehicleModel
         Electricity,
         Count
     }
+
     /// <summary>
     /// Базовый класс VehicleBase
     /// </summary>
-    //[Serializable]
+    [Serializable]
     [XmlInclude(typeof(Car))]
     [XmlInclude(typeof(HybridCar))]
     [XmlInclude(typeof(Helicopter))]
     public abstract class VehicleBase
     {
         /// <summary>
-        /// Ускорение свободного падения
+        /// Словарь соответствия типа топлива его текстовому названию
         /// </summary>
-        private const double _gravityAcceleration = 9.8;
-
-        /// <summary>
-        /// Коэффициент приведения лошадиных сил к ваттам
-        /// </summary>
-        private const double _horseForceToWatt = 735.5;
+        public static readonly Dictionary<FuelEnum, string> FuelToStringDictionary = new Dictionary<FuelEnum, string>
+        {
+            { FuelEnum.Petrol, "Бензин" },
+            { FuelEnum.Diesel, "Дизель" },
+            { FuelEnum.Kerosene, "Керосин" },
+            { FuelEnum.Mixed, "Смешанное топливо" },
+            { FuelEnum.Hydrogen, "Водород" },
+            { FuelEnum.Electricity, "Электричество" },
+        };
 
         /// <summary>
         /// Имя
@@ -159,38 +163,6 @@ namespace VehicleModel
         }
 
         /// <summary>
-        /// Метод расчёта ускорения
-        /// </summary>
-        /// <returns></returns>
-        public double Acceleration()
-        {
-            return (_power * _horseForceToWatt) / ((_weight * 1000) * _gravityAcceleration);
-        }
-
-        /// <summary>
-        /// Метод расчёта скорости
-        /// </summary>
-        /// <param name="startValue">Начальная скорость, км/ч</param>
-        /// <param name="timeInSecond">Время движения, с</param>
-        /// <returns></returns>
-        public double Velocity(double startValue, double timeInSecond)
-        {
-            return (startValue/3.6) + Acceleration() * timeInSecond;
-        }
-
-        ///// <summary>
-        ///// Метод расчёта пройденного пути
-        ///// </summary>
-        ///// <param name="startVelocity">Начальная скорость, км/ч</param>
-        ///// <param name="timeInSecond">Время движения, с</param>
-        ///// <returns></returns>
-        //public double Distance(double startVelocity, double timeInSecond)
-        //{
-        //    return (Velocity(startVelocity, timeInSecond) * timeInSecond - 
-        //        Acceleration() * (timeInSecond * timeInSecond) / 2)/1000;
-        //}
-
-        /// <summary>
         /// Метод расчёта потребления топлива
         /// </summary>
         /// <param name="distance">Пройденный путь, км</param>
@@ -214,11 +186,15 @@ namespace VehicleModel
                     {
                         throw new ArgumentOutOfRangeException("Значение не может быть отрицательным!");
                     }
+                    if (double.IsNaN(doubleValue))
+                    {
+                        throw new ArgumentException("Нечисловое значение!");
+                    }
                     break;
                 }
                 case string stringValue:
                 {
-                    if (string.IsNullOrWhiteSpace(stringValue))
+                    if (string.IsNullOrWhiteSpace(stringValue)|| string.IsNullOrEmpty(stringValue))
                     {
                         throw new ArgumentException("Имя не может быть пустым!");
                     }
