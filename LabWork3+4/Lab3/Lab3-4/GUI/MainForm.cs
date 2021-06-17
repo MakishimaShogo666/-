@@ -141,7 +141,7 @@ namespace GUI
         }
 
         /// <summary>
-        /// Кнопка отчистки фильтрованного списка
+        /// Кнопка очистки фильтрованного списка
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -153,7 +153,7 @@ namespace GUI
         }
 
         /// <summary>
-        /// Изменение видимости кнопки отчитски
+        /// Изменение видимости кнопки очитски
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
