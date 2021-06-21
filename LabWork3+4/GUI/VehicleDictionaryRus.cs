@@ -8,7 +8,7 @@ using VehicleModel;
 namespace GUI
 {
     /// <summary>
-    /// 
+    /// Класс словарей для транспорта
     /// </summary>
     public class VehicleDictionaryRus
     {
