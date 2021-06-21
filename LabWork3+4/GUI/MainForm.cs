@@ -179,7 +179,6 @@ namespace GUI
                 }
                 DataSourceSet(_vehicleList);
 
-                //TODO: duplication+
                 ColumnHeaderMaker();
                 DataGridVehicle.CurrentCell = null;
                 MessageBox.Show("Файл успешно загружен.", "Загрузка завершена",

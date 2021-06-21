@@ -17,20 +17,6 @@ namespace GUI
     /// </summary>
     public partial class AddVehicleForm : Form
     {
-        //TODO: доступ, именование, неизменяемость коллекции.+/-
-        ///// <summary>
-        ///// Словарь соответствия названия топлива с его типом
-        ///// </summary>
-        //public Dictionary<string, FuelEnum> dictionaryFuelInfo = new Dictionary<string, FuelEnum>
-        //{
-        //    { "Бензин", FuelEnum.Petrol },
-        //    { "Дизель", FuelEnum.Diesel },
-        //    { "Керосин", FuelEnum.Kerosene },
-        //    { "Смешанное топливо", FuelEnum.Mixed },
-        //    { "Водород", FuelEnum.Hydrogen },
-        //    { "Электричество", FuelEnum.Electricity },
-        //};
-
         /// <summary>
         /// Событие передачи данных
         /// </summary>
@@ -153,7 +139,6 @@ namespace GUI
             {
                 case CarItem:
                 {
-                    //TODO: Использовать словарь+
                     TypeOfFuelBox.Items.Clear();
                     TypeOfFuelBox.Items.Add(VehicleBase.FuelToStringDictionary[FuelEnum.Petrol]);
                     TypeOfFuelBox.Items.Add(VehicleBase.FuelToStringDictionary[FuelEnum.Diesel]);
@@ -161,14 +146,12 @@ namespace GUI
                 }
                 case HelicopterItem:
                 {
-                    //TODO: Использовать словарь+
                     TypeOfFuelBox.Items.Clear();
                     TypeOfFuelBox.Items.Add(VehicleBase.FuelToStringDictionary[FuelEnum.Kerosene]);
                     break;
                 }
                 case HybridCarItem:
                 {
-                    //TODO: Использовать словарь+
                     TypeOfFuelBox.Items.Clear();
                     TypeOfFuelBox.Items.Add(VehicleBase.FuelToStringDictionary[FuelEnum.Mixed]);
                     TypeOfFuelBox.Items.Add(VehicleBase.FuelToStringDictionary[FuelEnum.Hydrogen]);
@@ -185,7 +168,6 @@ namespace GUI
         /// <param name="e"></param>
         private void NumberBox_KeyPress(object sender, KeyPressEventArgs e)
         {
-            //TODO: duplication +/-
             if (double.TryParse(((TextBox)sender).Text + e.KeyChar, out _)
                 || e.KeyChar == (char)Keys.Back) return;
 
@@ -199,7 +181,6 @@ namespace GUI
         /// <param name="e"></param>
         private void NameBox_KeyPress(object sender, KeyPressEventArgs e)
         {
-            //TODO: duplication +/-
             const string letterPattern = @"\W\s";
             Regex letterRegex = new Regex(letterPattern);
 
@@ -303,9 +284,7 @@ namespace GUI
                     var car = new Car
                     {
                         Fuel = FuelSet(TypeOfFuelBox),
-                        //TODO: duplication+
                         Waste = PropertyValueSet(WasteBox),
-                        //TODO: duplication+
                         Distance = PropertyValueSet(DistanceTextBox)
                     };
                     ConsumptionTextBox.Text = car.Consumption().ToString("#.000");
@@ -316,9 +295,7 @@ namespace GUI
                     var hybridCar = new HybridCar
                     {
                         Fuel = FuelSet(TypeOfFuelBox),
-                        //TODO: duplication+
                         Waste = PropertyValueSet(WasteBox),
-                        //TODO: duplication+
                         Distance = PropertyValueSet(DistanceTextBox)
                     };
                     ConsumptionTextBox.Text = hybridCar.Consumption().ToString("#.000");
@@ -329,9 +306,7 @@ namespace GUI
                     var helicopter = new Helicopter
                     {
                         Fuel = FuelSet(TypeOfFuelBox),
-                        //TODO: duplication+
                         Waste = PropertyValueSet(WasteBox),
-                        //TODO: duplication+
                         Distance = PropertyValueSet(DistanceTextBox)
                     };
                     ConsumptionTextBox.Text = helicopter.Consumption().ToString("#.000");
