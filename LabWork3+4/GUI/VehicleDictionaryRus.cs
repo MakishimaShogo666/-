@@ -7,7 +7,10 @@ using VehicleModel;
 
 namespace GUI
 {
-    class VehicleDictionaryRus
+    /// <summary>
+    /// 
+    /// </summary>
+    public class VehicleDictionaryRus
     {
         /// <summary>
         /// Словарь соответствия типа топлива его текстовому названию
