@@ -33,19 +33,6 @@ namespace VehicleModel
     public abstract class VehicleBase
     {
         /// <summary>
-        /// Словарь соответствия типа топлива его текстовому названию
-        /// </summary>
-        public static readonly Dictionary<FuelEnum, string> FuelToStringDictionary = new Dictionary<FuelEnum, string>
-        {
-            { FuelEnum.Petrol, "Бензин" },
-            { FuelEnum.Diesel, "Дизель" },
-            { FuelEnum.Kerosene, "Керосин" },
-            { FuelEnum.Mixed, "Смешанное топливо" },
-            { FuelEnum.Hydrogen, "Водород" },
-            { FuelEnum.Electricity, "Электричество" },
-        };
-
-        /// <summary>
         /// Имя
         /// </summary>
         private string _name;

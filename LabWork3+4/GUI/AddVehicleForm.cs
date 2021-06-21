@@ -140,22 +140,22 @@ namespace GUI
                 case CarItem:
                 {
                     TypeOfFuelBox.Items.Clear();
-                    TypeOfFuelBox.Items.Add(VehicleBase.FuelToStringDictionary[FuelEnum.Petrol]);
-                    TypeOfFuelBox.Items.Add(VehicleBase.FuelToStringDictionary[FuelEnum.Diesel]);
+                    TypeOfFuelBox.Items.Add(VehicleDictionaryRus.FuelToString[FuelEnum.Petrol]);
+                    TypeOfFuelBox.Items.Add(VehicleDictionaryRus.FuelToString[FuelEnum.Diesel]);
                     break;
                 }
                 case HelicopterItem:
                 {
                     TypeOfFuelBox.Items.Clear();
-                    TypeOfFuelBox.Items.Add(VehicleBase.FuelToStringDictionary[FuelEnum.Kerosene]);
+                    TypeOfFuelBox.Items.Add(VehicleDictionaryRus.FuelToString[FuelEnum.Kerosene]);
                     break;
                 }
                 case HybridCarItem:
                 {
                     TypeOfFuelBox.Items.Clear();
-                    TypeOfFuelBox.Items.Add(VehicleBase.FuelToStringDictionary[FuelEnum.Mixed]);
-                    TypeOfFuelBox.Items.Add(VehicleBase.FuelToStringDictionary[FuelEnum.Hydrogen]);
-                    TypeOfFuelBox.Items.Add(VehicleBase.FuelToStringDictionary[FuelEnum.Electricity]);
+                    TypeOfFuelBox.Items.Add(VehicleDictionaryRus.FuelToString[FuelEnum.Mixed]);
+                    TypeOfFuelBox.Items.Add(VehicleDictionaryRus.FuelToString[FuelEnum.Hydrogen]);
+                    TypeOfFuelBox.Items.Add(VehicleDictionaryRus.FuelToString[FuelEnum.Electricity]);
                     break;
                 }
             }
@@ -236,7 +236,7 @@ namespace GUI
                 case HybridCarItem:
                 {
                     NameBox.Text = VehicleRandomizer.GetRandomName(HybridCarItem);
-                    if (TypeOfFuelBox.Text == VehicleBase.FuelToStringDictionary[FuelEnum.Electricity])
+                    if (TypeOfFuelBox.Text == VehicleDictionaryRus.FuelToString[FuelEnum.Electricity])
                     {
                         WasteBox.Text = "0";
                         WasteBox.Enabled = false;
@@ -322,7 +322,7 @@ namespace GUI
         /// <param name="e"></param>
         private void TypeOfFuelBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (TypeOfFuelBox.Text == VehicleBase.FuelToStringDictionary[FuelEnum.Electricity])
+            if (TypeOfFuelBox.Text == VehicleDictionaryRus.FuelToString[FuelEnum.Electricity])
             {
                 WasteBox.Text = "0";
                 WasteBox.Enabled = false;
@@ -350,7 +350,7 @@ namespace GUI
         /// <returns>Тип топлива</returns>
         private FuelEnum FuelSet(ComboBox comboBox)
         {
-            return VehicleBase.FuelToStringDictionary.FirstOrDefault(x => x.Value == comboBox.Text).Key;
+            return VehicleDictionaryRus.FuelToString.FirstOrDefault(x => x.Value == comboBox.Text).Key;
         }
     }
 }

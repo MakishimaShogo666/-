@@ -129,6 +129,10 @@ namespace GUI
             searchForm.FormClosed += VisibleButton;
             searchForm.SendDataFromFormEvent += AddSearchTransportEvent;
             searchForm.ShowDialog();
+            if (ClearButton.Visible)
+            {
+                SearchButton.Enabled = false;
+            }
         }
 
         /// <summary>
@@ -141,6 +145,7 @@ namespace GUI
             _listForSearch.Clear();
             DataSourceSet(_vehicleList);
             ClearButton.Visible = false;
+            SearchButton.Enabled = true;
         }
 
         /// <summary>
@@ -250,7 +255,7 @@ namespace GUI
             DataGridVehicle.DataSource = vehicleList.Select(vehicle => new
             {
                 Column1 = vehicle.Name,
-                Column2 = VehicleBase.FuelToStringDictionary[vehicle.Fuel],
+                Column2 = VehicleDictionaryRus.FuelToString[vehicle.Fuel],
                 Column3 = vehicle.Distance,
                 Column4 = vehicle.Consumption()
             }).ToList();

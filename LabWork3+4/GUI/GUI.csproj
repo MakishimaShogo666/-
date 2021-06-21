@@ -52,6 +52,7 @@
     <Compile Include="AddVehicleForm.Designer.cs">
       <DependentUpon>AddVehicleForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="VehicleDictionaryRus.cs" />
     <Compile Include="VehicleEventArgs.cs" />
     <Compile Include="SearchForm.cs">
       <SubType>Form</SubType>
